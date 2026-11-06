@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="favicon.png"><meta name="theme-color" content="#ffffff"><meta name="color-scheme" content="light dark"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>LunaMUSIC</title><link rel="manifest" href="manifest.json"><meta name="apple-mobile-web-app-title" content="LunaMUSIC"><meta name="format-detection" content="telephone=no">
+<!DOCTYPE html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"><link rel="icon" type="image/png" href="favicon.png"><meta name="theme-color" content="#ffffff"><meta name="color-scheme" content="light dark"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>LunaMUSIC</title><link rel="manifest" href="manifest.json"><meta name="application-name" content="LunaMUSIC"><meta name="apple-mobile-web-app-title" content="LunaMUSIC"><meta name="format-detection" content="telephone=no">
 <style>
 :root{--bg:#fff;--p:#f1f1f2;--c:#fff;--t:#111;--m:#777;--l:#e2e2e5;--a:#007aff;--h:#0000000d;--fs:15px;--ff:'Red Hat Display',system-ui,sans-serif;color-scheme:light}
 :root[data-t=dark]{--bg:#121214;--p:#1d1d20;--c:#1a1a1d;--t:#f2f2f4;--m:#9a9aa2;--l:#2c2c31;--h:#ffffff12;color-scheme:dark}
@@ -208,20 +208,11 @@ table{background:color-mix(in srgb,var(--t) 4.5%,transparent);border-radius:14px
 .cv[data-cid]{box-shadow:inset 0 0 0 1px var(--l),0 6px 16px var(--cs,#0000001a)}.th[data-cid]{box-shadow:0 2px 6px var(--cs,#0002)}#fpcv[data-cid]{box-shadow:0 24px 60px var(--cs,#0006)}
 .r .th{width:28px;height:28px;min-width:28px;flex:none;box-sizing:border-box;border-radius:6px;vertical-align:middle;object-fit:cover}.fav-large .r .th{width:48px;height:48px;min-width:48px}
 .md.wide{overflow:hidden;display:flex;flex-direction:column}.md.wide .mel{overflow:auto;min-height:0;flex:1;padding:2px 4px 2px 2px;margin:0 -4px 0 -2px}.md.wide .fr{position:static;background:none;box-shadow:none;padding:12px 0 0;margin:0}
-#qw{overflow:visible}
-
-/* ===== MOBİL ===== */
-#mtab,#splash,#intro{display:none}
-html.mob #mtab{display:flex}
+#qw{overflow:visible}#splash,#intro{display:none}
 html.mob .sb,html.mob #qw{display:none!important}
 html.mob #app{display:block;padding:0;height:100%}
 html.mob main{height:100%;padding:6px 16px calc(176px + env(safe-area-inset-bottom,0px));overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 html.mob #view>*{animation-name:mfade!important}@keyframes mfade{from{opacity:0}to{opacity:1}}
-#mtab{position:fixed;left:14px;right:14px;bottom:calc(max(env(safe-area-inset-bottom,0px),8px) + 4px);height:58px;border-radius:32px;background:color-mix(in srgb,var(--c) 88%,transparent);backdrop-filter:blur(18px) saturate(1.6);-webkit-backdrop-filter:blur(18px) saturate(1.6);box-shadow:0 8px 28px #0002,0 0 0 1px var(--l);z-index:50;padding:6px}
-#mtab .mind{position:absolute;left:6px;top:6px;bottom:6px;width:calc((100% - 12px)/5);border-radius:26px;background:var(--a);box-shadow:0 6px 16px color-mix(in srgb,var(--a) 50%,transparent);transition:transform .5s cubic-bezier(.3,1.4,.5,1),opacity .3s;transform:translateX(calc(var(--i,0)*100%))}
-#mtab.noact .mind{opacity:0}
-#mtab button{flex:1;position:relative;z-index:1;background:none!important;border:0;box-shadow:none;color:var(--m);display:grid;place-items:center;border-radius:26px;padding:0;transition:color .3s,transform .3s}
-#mtab button svg,#mtab button .nt{width:24px;height:24px}#mtab button.on{color:#fff;transform:scale(1.08)}
 html.mob body .pl{left:14px;right:14px;width:auto;transform:none;bottom:calc(max(env(safe-area-inset-bottom,0px),8px) + 70px);border-radius:22px;padding:8px 10px 6px;z-index:45;touch-action:pan-y}
 html.mob .pl :is(#pv,#nx,#rp,#pf,#qu,#mo){display:none}html.mob .pl .bw{padding:0 4px}html.mob .pl .bw span{display:none}
 html.mob #toast{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
@@ -283,14 +274,6 @@ html.mob .mr .th{width:42px;height:42px;min-width:42px}
 .msbox{background:var(--c);border:1px solid var(--l);padding:22px;font-size:.85em}
 .mprofov{align-items:start!important;padding-top:calc(env(safe-area-inset-top,0px) + 86px)}.mprof{margin:0 auto}.mph .logo img{height:.62em!important}
 .mt2 .music-key{display:inline-flex!important;margin-right:6px;vertical-align:middle}
-
-/* ===== MOBİL v3: mockup alt menü + mini oynatıcı + arama ===== */
-html.mob #mtab{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;padding:0;gap:8px;height:58px}
-html.mob #mtab::before{content:"";position:absolute;left:66px;right:66px;top:0;bottom:0;border-radius:32px;background:var(--c);box-shadow:0 6px 20px #0002,0 0 0 1px var(--l)}
-html.mob #mtab button:nth-of-type(1),html.mob #mtab button:nth-of-type(5){flex:0 0 58px;width:58px;border-radius:50%;background:var(--c)!important;box-shadow:0 6px 20px #0002,0 0 0 1px var(--l)}
-html.mob #mtab .mind{left:0;top:0;bottom:0;width:var(--w,58px);transform:translateX(var(--x,0px));border-radius:32px;transition:transform .5s cubic-bezier(.3,1.2,.5,1),width .5s cubic-bezier(.3,1.2,.5,1),opacity .3s;z-index:1}
-html.mob #mtab button{z-index:2}
-html.mob #mtab button.on{background:none!important;box-shadow:none!important}
 html.mob body .pl{background:var(--c);backdrop-filter:none;box-shadow:0 4px 18px #0002,0 0 0 1px var(--l);border:0;border-radius:24px}
 html.mob .pl .bw{display:none}
 html.mob .msb input{background:var(--c);border:0;box-shadow:var(--sh),0 0 0 1px var(--l)}
@@ -305,14 +288,10 @@ html.mob body{height:100dvh;padding-top:0;overflow:hidden;position:fixed;inset:0
 html.mob #app{height:100dvh;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px 0}
 html.mob main{padding:4px 4px calc(170px + env(safe-area-inset-bottom,0px));-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
 html.mob input,html.mob select,html.mob textarea{font-size:16px}
-html.mob button,html.mob .card,html.mob .r,html.mob .mr{touch-action:manipulation}
-html.mob #mtab::before,html.mob #mtab button:nth-of-type(1),html.mob #mtab button:nth-of-type(5),html.mob body .pl,html.mob .mn,html.mob .md,html.mob .um,html.mob .mg{
+html.mob button,html.mob .card,html.mob .r,html.mob .mr{touch-action:manipulation}html.mob body .pl,html.mob .mn,html.mob .md,html.mob .um,html.mob .mg{
 background:color-mix(in srgb,var(--c) 58%,transparent)!important;
 backdrop-filter:blur(22px) saturate(1.8) brightness(1.03);-webkit-backdrop-filter:blur(22px) saturate(1.8) brightness(1.03);
 box-shadow:inset 0 1px 0 #ffffffb3,inset 0 -1px 0 #ffffff26,0 0 0 .5px #ffffff59,0 8px 24px #00000024!important}
-:root[data-t=dark] html.mob #mtab::before,:root[data-t=dark].mob #mtab::before{box-shadow:inset 0 1px 0 #ffffff33,0 0 0 .5px #ffffff1f,0 8px 24px #00000066!important}
-html.mob #mtab .mind{background:color-mix(in srgb,var(--a) 88%,transparent);backdrop-filter:blur(8px);box-shadow:inset 0 1px 0 #ffffff66,0 4px 14px color-mix(in srgb,var(--a) 40%,transparent)}
-html.mob #mtab{left:max(14px,env(safe-area-inset-left));right:max(14px,env(safe-area-inset-right));bottom:calc(env(safe-area-inset-bottom,0px) + 2px)}
 html.mob .ov{backdrop-filter:blur(10px) saturate(1.4);-webkit-backdrop-filter:blur(10px) saturate(1.4)}
 html.mob #toast{backdrop-filter:blur(16px);background:color-mix(in srgb,var(--t) 82%,transparent)}
 html.mob button:active,html.mob .card:active{transform:scale(.97)}
@@ -488,22 +467,6 @@ button:hover{transform:none;background:var(--fill)}
 .mn div:hover{background:var(--fill)}.mn div.dg:hover{color:var(--red)}
 html.mob button:hover,html.mob .card:hover,html.mob .me:hover{transform:none}}</style><style>html.mob #mgs{display:none!important}.impp{font-weight:500;margin-left:2px}.abic{object-fit:contain}:root[data-t=dark] .abic{filter:invert(1)}
 #tabbar button svg,#tabbar button .nt{width:32px;height:32px;flex:none}#tabbar button{align-items:center;justify-content:center}#tabbar .tbi{padding:5px}</style><style>
-html.mob,html.mob body{width:100%;margin:0;padding:0;overflow:hidden!important;overscroll-behavior:none;touch-action:manipulation;background:var(--bgi,var(--bg))}
-html.mob{height:100%;min-height:-webkit-fill-available}
-html.mob body{position:fixed!important;inset:0!important;height:100dvh!important;min-height:100dvh}
-html.mob #app{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;margin:0!important;padding:env(safe-area-inset-top,0px) 0 0!important;box-sizing:border-box!important;gap:0!important}
-html.mob main{width:100%!important;height:100%!important;box-sizing:border-box!important;overflow-y:auto!important;overscroll-behavior-y:contain}
-html.mob #fp{inset:0!important;width:100%;height:100dvh}
-</style><style>
-html.mob,html.mob body{height:auto!important;min-height:0!important}
-html.mob{position:fixed;inset:0;width:100%}
-html.mob body{position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;height:auto!important;min-height:0!important}
-html.mob #app{top:0!important;bottom:0!important;height:auto!important;padding-top:calc(env(safe-area-inset-top,0px) + 14px)!important}
-html.mob main{height:100%!important}
-html.mob #fp{height:auto!important;bottom:0!important}
-html.mob *{scrollbar-width:none!important;-ms-overflow-style:none}
-html.mob *::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}
-</style><style>
 html.mob #fx{top:calc(env(safe-area-inset-top,0px) + 24px)!important;left:22px!important}
 html.mob .fplogo{top:calc(env(safe-area-inset-top,0px) + 26px)!important}
 html.mob .fpw{padding-top:calc(env(safe-area-inset-top,0px) + 92px)!important}
@@ -591,7 +554,7 @@ const by=id=>S.songs.find(s=>s.id==id),uid=()=>Math.random().toString(36).slice(
 function cfg(c){const r=document.documentElement,d=c.theme=='dark'||(c.theme=='auto'&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.t=d?'dark':'light';r.style.setProperty('--a',c.acc);const FF={system:'-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",system-ui,"Helvetica Neue",sans-serif',rounded:'ui-rounded,"SF Pro Rounded",-apple-system,system-ui,sans-serif',serif:'ui-serif,"New York",Georgia,serif',mono:'ui-monospace,"SF Mono",Menlo,monospace'};r.classList.toggle('sysfs',!c.size);r.style.setProperty('--fs',(c.size||(MOB?17:15))+'px');r.style.setProperty('--ff',FF[c.font]||(c.font+',system-ui,sans-serif'));r.style.setProperty('--fw',c.weight||400);
 try{const[H,S0,L]=h2hsl(c.acc||'#007aff');r.style.setProperty('--a2',hsl2h((H+40)%360,Math.max(S0,.5),Math.min(.6,Math.max(.45,L))))}catch{}
 r.classList.toggle('glass',!!c.glass);
-const tone=h=>d?`color-mix(in srgb,${h} 32%,#0d0d10)`:`color-mix(in srgb,${h} 22%,#ffffff)`;let bg=null;
+const tone=h=>d?`color-mix(in srgb,${h} 32%,#0d0d10)`:`color-mix(in srgb,${h} 22%,#ffffff)`;let bg=null;c=Object.assign({},c,{bgMode:'none'});
 if(c.bgMode=='solid')bg=tone(c.bg1||c.acc);else if(c.bgMode=='grad')bg=`linear-gradient(${c.bgAng||135}deg,${tone(c.bg1||c.acc)},${tone(c.bg2||'#7a3cff')})`;
 else if(c.bgMode=='img'&&BGIMG){const ov=d?'rgba(10,10,14,.55)':'rgba(255,255,255,.45)';bg=`linear-gradient(${ov},${ov}),url("${BGIMG}") center/cover no-repeat fixed`}
 if(bg){r.style.setProperty('--bgi',bg);r.style.setProperty('--l',d?'rgba(255,255,255,.26)':'rgba(255,255,255,.95)');r.style.setProperty('--m',d?'rgba(255,255,255,.74)':'rgba(17,17,17,.68)')}else{['--bgi','--l','--m'].forEach(q=>r.style.removeProperty(q))}
@@ -864,11 +827,7 @@ const AV=()=>`<div class="av" data-a="avatar" title="Profil görseli" style="wid
 const ACD=()=>`<div class="acd${S.acct?' open':''}"><div><div class="acin"><p>E-posta: ${E(CF.mail)||'-'}</p><p>Telefon: ${E(CF.tel)||'-'}</p><p>Doğum Tarihi: ${E(CF.dob)||'-'}</p><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px"><span class="m" style="font-size:.7em">Verileriniz cihaza depolanır ve kimse göremez.</span><button data-a="acedit">${SYM('pencil',14)} Düzenle</button></div></div></div></div>`;
 const ACCX=()=>{const cu=CF.custom||[],pal=CF.bgPal||[],sw=(c,rm)=>`<i data-ac="${c}" class="${W.acc==c?'on':''}" style="background:${c}">${rm?`<b class="rmc" data-rmc="${c}">×</b>`:''}</i>`;
 return cu.map(c=>sw(c,1)).join('')+pal.filter(c=>!cu.includes(c)).map(c=>sw(c,1)).join('')+(cu.length<5?'<label class="addc" title="Renk ekle (en fazla 5)">'+SYM('plus',16)+'<input type="color" id="addc" value="#ff7a00"></label>':'')};
-const APPX=()=>{const m=CF.bgMode||'none',on=m=='solid'||m=='grad';
-return `<p style="margin-top:12px">Arkaplan</p><div class="sw"><i class="bgo ${m=='none'?'on':''}" data-bgm="none" title="Varsayılan">${SYM('ban',16)}</i><label class="bgo ${on?'on':''}" title="Arkaplan rengi" style="background:${on?CF.bg1:'conic-gradient(#f44,#fc3,#4d4,#3cf,#74f,#f4a,#f44)'}"><input type="color" id="bg1" value="${CF.bg1||'#007aff'}"></label><i class="bgo ${m=='img'?'on':''}" data-bgm="img" title="Görsel">${IMGI}</i></div>
-${on?`<label class="tg"><input type="checkbox" id="bgg" ${m=='grad'?'checked':''}> Gradyan geçiş</label>${m=='grad'?`<div class="bgc"><span class="m" style="font-size:.8em">2. renk</span><label class="bgo on" id="bg2l" title="2. arkaplan rengi" style="background:${CF.bg2}"><input type="color" id="bg2" value="${CF.bg2||'#7a3cff'}"></label><input type="range" id="bgh" min="0" max="359" value="${Math.round(h2hsl(CF.bg2||'#7a3cff')[0])}" title="2. rengin tonu" style="flex:1"></div>`:''}<p class="m" style="font-size:.75em">Ton açık/koyu temaya göre, vurgu rengi arkaplana göre otomatik seçilir.</p>`:''}
-${m=='img'?`<div class="bgc"><button data-a="bgimg">${IMGI} Görsel Seç</button>${BGIMG?'<button class="dg" data-a="bgrm">Kaldır</button>':''}</div>`:''}
-<label class="tg" style="margin-top:12px"><input type="checkbox" data-o="glass" ${CF.glass?'checked':''}> Buzlu cam efekti</label>`};
+const APPX=()=>`<label class="tg" style="margin-top:12px"><input type="checkbox" data-o="glass" ${CF.glass?'checked':''}> Buzlu cam efekti</label>`;
 const VW={
 search:()=>H('','Ara')+`<div class="msb"><input id="sq" placeholder="Ara" value="${E(S.sq||'')}" autocomplete="off" enterkeyhint="search"></div>`+tb()+`<div id="sres">${searchRes()}</div>`,
 trash:()=>H(SYM('trash',26),'Son Silinenler')+((S.trash||[]).length?`<div class="mlist">`+S.trash.map(s=>`<div class="mr">${th(s)}<div class="mt2"><b>${E(s.title)}</b><span>${E(s.artist)}</span></div><button data-tr="restore:${s.id}">Geri Al</button><button class="dg" data-tr="del:${s.id}">Sil</button></div>`).join('')+`</div><div class="mbtn"><button class="dg" data-tr="clear:0">Tümünü Kalıcı Sil</button></div>`:'<div class="emp">Silinen şarkı yok.</div>'),
@@ -971,7 +930,6 @@ p.addEventListener('touchmove',e=>{if(!act)return;const t=e.touches[0];dx=t.clie
 p.addEventListener('touchend',()=>{if(!act)return;act=false;p.style.transition='';p.style.transform='';if(lock=='x'&&Math.abs(dx)>70){dx<0?$('#nx').click():$('#pv').click();p.animate([{transform:`translateX(${dx<0?70:-70}px)`,opacity:.2},{transform:'none',opacity:1}],{duration:280,easing:'cubic-bezier(.22,1,.36,1)'})}else if(lock=='y'&&dy<-50)fpOpen()},{passive:true})})();
 (function(){let y0=0,x0=0,on=false;document.addEventListener('touchstart',e=>{const f=$('#fp');on=!!(f&&f.classList.contains('on')&&e.target.closest&&e.target.closest('#fp .fpl')&&!e.target.closest('#fpbar'));if(on){y0=e.touches[0].clientY;x0=e.touches[0].clientX}},{passive:true});document.addEventListener('touchend',e=>{if(!on)return;on=false;const t=e.changedTouches[0];if(t.clientY-y0>110&&Math.abs(t.clientX-x0)<80)fpClose()},{passive:true})})();
 document.addEventListener('touchmove',e=>{const ix=e.target.closest&&e.target.closest('.mindex');if(!ix)return;const t=e.touches[0],el=document.elementFromPoint(t.clientX,t.clientY);if(el&&el.dataset&&el.dataset.L){const g=document.getElementById(el.dataset.L);g&&g.scrollIntoView({block:'start'})}},{passive:true});
-document.addEventListener('touchend',()=>{if(MOB&&!navigator.standalone&&!/iPhone|iPad|iPod/.test(navigator.userAgent)&&!document.fullscreenElement&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen({navigationUI:'hide'}).catch(()=>{})},{once:true});
 $('.pi').addEventListener('click',e=>{if(e.target.closest('#pc'))fpOpen()});
 $('.pl').addEventListener('click',e=>{if(!MOB||e.target.closest('button,.bar'))return;e.stopPropagation();fpOpen()},true);
 (function(){let t=null,sx=0,sy=0,fired=false;const v=$('#view');
@@ -986,4 +944,5 @@ document.addEventListener('pointerdown',e=>{const b=e.target.closest&&e.target.c
 document.addEventListener('pointermove',e=>{if(!on||e.pointerId!==id)return;ui(pos(e))});
 const end=e=>{if(!on||e.pointerId!==id)return;on=false;const x=pos(e);if(isFinite(au.duration))au.currentTime=x*au.duration;window.FPD=false;const b=document.getElementById('fpbar');b&&b.parentElement.classList.remove('drag')};
 document.addEventListener('pointerup',end);document.addEventListener('pointercancel',end)})();
+if('serviceWorker' in navigator&&/^https?:/.test(location.protocol))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script></body></html>
