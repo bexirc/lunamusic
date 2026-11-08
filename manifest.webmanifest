@@ -1,4 +1,5 @@
 {
+  "id": "./",
   "name": "Music",
   "short_name": "Music",
   "start_url": "./",
@@ -12,6 +13,18 @@
       "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "icon-dark.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-monochrome.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "monochrome"
     }
   ]
 }

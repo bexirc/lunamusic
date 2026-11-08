@@ -2,13 +2,12 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Music">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="1024x1024" href="icon-light.png" media="(prefers-color-scheme: light)">
-<link rel="icon" type="image/png" sizes="1024x1024" href="icon-dark.png" media="(prefers-color-scheme: dark)">
+<link id="app-favicon" rel="icon" type="image/png" sizes="1024x1024" href="icon-light.png">
 <link rel="manifest" href="manifest.webmanifest">
 <title>Music</title>
 <meta name="color-scheme" content="light dark">
@@ -57,13 +56,13 @@ button{cursor:pointer;color:inherit}
 .sidebar{
  width:245px;flex-shrink:0;padding:28px 16px 20px;
  background:var(--sidebar);border-right:1px solid var(--line);
- overflow-y:auto;backdrop-filter:blur(30px);
+ overflow-y:auto;-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);
 }
 .brand{font-size:25px;font-weight:800;letter-spacing:-1.3px;
  margin:0 12px 32px;display:flex;align-items:center;gap:9px}
 .brand-icon{color:var(--accent);font-size:29px}
 .nav-title{font-size:11px;color:var(--muted);font-weight:700;
- margin:24px 12px 9px;text-transform:uppercase;letter-spacing:.7px}
+ margin:24px 12px 9px;text-transform:none;letter-spacing:.7px}
 .nav-item{
  border:0;background:transparent;width:100%;display:flex;
  align-items:center;gap:13px;text-align:left;padding:11px 13px;
@@ -161,7 +160,7 @@ h1{font-size:31px;letter-spacing:-1px;margin:0 0 7px}
  grid-template-columns:minmax(180px,1fr) minmax(220px,1.3fr) minmax(150px,1fr);
  align-items:center;padding:0 22px;gap:20px;
  background:var(--player);border-top:1px solid var(--line);
- backdrop-filter:blur(30px);z-index:5;
+ -webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);z-index:5;
 }
 .now-playing{display:flex;align-items:center;gap:12px;min-width:0}
 .now-cover{width:55px;height:55px;border-radius:6px;overflow:hidden;
@@ -181,7 +180,7 @@ h1{font-size:31px;letter-spacing:-1px;margin:0 0 7px}
  background:var(--text);color:var(--bg);font-size:16px;
 }
 .progress-row{width:100%;display:flex;align-items:center;gap:9px;
- font-size:10px;color:var(--muted)}
+ font-size:11px;color:var(--muted)}
 input[type=range]{accent-color:var(--accent);cursor:pointer}
 .progress{width:100%;height:4px}
 .player-right{display:flex;justify-content:flex-end;align-items:center;gap:14px}
@@ -200,7 +199,7 @@ input[type=range]{accent-color:var(--accent);cursor:pointer}
  position:fixed;inset:18px;z-index:40;border:2px dashed var(--accent);
  border-radius:22px;padding:28px;text-align:center;background:color-mix(in srgb,var(--panel) 94%,transparent);
  display:flex;flex-direction:column;justify-content:center;align-items:center;
- box-shadow:var(--shadow);backdrop-filter:blur(24px);pointer-events:auto;
+ box-shadow:var(--shadow);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);pointer-events:auto;
 }
 .upload-area strong{font-size:22px}
 .upload-area p{font-size:14px;color:var(--muted)}
@@ -271,12 +270,12 @@ input[type=range]{accent-color:var(--accent);cursor:pointer}
  .mobile-nav{
  display:flex;position:fixed;bottom:0;left:0;right:0;height:calc(65px + env(safe-area-inset-bottom));
  padding:0 0 env(safe-area-inset-bottom);
- background:var(--player);backdrop-filter:blur(25px);
+ background:var(--player);-webkit-backdrop-filter:blur(25px);backdrop-filter:blur(25px);
  border-top:1px solid var(--line);z-index:8;
  justify-content:space-around;align-items:center;
  }
  .mobile-nav button{border:0;background:none;color:var(--muted);
- display:flex;flex-direction:column;gap:4px;align-items:center;font-size:10px}
+ display:flex;flex-direction:column;gap:4px;align-items:center;font-size:11px}
  .mobile-nav button span:first-child{font-size:20px}
  .mobile-nav button.active{color:var(--accent)}
  .queue-panel{top:env(safe-area-inset-top);bottom:calc(140px + env(safe-area-inset-bottom));width:min(320px,90vw)}
@@ -287,6 +286,19 @@ input[type=range]{accent-color:var(--accent);cursor:pointer}
  .detail-cover{width:175px;height:175px}
  .detail-actions{justify-content:center}
  .song{grid-template-columns:38px minmax(0,1fr) 40px 30px 30px;gap:8px}
+}
+
+/* Masaüstü üst çubuğu: arama alanı içerik merkezinde, gezinme okları gizli */
+@media (min-width:761px){
+ .topbar{position:relative;justify-content:flex-end;min-height:42px}
+ .top-left{display:none!important}
+ .top-actions{margin-left:auto;flex:1;justify-content:flex-end;position:static}
+ .topbar .search-wrap{display:none}
+ body[data-page="search"] .topbar .search-wrap{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(560px,58%);max-width:560px;min-width:260px;margin:0}
+ body[data-page="search"] .top-actions{gap:14px}
+ .sidebar .nav-title{display:flex;align-items:center;gap:9px}
+ .sidebar .nav-title .nav-icon{width:18px;height:18px;display:inline-grid;place-items:center;font-size:0}
+ .sidebar .nav-title .nav-icon .ic{width:16px;height:16px}
 }
 
 /* Apple-inspired refinement: quieter surfaces, clearer states, comfortable controls */
@@ -345,6 +357,7 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.8px}
 .brand{font-size:22px;font-weight:700;letter-spacing:-.6px;margin:0 12px 24px}
 .brand-icon{display:grid;color:var(--accent)}
 .brand-icon .ic{width:26px;height:26px}
+.brand-icon.note-art{width:26px;height:26px;flex:none;--na:100%;background:var(--accent)}
 .nav-item{color:var(--text);font-weight:500;gap:12px;padding:10px 12px;min-height:40px}
 .nav-item:hover{background:var(--hover);color:var(--text)}
 .nav-item.active{color:var(--text);font-weight:600;background:color-mix(in srgb,var(--accent) 14%,transparent)}
@@ -412,7 +425,7 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.8px}
 .icon-btn:hover{color:var(--text);background:var(--hover)}
 .icon-btn.on,.icon-btn.on:hover{color:var(--accent)}
 .queue-tool{display:none}
-.js-repeat[data-one="1"]::after{content:"1";position:absolute;right:5px;bottom:4px;font-size:9px;font-weight:700;line-height:1;color:var(--accent)}
+.js-repeat[data-one="1"]::after{content:"1";position:absolute;right:5px;bottom:4px;font-size:11px;font-weight:700;line-height:1;color:var(--accent)}
 .control-buttons{gap:14px}
 .play-btn{display:grid;place-items:center;width:40px;height:40px;padding:0}
 .play-btn .ic{width:18px;height:18px}
@@ -537,7 +550,7 @@ body.dark .song-more.danger{color:#ff6b61}
   border:0;border-radius:31px;justify-content:stretch;background:var(--glass-strong);
   box-shadow:inset 0 1px 0 var(--glass-edge),inset 0 0 0 .5px var(--glass-edge),var(--glass-shadow)
  }
- .mobile-nav button{flex:1;height:50px;min-height:44px;justify-content:center;gap:3px;border-radius:25px;font-size:10px;font-weight:600}
+ .mobile-nav button{flex:1;height:50px;min-height:44px;justify-content:center;gap:3px;border-radius:25px;font-size:11px;font-weight:600}
  .mobile-nav button.active{color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
  .mobile-nav .ic{width:22px;height:22px}
  .mobile-nav button{position:relative;z-index:1;transition:color .25s var(--ease-apple)}
@@ -562,7 +575,7 @@ body.dark .song-more.danger{color:#ff6b61}
 @media(max-width:760px){
  :root{--accent:#ff2d55;--accent-fill:#ff2d55;--bg:Canvas;--text:CanvasText;--muted:GrayText;--panel:color-mix(in srgb,CanvasText 5%,Canvas);--line:color-mix(in srgb,CanvasText 14%,transparent);--hover:color-mix(in srgb,CanvasText 8%,transparent);--glass-strong:color-mix(in srgb,Canvas 62%,transparent);--spring:linear(0,.5 12%,.95 28%,1.04 40%,1 60%,1);--tab-h:62px}
  body{color-scheme:light;background:var(--bg);color:var(--text);font-family:-apple-system,"SF Pro Text",system-ui,sans-serif}
- body.dark{color-scheme:dark}
+ body.dark{color-scheme:dark;--glass-strong:rgba(36,36,42,.94);--glass-edge:rgba(255,255,255,.18)}
  .main{padding:calc(8px + env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) calc(190px + env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}
  .topbar{margin-bottom:6px;justify-content:flex-end}
  .round-btn{background:transparent;box-shadow:none;color:var(--accent);width:44px;height:44px;-webkit-backdrop-filter:none;backdrop-filter:none}
@@ -655,6 +668,8 @@ button{transition:transform .35s var(--ios),background-color .25s ease,color .25
 .fp{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;background:#111;color:#fff;overflow:hidden;border-radius:12px 12px 0 0;transform:translateY(100%);visibility:hidden;transition:transform .55s var(--ios),visibility 0s .55s;--accent:#fff;--track:rgba(255,255,255,.28)}
 .fp.open{transform:none;visibility:visible;transition:transform .55s var(--ios)}
 .fp-bg{position:absolute;inset:-60px;background:linear-gradient(160deg,#5b3a7a,#c2466a) center/cover;filter:blur(70px) saturate(1.7) brightness(.65);transform:scale(1.2)}
+.fp-main{position:relative;display:flex;flex:1;min-height:0;width:100%;flex-direction:column}
+.fp-queue{display:none}
 .fp-wrap{position:relative;flex:1;min-height:0;width:100%;max-width:520px;margin:0 auto;display:flex;flex-direction:column;padding:env(safe-area-inset-top) max(28px,env(safe-area-inset-right)) calc(18px + env(safe-area-inset-bottom)) max(28px,env(safe-area-inset-left))}
 .fp-grab{align-self:stretch;height:44px;border:0;background:none;display:grid;place-items:center;flex-shrink:0}
 .fp-grab span{width:40px;height:5px;border-radius:3px;background:rgba(255,255,255,.4)}
@@ -683,6 +698,101 @@ button{transition:transform .35s var(--ios),background-color .25s ease,color .25
 .fp-vol .ic{width:18px;height:18px;opacity:.7}
 .fp-bottom{display:flex;justify-content:space-around}
 .fp-bottom button[aria-pressed=true]{background:rgba(255,255,255,.22)}
+/* Masaüstü: kapak ve denetimler solda, sıradaki parçalar sağda */
+@media(min-width:761px){
+ .fp{border-radius:0}
+ .fp-bg{inset:-100px;filter:blur(100px) saturate(1.55) brightness(.58)}
+ .fp-wrap{width:min(1320px,calc(100% - 112px));max-width:none;margin:auto;display:grid;
+  grid-template-columns:minmax(420px, min(54vw,660px)) minmax(280px,360px);
+  grid-template-rows:52px minmax(0,1fr);align-content:center;align-items:stretch;
+  justify-content:center;column-gap:clamp(48px,7vw,112px);row-gap:8px;
+  padding:28px 0;box-sizing:border-box}
+ .fp-grab{grid-column:1/-1;grid-row:1;justify-self:end;align-self:start;width:44px;height:44px;
+  border-radius:50%;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 5px 18px rgba(0,0,0,.16);
+  cursor:pointer;transition:background .2s,transform .25s var(--ios)}
+ .fp-grab:hover{background:rgba(255,255,255,.23);transform:scale(1.06)}
+ .fp-grab:active{transform:scale(.94)}
+ .fp-grab span{display:none}
+ .fp-grab::after{content:"×";font:400 30px/1 system-ui;color:#fff}
+ .fp-main{grid-column:1;grid-row:2;min-width:0;min-height:0;display:flex;flex-direction:column;
+  align-items:flex-start;justify-content:center;gap:clamp(8px,1.5vh,16px)}
+ .fp-art-box{flex:none;width:100%;min-height:0;display:flex;justify-content:flex-start;align-items:center;padding:0}
+ .fp-art{width:min(100%,min(38vh,440px));max-height:38vh;aspect-ratio:1;border-radius:18px;
+  border:1px solid rgba(255,255,255,.32);
+  box-shadow:0 18px 48px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.35);box-sizing:border-box}
+ .fp-meta{width:min(100%,440px);margin:0;gap:16px}
+ .fp-title{font-size:clamp(1.35rem,1.8vw,1.9rem)}
+ .fp-artist{font-size:1rem}
+ .fp-prog{width:min(100%,440px);margin:0}
+ .fp-ctrl{width:min(100%,440px);justify-content:flex-start;gap:clamp(22px,3vw,40px);margin:0}
+ .fp-ctrl button{width:54px!important;height:54px!important}
+ .fp-ctrl .fp-play{width:64px!important;height:64px!important}
+ .fp-ctrl .fp-play .ic{width:48px;height:48px}
+ .fp-vol{width:min(100%,360px);margin:0;justify-content:flex-start}
+ .fp-bottom{width:min(100%,280px);justify-content:flex-start;gap:24px}
+ .fp :is(.fp-ic,.fp-ctrl button,.fp-bottom button){cursor:pointer}
+ .fp-queue{grid-column:2;grid-row:2;min-width:0;min-height:0;align-self:stretch;
+  display:flex;flex-direction:column;border-radius:22px;padding:20px 18px;
+  background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.15);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12);-webkit-backdrop-filter:blur(22px) saturate(140%);backdrop-filter:blur(22px) saturate(140%)}
+ .fp-queue-head{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 16px;
+  border-bottom:1px solid rgba(255,255,255,.14);flex:none}
+ .fp-queue-head>div{display:flex;flex-direction:column;gap:4px}
+ .fp-queue-head strong{font-size:1.125rem}
+ .fp-queue-head span{font-size:.78rem;color:rgba(255,255,255,.62)}
+ .fp-queue-list{overflow:auto;min-height:0;padding-top:8px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.24) transparent}
+ .fp-queue-list .queue-track{display:flex;align-items:center;gap:12px;padding:9px 7px;border-radius:12px;cursor:pointer}
+ .fp-queue-list .queue-track:hover{background:rgba(255,255,255,.09)}
+ .fp-queue-list .queue-track.active{background:rgba(255,255,255,.14)}
+ .fp-queue-list .queue-track img,.fp-queue-list .song-cover{width:44px;height:44px;flex:none;border-radius:7px;object-fit:cover}
+ .fp-queue-list .queue-track>div:last-child{min-width:0;display:flex;flex-direction:column;gap:4px}
+ .fp-queue-list .queue-track strong{font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .fp-queue-list .queue-track small{font-size:.75rem;color:rgba(255,255,255,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .fp-queue-list .empty{color:rgba(255,255,255,.6)}
+}
+/* Masaüstü ince ayarlar: merkezlenmiş denetimler, üst ses kontrolü, marka ve sürüklenebilir sıra */
+@media(min-width:761px){
+ .fp-wrap{position:relative}
+ .fp-brand{position:absolute;left:0;top:7px;display:flex;align-items:center;gap:10px;
+  color:#fff;font-size:20px;font-weight:750;letter-spacing:-.6px;
+  text-shadow:0 0 14px color-mix(in srgb,var(--accent) 38%,transparent)}
+ .fp-brand-note{display:grid;place-items:center;width:26px;height:26px;filter:drop-shadow(0 0 7px color-mix(in srgb,var(--accent) 55%,transparent))}
+ .fp-brand-note .note-art{width:24px;height:24px;--na:100%;background:var(--accent)}
+ .fp-brand-note .note-art:after{content:"";display:block}
+ .fp-grab{position:absolute;right:0;top:-2px;z-index:5}
+ .fp-grab::after{display:block;transform:translateY(-2px);line-height:1}
+ .fp-vol{position:absolute;right:62px;top:2px;width:min(22vw,290px);margin:0;justify-content:flex-end}
+ .fp-vol input{min-width:0;flex:1}
+ .fp-main{align-items:center}
+ .fp-art-box{justify-content:center}
+ .fp-art{width:min(100%,min(38vh,440px))}
+ .fp-meta,.fp-prog,.fp-ctrl,.fp-vol,.fp-bottom{margin-left:auto;margin-right:auto}
+ .fp-meta{width:min(100%,440px)}
+ .fp-prog{width:min(100%,440px)}
+ .fp-ctrl{width:min(100%,440px);justify-content:center;gap:clamp(22px,3vw,40px)}
+ .fp-vol{left:auto;right:auto;top:auto;position:relative;width:min(100%,360px);margin:4px auto 0;justify-content:center}
+ .fp-bottom{width:min(100%,280px);justify-content:center;gap:26px}
+ .fp-queue-list .queue-track{width:100%;box-sizing:border-box;padding:12px 13px;border:1px solid transparent;border-radius:16px;transition:background .18s,border-color .18s,transform .18s}
+ .fp-queue-list .queue-track.active{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 7px 20px rgba(0,0,0,.12)}
+ .fp-queue-list .queue-track.dragging{opacity:.45;transform:scale(.985)}
+ .fp-queue-list .queue-track.drag-over{border-color:color-mix(in srgb,var(--accent) 70%,white);background:color-mix(in srgb,var(--accent) 17%,rgba(255,255,255,.08))}
+}
+.fp-brand{display:none}
+@media(min-width:761px){.fp-brand{display:flex}}
+@media(min-width:761px){
+ /* Marka, kapatma düğmesiyle aynı üst hizaya iner. */
+ .fp-brand{top:20px}
+ /* Sıra kartı iki yanda eşit iç boşlukla hizalanır; aktif çerçeve kesilmez. */
+ .fp-queue{box-sizing:border-box;padding-left:18px;padding-right:18px;overflow:hidden}
+ .fp-queue-list{display:flex;flex-direction:column;align-items:stretch;width:100%;
+  min-width:0;box-sizing:border-box;padding:8px 0 10px;overflow-x:hidden}
+ .fp-queue-list .queue-track{display:flex;flex:0 0 auto;width:100%;min-width:0;
+  max-width:100%;box-sizing:border-box;margin:0;padding:12px 13px;
+  border:1px solid transparent;border-radius:16px}
+ .fp-queue-list .queue-track.active{border:1px solid rgba(255,255,255,.22);
+  border-radius:16px;box-sizing:border-box}
+}
 @media(max-width:760px){
  .song{grid-template-columns:48px minmax(0,1fr) 44px 44px;column-gap:8px;margin-left:0;padding:8px 0;border-bottom:0}
  .song::after{content:"";position:absolute;left:56px;right:0;bottom:0;border-bottom:1px solid var(--line)}
@@ -848,7 +958,7 @@ body.lib-edit .lib-fav-tile.picked .lib-star{box-shadow:0 0 0 3px var(--accent-f
 .lib-hint{text-align:center;font-size:.8125rem;color:var(--muted);margin:-8px 0 14px}
 .lib-row.edit{gap:12px;background:var(--bg)}
 .lib-row.edit.dragging{z-index:5;box-shadow:0 6px 20px rgba(0,0,0,.2);border-radius:10px;transform:scale(1.02);transition:transform .25s var(--ios)}
-.lib-check{width:26px;height:26px;border-radius:50%;border:2px solid var(--muted);background:none;padding:0;display:grid;place-items:center;color:transparent;flex-shrink:0;transition:background-color .25s ease,border-color .25s ease}
+.lib-check{display:grid!important;place-items:center!important;width:28px!important;height:28px!important;min-width:28px!important;min-height:28px!important;max-width:28px!important;max-height:28px!important;aspect-ratio:1/1;box-sizing:border-box!important;border-radius:50%!important;border:2px solid var(--muted);background:none;padding:0!important;margin:0;align-self:center;flex:0 0 28px!important;overflow:hidden;line-height:1;color:transparent;transition:background-color .25s ease,border-color .25s ease;appearance:none;-webkit-appearance:none}
 .lib-check.on{background:var(--accent-fill);border-color:var(--accent-fill);color:#fff}
 .lib-check .ic{width:14px;height:14px;stroke-width:3}
 .lib-handle{width:44px;height:44px;display:grid;place-items:center;color:var(--muted);touch-action:none;flex:none!important}
@@ -867,7 +977,7 @@ body.lib-edit .lib-fav-tile.picked .lib-star{box-shadow:0 0 0 3px var(--accent-f
  .queue-panel{z-index:70}
  body.lib-edit .main{padding-bottom:40px}
  body.lib-edit .lib-capsule,body.lib-edit .top-actions .profile{display:none!important}
- body.lib-edit .lib-done{display:block;color:var(--accent);font-weight:700;font-size:1.0625rem;min-height:44px;padding:0 6px}
+ body.lib-edit .lib-done{display:grid;place-items:center;color:var(--accent);font-weight:700;font-size:1.0625rem;height:44px;min-height:44px;min-width:68px;padding:0 18px;border:0;border-radius:999px;background:var(--hover);line-height:1;white-space:nowrap}
 }
 /* ===== Arşiv alt sayfaları, düzenleme geçişi, yuvarlak seçim, erişilebilirlik ===== */
 *{-webkit-tap-highlight-color:transparent}
@@ -884,7 +994,7 @@ body.lib-edit .lib-fav-tile.picked .lib-star{box-shadow:0 0 0 3px var(--accent-f
  body.lib-edit .mobile-nav{transform:translateY(170%);opacity:0;pointer-events:none}
  body.lib-edit .player{transform:translateY(280%);opacity:0;pointer-events:none}
  .crumb{display:none}
- body.sub:is([data-page="songs"],[data-page="albums"],[data-page="artists"],[data-page="playlists"],[data-page="favorites"],[data-page="recent"]) .sub-capsule{display:flex;margin-left:auto;height:44px;border-radius:999px;background:var(--hover);padding:0 4px}
+ body.sub:is([data-page="songs"],[data-page="albums"],[data-page="artists"],[data-page="playlists"],[data-page="favorites"],[data-page="recent"],[data-page="playlistDetail"]) .sub-capsule{display:flex;margin-left:auto;height:44px;border-radius:999px;background:var(--hover);padding:0 4px}
  .sub-capsule button{width:42px;height:44px;border:0;background:none;color:var(--text);display:grid;place-items:center;padding:0}
  .sub-capsule .ic{width:22px;height:22px}
  .song{border-radius:14px;margin:0 -8px;padding:8px;transition:background-color .2s ease}
@@ -916,7 +1026,11 @@ body.lib-edit .lib-fav-tile.picked .lib-star{box-shadow:0 0 0 3px var(--accent-f
 }
 /* ===== apple-design-super denetimi ===== */
 .progress-row,.progress-row *{font-size:.75rem}
-.js-repeat[data-one="1"]::after{font-size:.6875rem}
+.js-repeat[data-one="1"]{position:relative}
+.js-repeat[data-one="1"]::after{content:"1";position:absolute;right:5px;bottom:5px;
+ min-width:11px;height:11px;padding:0 1px;border-radius:999px;background:currentColor;color:#111;
+ font:700 8px/11px system-ui;text-align:center;box-shadow:0 0 0 1.5px rgba(17,17,17,.9)}
+.fp .js-repeat[data-one="1"]::after{background:#fff;color:#111;box-shadow:0 0 0 1.5px rgba(17,17,17,.9)}
 .fp-prog input,.fp-vol input{min-height:28px}
 .seg button{min-height:40px}
 @media(prefers-reduced-transparency:reduce),(prefers-contrast:more){
@@ -981,29 +1095,400 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  input[type="range"] { touch-action: pan-x; }
 }
 
+
+/* ===== iOS Liquid Glass finishing: dark-mode edge treatment and unified controls ===== */
+@media(max-width:760px){
+ :root{--mini-control-color:var(--text)}
+ .mobile-nav button,
+ .mobile-nav button.active,
+ .mobile-nav button .ic,
+ .mobile-nav button>span{color:var(--mini-control-color)}
+ .mobile-nav button{font-weight:600}
+ .mobile-nav button.active{font-weight:700}
+}
+@media(max-width:760px){
+ body.dark .mobile-nav,
+ body.dark .player{
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:
+   inset 0 1px 0 rgba(255,255,255,.20),
+   inset 0 0 0 1px rgba(255,255,255,.055);
+ }
+ /* No ambient glow beneath either floating control in dark appearance. */
+ body.dark .mobile-nav,
+ body.dark .player{
+  filter:none;
+  -webkit-filter:none;
+ }
+ body.dark .mobile-nav{background:rgba(31,31,35,.94)}
+ body.dark .player{background:rgba(31,31,35,.96)}
+}
+
+
+/* ===== Sekme vurgusu + nötr Liquid Glass kayan kapsül ===== */
+:root{--nav-pill-surface:#e7e7eb;--nav-pill-edge:rgba(255,255,255,.72)}
+body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
+@media(max-width:760px){
+ .mobile-nav button.active,
+ .mobile-nav button.active .ic,
+ .mobile-nav button.active>span{color:var(--accent)!important}
+ .mobile-nav .nav-pill{
+  background:var(--nav-pill-surface)!important;
+  box-shadow:inset 0 1px 0 var(--nav-pill-edge),inset 0 0 0 .5px var(--nav-pill-edge),0 1px 3px rgba(0,0,0,.045);
+ }
+}
+
+/* ===== Görünüm seçici: alt gezinme çubuğuyla birebir aynı Liquid Glass kapsül ===== */
+@media(max-width:760px){
+ .acct-row.seg-row{display:block;padding:10px 12px!important;background:transparent}
+ .theme-seg{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:center;
+  position:relative;isolation:isolate;width:100%;height:var(--tab-h,64px);min-height:64px;
+  padding:0 6px;gap:2px;border:0;border-radius:999px;
+  background:var(--glass-strong);
+  box-shadow:inset 0 1px 0 var(--glass-edge),inset 0 0 0 .5px var(--line),0 8px 24px color-mix(in srgb,CanvasText 9%,transparent);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);
+ }
+ .theme-seg button{
+  position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;width:100%;height:54px;min-height:54px;padding:3px 0;border:0;border-radius:999px;
+  background:transparent;color:var(--muted);font-size:.6875rem;font-weight:500;
+  transition:color .25s var(--ease-apple),transform .25s var(--ease-apple)
+ }
+@media(min-width:761px){
+ .theme-seg{position:relative;isolation:isolate;overflow:visible}
+ .theme-seg button{position:relative;z-index:1;background:transparent;border-radius:8px;transition:color .2s ease,transform .2s ease}
+ .theme-seg button[aria-checked=true]{color:var(--text);font-weight:700;background:transparent}
+ .theme-seg .seg-thumb{position:absolute;z-index:0;top:4px;bottom:4px;left:0;width:var(--theme-thumb-w,0px);border-radius:8px;background:var(--panel);box-shadow:0 1px 4px rgba(0,0,0,.18),inset 0 0 0 1px var(--line);transform:translateX(var(--theme-thumb-x,0px));transition:transform .35s cubic-bezier(.2,.8,.2,1),width .25s ease;pointer-events:none}
+ body.dark .theme-seg .seg-thumb{background:#303034;box-shadow:0 1px 5px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.1)}
+}
+ .theme-seg button[aria-checked=true]{color:var(--accent);font-weight:700;background:transparent}
+ .theme-seg button>span{display:flex;align-items:center;justify-content:center;width:100%;min-width:0;text-align:center}
+ .theme-seg button .theme-seg-icon{width:26px;height:26px;flex:none}
+ .theme-seg button>span:last-child{line-height:1.15}
+ .theme-seg button:active{transform:scale(.96)}
+ .theme-seg .theme-seg-icon{display:grid;place-items:center;width:26px;height:26px}
+ .theme-seg .theme-seg-icon .ic{width:22px;height:22px;stroke-width:1.9}
+ .theme-seg .seg-thumb{
+  position:absolute;z-index:0;top:6px;bottom:6px;left:0;width:var(--theme-thumb-w,0px);
+  border-radius:999px;background:color-mix(in srgb,var(--text) 8%,var(--panel));
+  box-shadow:inset 0 1px 0 var(--glass-edge),inset 0 0 0 .5px var(--glass-edge);
+  transform:translateX(var(--theme-thumb-x,6px));transition:transform .42s cubic-bezier(.3,1.25,.5,1),width .25s ease;pointer-events:none
+ }
+ body.dark .theme-seg .seg-thumb{background:rgba(255,255,255,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 0 0 .5px rgba(255,255,255,.12)}
+}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){
+ .theme-seg{background:var(--panel);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:inset 0 0 0 1px CanvasText}
+ .theme-seg .seg-thumb{background:var(--hover);box-shadow:inset 0 0 0 1px var(--line)}
+}
+
+/* Mini oynatıcı ve gezinme çubuğu aynı arka plan dolgusunu paylaşır. */
+@media(max-width:760px){
+ .mobile-nav{background:var(--glass-strong)!important}
+ .player{background:var(--glass-strong)!important}
+ body.dark .mobile-nav{background:rgba(31,31,35,.94)!important}
+ body.dark .player{background:rgba(31,31,35,.94)!important}
+}
+@media(max-width:760px) and (prefers-reduced-transparency:reduce),(max-width:760px) and (prefers-contrast:more){
+ .mobile-nav,.player{background:Canvas!important}
+}
+/* Masaüstü mini oynatıcı: daha ferah yükseklik ve belirgin taşıma kontrolleri */
+@media(min-width:761px){
+ .player{height:99px;min-height:99px;padding-top:3px;padding-bottom:3px}
+ .control-buttons{gap:25px}
+ .control-buttons .skip .ic{width:27px;height:27px}
+ .control-buttons .play-btn{width:42px;height:42px;border-radius:0;background:transparent;
+  color:var(--text);font-size:0;box-shadow:none}
+ .control-buttons .play-btn .ic{width:31px;height:31px}
+ .control-buttons .skip{width:40px;height:40px;display:grid;place-items:center}
+}
+
+/* Masaüstü kenar çubuğu: daha kısa menü ritmi ve oynatıcıdan net ayrım */
+@media(min-width:761px){
+ .sidebar{padding-top:20px;padding-bottom:24px}
+ .brand{margin-bottom:22px}
+ .nav-title{margin-top:17px;margin-bottom:6px}
+ .nav-item{min-height:36px;padding:8px 12px;gap:11px;border-radius:10px}
+ .sidebar-bottom{margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
+ .workspace{padding-bottom:8px}
+ .player{margin-top:0}
+}
+
+/* Masaüstü mini oynatıcı: ekranın ortasında yüzen, kenarlardan ayrılmış yüzey */
+@media(min-width:761px){
+ .player{
+  width:min(820px,calc(100% - 48px));max-width:820px;min-width:0;align-self:center;
+  margin:0 auto 14px;height:84px;min-height:84px;
+  grid-template-columns:minmax(140px,1fr) minmax(200px,1.2fr) minmax(110px,.7fr);
+  gap:14px;padding:0 20px;
+  border:1px solid var(--glass-edge);border-radius:30px;
+  box-shadow:0 10px 30px rgba(0,0,0,.12),inset 0 1px 0 var(--glass-edge);
+  overflow:hidden;box-sizing:border-box
+ }
+ .player .now-cover{width:48px;height:48px}
+ .player .control-buttons{gap:18px}
+ .player .player-right{gap:10px}
+ .player .volume{width:76px}
+}
+
+/* Masaüstü mini oynatıcıyı sol kenar ile kenar çubuğunun sağ sınırı arasındaki içerik alanına göre ortala */
+@media(min-width:761px){
+ .player{
+  left:calc(226px + 24px + (100vw - 226px - 24px)/2);
+  right:auto;
+  transform:translateX(-50%);
+  width:min(820px,calc(100vw - 226px - 24px - 48px));
+  margin:0;
+  bottom:14px;
+ }
+}
+
+/* Masaüstü: kompakt kenar çubuğu, tek aktif sekme ve yüzen mini oynatıcıyla uyum */
+@media(min-width:761px){
+ .sidebar{width:226px;padding:16px 13px 14px;display:flex;flex-direction:column;gap:0}
+ .brand{font-size:22px;margin:0 10px 14px;min-height:30px}
+ .brand-icon .ic,.brand-icon.note-art{width:23px;height:23px}
+ .nav-title{margin:12px 10px 4px;font-size:11px;letter-spacing:.65px}
+ .nav-item{min-height:31px;padding:6px 10px;gap:10px;border-radius:9px;font-size:13px;line-height:1.15}
+ .nav-icon{width:18px;height:18px;display:grid;place-items:center;flex:none}
+ .nav-icon .ic{width:17px;height:17px}
+ .sidebar-bottom{margin-top:auto;padding-top:9px;border-top:1px solid var(--line)}
+ .sidebar-bottom .nav-item{min-height:30px}
+ body[data-page="manage"] #backBtn{display:none!important}
+}
+
+/* Masaüstü düzenleme penceresi ve dar ekran kenar çubuğu ince ayarı */
+@media(min-width:761px){
+ .sidebar{padding-top:12px;padding-bottom:12px}
+ .brand{margin-bottom:10px}
+ .nav-title{margin-top:9px;margin-bottom:3px}
+ .nav-item{min-height:28px;padding:5px 9px;font-size:12.5px}
+ .sidebar-bottom{padding-top:7px}
+ body[data-page="manage"] #backBtn{display:none!important}
+ .modal{width:min(760px,calc(100vw - 64px));max-width:760px;padding:28px;border-radius:22px}
+ .modal h2{font-size:22px;margin-bottom:22px}
+ .edit-artwork-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}
+ .edit-artwork-card{min-width:0;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--hover)}
+ .edit-artwork-label{font-size:13px;font-weight:700;margin-bottom:13px}
+ .edit-cover-row{gap:14px;margin:0}
+ .edit-cover{width:112px;height:112px;flex:none;border-radius:16px}
+ .artist-edit-cover{border-radius:50%;overflow:hidden}
+ .artist-edit-cover img{width:100%;height:100%;object-fit:cover}
+ .edit-cover-actions{gap:9px}
+ .edit-cover-actions button{min-height:38px;padding:0 14px;border-radius:12px;white-space:nowrap}
+ .modal .field{display:block;margin:0 0 13px}
+ .modal .field span{font-size:13px;margin-bottom:7px}
+ .modal input{height:44px;padding:0 13px;border-radius:11px}
+ .modal-actions{margin-top:20px;gap:10px}
+ .modal-actions button{min-height:42px;padding:0 20px;border-radius:14px}
+}
+
+/* Masaüstü: şarkı satırına hafif basma, büyütülmüş kenar menüsü ve söz alanı */
+@media(min-width:761px){
+ /* Şarkı satırları sayfa açılışında yukarı yükselmesin; tıklamada hafifçe basılsın. */
+ #page.page-in .song,#page.page-fade .song{animation:none!important}
+ .song{transition:background .16s ease,transform .16s ease,box-shadow .16s ease;transform-origin:center}
+ .song:active{transform:scale(.985)!important;background:var(--hover);box-shadow:inset 0 1px 2px rgba(0,0,0,.06)}
+ /* Menü satırları ve simgeler 1.35 kat büyütüldü; dikey boşluklar dengelendi. */
+ .sidebar{height:90%;max-height:90%;align-self:flex-start;overflow-y:auto;padding-top:10px;padding-bottom:10px}
+ .brand{font-size:23px;margin-bottom:9px}
+ .nav-title{font-size:11px;margin:8px 10px 3px}
+ .nav-item{font-size:16.8px;min-height:35px;padding:6px 10px;gap:11px}
+ .nav-icon{width:23px;height:23px}
+ .nav-icon .ic{width:22px;height:22px}
+ .sidebar-bottom{margin-top:auto;padding-top:6px}
+ .lyrics-field textarea{display:block;width:100%;min-height:132px;resize:vertical;
+  padding:13px 14px;border:1px solid var(--line);border-radius:13px;
+  background:var(--bg);color:var(--text);font:inherit;line-height:1.55;
+  box-sizing:border-box;outline:none;transition:border-color .2s,box-shadow .2s}
+ .lyrics-field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 14%,transparent)}
+ .lyrics-field textarea::placeholder{color:var(--muted)}
+ .modal .lyrics-field{margin-top:5px}
+}
+
+/* ===== Masaüstü sidebar, Şarkıları Yönet simgesi, Parçalar ayırıcı ===== */
+.acct-lead{display:flex;align-items:center;gap:14px;min-width:0}
+.acct-lead>.ic{width:24px;height:24px;color:var(--accent);flex:none}
+@media(min-width:761px){
+ body[data-page="songs"] .song-list .song{border-radius:0;border-bottom:1px solid color-mix(in srgb,CanvasText 9%,transparent)}
+ body[data-page="songs"] .song-list .song:last-child{border-bottom:0}
+}
+/* ===== Masaüstü: oynatıcı markası, yan çubuk boşluğu, Favori kapağı ===== */
+.lib-star,.pl-star{background:var(--ph)}
+@media(min-width:761px){
+ .sidebar{height:auto!important;max-height:none!important;bottom:calc(var(--player-real,99px) + var(--gap) + 20px);overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+ .sidebar::-webkit-scrollbar{display:none}
+ .fp-brand{top:-2px;height:44px;align-items:center;gap:14px;font-size:40px;letter-spacing:-1.2px}
+ .fp-brand-note{width:52px;height:52px}
+ .fp-brand-note .note-art{width:48px;height:48px}
+}
+@media(min-width:761px) and (max-height:720px){
+ .nav-title{margin-top:6px}
+ .nav-item{min-height:26px}
+}
+/* ===== Tam ekran: logo konumu, yumuşak şarkı geçişi, dönen kapak gradyanı ===== */
+@property --fp-c1{syntax:"<color>";inherits:true;initial-value:#5b3a7a}
+@property --fp-c2{syntax:"<color>";inherits:true;initial-value:#c2466a}
+@property --fp-c3{syntax:"<color>";inherits:true;initial-value:#2a2a3a}
+.fp{--fp-c1:#5b3a7a;--fp-c2:#c2466a;--fp-c3:#2a2a3a;transition:transform .55s var(--ios),visibility 0s .55s,--fp-c1 1.4s ease,--fp-c2 1.4s ease,--fp-c3 1.4s ease}
+.fp.open{transition:transform .55s var(--ios),--fp-c1 1.4s ease,--fp-c2 1.4s ease,--fp-c3 1.4s ease}
+.fp-bg{inset:0!important;background:#111!important;background-image:none!important;filter:none!important;transform:none!important;overflow:hidden}
+.fp-bg::before,.fp-bg::after{content:"";position:absolute;inset:-60%;will-change:transform}
+.fp-bg::before{background:conic-gradient(from 0deg at 50% 50%,var(--fp-c1),var(--fp-c2),var(--fp-c3),var(--fp-c1));filter:blur(80px) saturate(1.5) brightness(.72);animation:fpSpin 42s linear infinite}
+.fp-bg::after{background:radial-gradient(circle at 28% 72%,var(--fp-c2),transparent 52%),radial-gradient(circle at 76% 26%,var(--fp-c3),transparent 50%);filter:blur(60px) brightness(.8);opacity:.75;animation:fpSpin 64s linear infinite reverse}
+@keyframes fpSpin{to{transform:rotate(360deg)}}
+.fp-art{position:relative}
+.fp-txt{position:relative}
+.fp-old{position:absolute;inset:0;display:grid;place-items:center;background:var(--ph);animation:fpOut .75s ease forwards;pointer-events:none}
+.fp-old img{width:100%;height:100%;object-fit:cover}
+.fp-art.fp-in>img,.fp-art.fp-in>.note-art{animation:fpImgIn .8s var(--ios) both}
+.fp-old-txt{position:absolute;inset:0;pointer-events:none;animation:fpTxtOut .45s ease forwards}
+.fp-txt.fp-in>.fp-title{animation:fpTxtIn .6s var(--ios) both}
+.fp-txt.fp-in>.fp-artist{animation:fpTxtIn .6s var(--ios) .07s both}
+@keyframes fpOut{to{opacity:0}}
+@keyframes fpImgIn{from{opacity:0;transform:scale(1.1)}to{opacity:1;transform:none}}
+@keyframes fpTxtIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fpTxtOut{to{opacity:0;transform:translateY(-10px)}}
+@media(prefers-reduced-motion:reduce){.fp-bg::before,.fp-bg::after{animation:none}}
+@media(min-width:761px){.fp-brand{top:34px;left:6px;height:auto}}
+/* Masaüstü tam ekran: kapak ile şarkı adı arasında ferah boşluk */
+@media(min-width:761px){.fp-meta{margin-top:30px}}
+
+
+/* macOS tarzı tam ekran oynatıcı sıra menüsü */
+@media(min-width:761px){
+ .fp-queue-list .fp-queue-track{position:relative;padding:8px 42px 8px 8px;min-height:62px;gap:12px;transition:background .16s ease,transform .16s ease}
+ .fp-queue-list .fp-queue-track:hover{background:rgba(255,255,255,.085)}
+ .fp-queue-list .fp-queue-track.active{background:rgba(255,255,255,.14);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+ .fp-queue-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+ .fp-queue-more{position:absolute;right:7px;top:50%;transform:translateY(-50%);width:32px;height:32px;min-height:32px;
+  display:grid;place-items:center;padding:0;border:1px solid transparent;border-radius:10px;
+  color:rgba(255,255,255,.78);background:transparent;opacity:1;transition:background .16s ease,border-color .16s ease}
+ .fp-queue-more:focus-visible{outline:2px solid rgba(255,255,255,.5);outline-offset:2px}
+ .fp-queue-more:hover{opacity:1;background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.13)}
+ .fp-queue-more .ic{width:18px;height:18px}
+ .fp-queue-menu{position:fixed;z-index:100;width:224px;min-width:224px;padding:6px;border-radius:13px;
+  color:#f5f5f7;background:rgba(39,39,43,.92);border:1px solid rgba(255,255,255,.14);
+  -webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);
+  box-shadow:0 18px 55px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.12);
+  animation:fpMenuIn .16s cubic-bezier(.2,.8,.2,1);font-size:15px}
+ @keyframes fpMenuIn{from{opacity:0;transform:translateY(5px) scale(.98)}to{opacity:1;transform:none}}
+ .fp-queue-menu button{width:100%;min-height:39px;padding:0 9px;display:flex;align-items:center;gap:10px;
+  border:0;border-radius:8px;background:transparent;color:inherit;text-align:left;font-size:15px;font-weight:500;white-space:nowrap}
+ .fp-queue-menu button:hover{background:rgba(255,255,255,.12)}
+ .fp-queue-menu button>span:first-child{width:20px;height:20px;display:grid;place-items:center;color:rgba(255,255,255,.72)}
+ .fp-queue-menu .ic{width:18px;height:18px}
+ .fpq-separator{height:1px;margin:5px 7px;background:rgba(255,255,255,.12)}
+ .fpq-sub-wrap{position:relative}
+ .fpq-chevron{margin-left:auto;color:rgba(255,255,255,.5);font-size:18px}
+ .fpq-submenu{display:none;position:absolute;right:calc(100% + 8px);top:-8px;min-width:190px;max-width:260px;
+  max-height:280px;overflow:auto;padding:6px;border-radius:12px;background:rgba(39,39,43,.96);
+  border:1px solid rgba(255,255,255,.14);box-shadow:0 12px 36px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px)}
+ .fp-queue-menu.show-sub .fpq-submenu{display:block}
+ .fpq-submenu button{overflow:hidden;text-overflow:ellipsis}
+ .fpq-empty{padding:10px;color:rgba(255,255,255,.55);font-size:12px}
+ .fp-queue-switch{display:flex;gap:5px;padding:5px;margin:12px 0 8px;border-radius:12px;background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.09);flex:none}
+ .fp-queue-switch button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 7px;border:0;border-radius:9px;background:transparent;color:rgba(255,255,255,.68);font-family:inherit;font-size:12px;line-height:1.2;font-weight:600;cursor:pointer;white-space:nowrap}
+ .fp-queue-switch button .ic{width:15px;height:15px;flex:none}
+ .fp-queue-switch button.active{color:#fff;background:rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+ .fp-lyrics-panel{display:none;min-height:0;overflow:auto;flex:1;padding:16px 10px 12px;text-align:center;white-space:pre-wrap;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.24) transparent;color:rgba(255,255,255,.9);font-size:17px;line-height:1.9;font-weight:550}
+ .fp-lyrics-panel .lyrics-empty{color:rgba(255,255,255,.58);font-size:14px;line-height:1.6;padding:26px 12px}
+ .fp-queue.view-lyrics #fpQueueList{display:none}
+ .fp-queue.view-lyrics .fp-lyrics-panel{display:block}
+ .fp-queue.view-lyrics #fpQueueCount{display:none}
+}
+
+
+/* Oynatıcı panel geçişleri ve mobil araç çubuğu */
+.fp-mobile-tools{display:none}
+.fp-queue-list,.fp-lyrics-panel{transition:opacity .28s ease,transform .32s cubic-bezier(.22,.68,0,1)}
+.fp-queue.view-lyrics .fp-lyrics-panel{animation:fpPanelIn .32s cubic-bezier(.22,.68,0,1)}
+.fp-queue:not(.view-lyrics) .fp-queue-list{animation:fpPanelIn .32s cubic-bezier(.22,.68,0,1)}
+@keyframes fpPanelIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
+@media(min-width:761px){
+ #fpQueue{display:none!important}
+ #fpRepeat{margin-left:auto}
+}
+@media(max-width:760px){
+ .fp-mobile-tools{display:flex;align-items:center;justify-content:center;position:relative;min-height:42px;margin:2px 0 4px}
+ .fp-mobile-tools [data-fp-view="lyrics"]{display:flex;align-items:center;justify-content:center;gap:0;min-height:40px;height:40px;padding:0 17px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.12);color:#fff;font-size:14px;font-weight:600;letter-spacing:-.01em;line-height:1;text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.13);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);-webkit-tap-highlight-color:transparent;white-space:nowrap}
+ .fp-mobile-tools [data-fp-view="lyrics"] .ic{display:none}
+ .fp-mobile-tools #fpMobileMore{position:absolute;right:-2px;top:-2px;width:44px;height:44px;min-height:44px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:transparent;box-shadow:none;color:#fff;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer}
+ .fp-mobile-tools #fpMobileMore .ic{width:22px;height:22px;fill:currentColor;stroke:none}
+ .fp-mobile-tools #fpMobileMore:focus-visible{outline:2px solid rgba(255,255,255,.78);outline-offset:2px}
+ .fp-queue-menu{position:fixed;z-index:200;width:min(240px,calc(100vw - 24px));min-width:0;padding:6px;border-radius:13px;color:#f5f5f7;background:rgba(39,39,43,.96);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);box-shadow:0 18px 55px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.12);animation:fpMenuIn .16s cubic-bezier(.2,.8,.2,1);font-size:15px;isolation:isolate;pointer-events:auto;touch-action:manipulation}
+ .fp-queue-menu button{width:100%;min-height:44px;padding:0 9px;display:flex;align-items:center;gap:10px;border:0;border-radius:8px;background:transparent;color:inherit;text-align:left;font-size:15px;font-weight:500;white-space:nowrap;touch-action:manipulation}
+ .fp-queue-menu button:active{background:rgba(255,255,255,.14)}
+ .fp-queue-menu button>span:first-child{width:20px;height:20px;display:grid;place-items:center;color:rgba(255,255,255,.72)}
+ .fp-queue-menu .ic{width:18px;height:18px}
+ .fpq-separator{height:1px;margin:5px 7px;background:rgba(255,255,255,.12)}
+ .fpq-sub-wrap{position:relative}
+ .fpq-chevron{margin-left:auto;color:rgba(255,255,255,.5);font-size:18px}
+ .fpq-submenu{display:none;position:absolute;right:0;bottom:calc(100% + 8px);min-width:190px;max-width:min(260px,calc(100vw - 24px));max-height:280px;overflow:auto;padding:6px;border-radius:12px;background:rgba(39,39,43,.98);border:1px solid rgba(255,255,255,.14);box-shadow:0 12px 36px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px)}
+ .fp-queue-menu.show-sub .fpq-submenu{display:block}
+ .fpq-submenu button{overflow:hidden;text-overflow:ellipsis}
+ .fpq-empty{padding:10px;color:rgba(255,255,255,.55);font-size:12px}
+ .fp-queue-switch{display:none!important}
+ .fp-mobile-tools{position:relative;z-index:4;isolation:isolate}
+ .fp.fp-sheet-open .fp-mobile-tools{z-index:4;pointer-events:none}
+ .fp-queue.view-lyrics{display:flex;flex-direction:column;position:absolute;z-index:8;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 44px);bottom:calc(env(safe-area-inset-bottom) + 12px);width:auto;max-width:none;margin:0;padding:16px 18px 18px;border-radius:24px 24px 20px 20px;background:rgba(25,25,28,.96);border:1px solid rgba(255,255,255,.18);-webkit-backdrop-filter:blur(28px) saturate(145%);backdrop-filter:blur(28px) saturate(145%);box-shadow:0 16px 48px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.12);animation:lyricsSheetUp .46s var(--ios) both;will-change:transform,opacity}
+ .fp-queue.view-lyrics.lyrics-closing{animation:lyricsSheetDown .56s cubic-bezier(.22,.61,.36,1) both;pointer-events:none}
+ .fp-queue.view-lyrics .fp-queue-head{display:flex;position:relative;align-items:center;padding:15px 4px 16px;border-bottom:1px solid rgba(255,255,255,.13)}
+ .fp-queue.view-lyrics .fp-queue-head::before{content:"";position:absolute;top:0;left:50%;width:38px;height:5px;border-radius:999px;background:rgba(255,255,255,.34);transform:translateX(-50%)}
+ .fp-queue.view-lyrics .fp-queue-head>div{display:flex;flex-direction:column;gap:6px;min-width:0;width:100%}
+ .fp-queue.view-lyrics .fp-queue-head strong{max-width:100%;font-size:1.2rem;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff}
+ .fp-queue.view-lyrics .fp-queue-head span{font-size:.78rem;color:rgba(255,255,255,.63)}
+ .fp-queue.view-lyrics #fpQueueList{display:none!important}
+ .fp-queue.view-lyrics #fpLyricsPanel{display:block;flex:1 1 auto;align-self:stretch;width:100%;box-sizing:border-box;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:22px 5px max(18px,env(safe-area-inset-bottom));text-align:left;white-space:pre-wrap;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.3) transparent;color:rgba(255,255,255,.95);font-size:clamp(1.15rem,5.3vw,1.42rem);line-height:1.78;font-weight:520;letter-spacing:-.01em;-webkit-overflow-scrolling:touch}
+ .fp-queue.view-lyrics .lyrics-empty{padding:48px 12px;text-align:center;font-size:1rem;line-height:1.65;color:rgba(255,255,255,.62)}
+ @keyframes lyricsSheetUp{from{opacity:0;transform:translateY(calc(100% + 28px))}to{opacity:1;transform:translateY(0)}}
+ @keyframes lyricsSheetDown{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(calc(100% + 28px))}}
+}
+
+
+/* Apple HIG refinement: persistent sheet layering, readable menus, and predictable touch behavior */
+@media(max-width:760px){
+ .fp .fp-mobile-tools{z-index:4;transition:opacity .2s ease}
+ .fp.fp-sheet-open .fp-mobile-tools{pointer-events:none;opacity:.0}
+ .fp .fp-queue.view-lyrics{z-index:12;isolation:isolate;pointer-events:auto}
+ .fp .fp-queue.view-lyrics #fpLyricsPanel{overscroll-behavior-y:contain;touch-action:pan-y}
+ .fp .fp-queue-menu{z-index:200;max-height:min(72dvh,560px);overflow-y:auto;overscroll-behavior:contain;border-radius:14px;padding:7px;font-size:15px}
+ .fp .fp-queue-menu button{min-height:44px;border-radius:9px;font-size:15px;font-weight:550}
+ .fp .fpq-separator{margin:6px 8px}
+ .fp .fpq-submenu{max-height:min(42dvh,300px);overscroll-behavior:contain}
+}
+@media(min-width:761px){
+ .fp .fp-queue-menu{border-radius:12px;padding:5px;font-size:14px}
+ .fp .fp-queue-menu button{min-height:36px;font-size:14px;border-radius:7px}
+ .fp .fp-queue-menu button:focus-visible{outline:2px solid rgba(255,255,255,.72);outline-offset:-2px}
+}
+@media(prefers-reduced-motion:reduce){
+ .fp .fp-queue.view-lyrics,.fp .fp-queue-menu,.fp .fp-mobile-tools{animation:none!important;transition:none!important}
+}
+
 </style>
 </head>
 <body>
 <div class="app">
  <div class="workspace">
  <aside class="sidebar">
- <div class="brand"><span class="brand-icon" data-icon="note"></span> Music</div>
+ <div class="brand"><span class="brand-icon note-art" aria-hidden="true"></span> Music</div>
  <div class="nav-title">Keşfet</div>
- <button class="nav-item active" data-page="home"><span class="nav-icon" data-icon="playcircle"></span>Şimdi Dinle</button>
- <button class="nav-item" data-page="browse"><span class="nav-icon" data-icon="browse"></span>Göz At</button>
- <button class="nav-item" data-page="search"><span class="nav-icon" data-icon="search"></span>Ara</button>
- <div class="nav-title">Kitaplığın</div>
+ <button class="nav-item active" data-page="home"><span class="nav-icon" data-icon="tabHome"></span>Şimdi Dinle</button>
+ <button class="nav-item" data-page="browse"><span class="nav-icon" data-icon="tabGrid"></span>Göz At</button>
+ <button class="nav-item" data-page="search"><span class="nav-icon" data-icon="tabSearch"></span>Ara</button>
+ <div class="nav-title"><span class="nav-icon" data-icon="tabLibrary" aria-hidden="true"></span>Kitaplığın</div>
  <button class="nav-item" data-page="recent"><span class="nav-icon" data-icon="clock"></span>Son Eklenenler</button>
  <button class="nav-item" data-page="artists"><span class="nav-icon" data-icon="person"></span>Sanatçılar</button>
  <button class="nav-item" data-page="albums"><span class="nav-icon" data-icon="album"></span>Albümler</button>
- <button class="nav-item" data-page="songs"><span class="nav-icon" data-icon="note"></span>Şarkılar</button>
- <button class="nav-item" data-page="favorites"><span class="nav-icon" data-icon="heart"></span>Favoriler</button>
+ <button class="nav-item" data-page="songs"><span class="nav-icon" data-icon="noteSingle"></span>Parçalar</button>
+ <button class="nav-item" data-page="favorites"><span class="nav-icon" data-icon="star"></span>Favoriler</button>
  <div class="nav-title">Çalma listeleri</div>
  <button class="nav-item" data-page="playlists"><span class="nav-icon" data-icon="list"></span>Çalma Listelerim</button>
  <button class="nav-item" id="createPlaylist"><span class="nav-icon" data-icon="plus"></span>Yeni Liste</button>
  <div class="sidebar-bottom">
- <button class="nav-item" data-page="profile"><span class="nav-icon" data-icon="person"></span>Profil</button>
  <button class="nav-item" data-page="settings"><span class="nav-icon" data-icon="gear"></span>Hesap</button>
+ <button class="nav-item" data-page="manage"><span class="nav-icon" data-icon="download"></span>Şarkıları Yönet</button>
  </div>
  </aside>
  <main class="main" id="main">
@@ -1091,16 +1576,32 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 <div class="modal-backdrop" id="editModal">
  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editTitle">
  <h2 id="editTitle">Şarkıyı Düzenle</h2>
- <div class="edit-cover-row">
- <div class="detail-cover edit-cover" id="editCover"></div>
- <div class="edit-cover-actions">
- <button class="secondary-btn" id="editCoverChange">Kapak Seç</button>
- <button class="secondary-btn danger" id="editCoverRemove">Kapağı Sil</button>
- </div>
+ <div class="edit-artwork-grid">
+  <section class="edit-artwork-card">
+   <div class="edit-artwork-label">Şarkı Kapağı</div>
+   <div class="edit-cover-row">
+    <div class="detail-cover edit-cover" id="editCover"></div>
+    <div class="edit-cover-actions">
+     <button class="secondary-btn" id="editCoverChange">Kapak Seç</button>
+     <button class="secondary-btn danger" id="editCoverRemove">Kapağı Sil</button>
+    </div>
+   </div>
+  </section>
+  <section class="edit-artwork-card">
+   <div class="edit-artwork-label">Sanatçı Görseli</div>
+   <div class="edit-cover-row">
+    <div class="detail-cover edit-cover artist-edit-cover" id="editArtistCover"></div>
+    <div class="edit-cover-actions">
+     <button class="secondary-btn" id="editArtistImageChange">Görsel Seç</button>
+     <button class="secondary-btn danger hidden" id="editArtistImageRemove">Görseli Sil</button>
+    </div>
+   </div>
+  </section>
  </div>
  <label class="field"><span>Başlık</span><input id="editTitleInput" autocomplete="off"></label>
  <label class="field"><span>Sanatçı</span><input id="editArtistInput" placeholder="Bilinmeyen Sanatçı" autocomplete="off"></label>
  <label class="field"><span>Albüm</span><input id="editAlbumInput" placeholder="Bilinmeyen Albüm" autocomplete="off"></label>
+ <label class="field lyrics-field"><span>Şarkı Sözleri</span><textarea id="editLyricsInput" rows="5" placeholder="Şarkı sözlerini buraya ekle..."></textarea></label>
  <div class="modal-actions">
  <button class="secondary-btn" id="editCancel">İptal</button>
  <button class="import-btn" id="editSave">Kaydet</button>
@@ -1108,30 +1609,47 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  </div>
 </div>
 <input type="file" id="coverInput" accept="image/*" hidden>
+<input type="file" id="artistImageInput" accept="image/*" hidden>
 <input type="file" id="avatarInput" accept="image/*" hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <input type="file" id="fileInput" accept="audio/*,.mp3,.m4a,.wav,.flac,.ogg" multiple hidden>
 <section class="fp" id="fp" aria-label="Şimdi çalıyor" aria-hidden="true">
  <div class="fp-bg" id="fpBg"></div>
  <div class="fp-wrap" id="fpWrap">
+  <div class="fp-brand" aria-label="Music"><span class="fp-brand-note"><span class="note-art" aria-hidden="true"></span></span><span>Music</span></div>
   <button class="fp-grab" id="fpClose" aria-label="Oynatıcıyı kapat"><span></span></button>
-  <div class="fp-art-box"><div class="fp-art" id="fpArt"></div></div>
-  <div class="fp-meta">
-   <div class="fp-txt"><div class="fp-title" id="fpTitle"></div><div class="fp-artist" id="fpArtist"></div></div>
-   <button class="fp-ic" id="fpFav" aria-label="Favorilere ekle"></button>
+  <div class="fp-main">
+   <div class="fp-mobile-tools">
+    <button type="button" data-fp-view="lyrics" aria-label="Şarkı sözlerini göster"><span>Şarkı Sözleri</span></button>
+    <button type="button" id="fpMobileMore" aria-label="Şarkı seçenekleri" aria-haspopup="menu" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button>
+   </div>
+   <div class="fp-art-box"><div class="fp-art" id="fpArt"></div></div>
+   <div class="fp-meta">
+    <div class="fp-txt"><div class="fp-title" id="fpTitle"></div><div class="fp-artist" id="fpArtist"></div></div>
+    <button class="fp-ic" id="fpFav" aria-label="Favorilere ekle"></button>
+   </div>
+   <div class="fp-prog"><input id="fpProgress" type="range" min="0" max="1000" value="0" aria-label="Şarkı ilerlemesi"><div class="fp-times"><span id="fpCur">0:00</span><span class="fp-q" id="fpQ"></span><span id="fpRem">-0:00</span></div></div>
+   <div class="fp-ctrl">
+    <button id="fpPrev" aria-label="Önceki şarkı"></button>
+    <button class="fp-play" id="fpPlay" aria-label="Oynat veya duraklat"></button>
+    <button id="fpNext" aria-label="Sonraki şarkı"></button>
+   </div>
+   <div class="fp-vol"><span id="fpVolLo"></span><input id="fpVol" type="range" min="0" max="1" step=".01" value=".8" aria-label="Ses düzeyi"><span id="fpVolHi"></span></div>
+   <div class="fp-bottom">
+    <button class="js-shuffle" aria-label="Karışık çal" aria-pressed="false" id="fpShuffle"></button>
+    <button class="js-repeat" aria-label="Tekrar modunu değiştir" aria-pressed="false" id="fpRepeat"></button>
+    <button id="fpQueue" aria-label="Çalma sırasını aç"></button>
+   </div>
   </div>
-  <div class="fp-prog"><input id="fpProgress" type="range" min="0" max="1000" value="0" aria-label="Şarkı ilerlemesi"><div class="fp-times"><span id="fpCur">0:00</span><span class="fp-q" id="fpQ"></span><span id="fpRem">-0:00</span></div></div>
-  <div class="fp-ctrl">
-   <button id="fpPrev" aria-label="Önceki şarkı"></button>
-   <button class="fp-play" id="fpPlay" aria-label="Oynat veya duraklat"></button>
-   <button id="fpNext" aria-label="Sonraki şarkı"></button>
-  </div>
-  <div class="fp-vol"><span id="fpVolLo"></span><input id="fpVol" type="range" min="0" max="1" step=".01" value=".8" aria-label="Ses düzeyi"><span id="fpVolHi"></span></div>
-  <div class="fp-bottom">
-   <button class="js-shuffle" aria-label="Karışık çal" aria-pressed="false" id="fpShuffle"></button>
-   <button class="js-repeat" aria-label="Tekrar modunu değiştir" aria-pressed="false" id="fpRepeat"></button>
-   <button id="fpQueue" aria-label="Çalma sırası"></button>
-  </div>
+  <aside class="fp-queue" aria-label="Sıradaki şarkılar">
+   <div class="fp-queue-head"><div><strong id="fpQueuePanelTitle">Sıradaki</strong><span id="fpQueueCount">0 şarkı</span></div></div>
+   <div class="fp-queue-switch" role="group" aria-label="Oynatıcı yan paneli">
+    <button type="button" data-fp-view="lyrics"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M8 7h8M6 11h12M8 15h8"/></svg> Şarkı Sözleri</button>
+    <button type="button" data-fp-view="queue"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h11"/></svg> Sıradaki Parçalar</button>
+   </div>
+   <div class="fp-queue-list" id="fpQueueList"></div>
+   <div class="fp-lyrics-panel" id="fpLyricsPanel" aria-live="polite"></div>
+  </aside>
  </div>
 </section>
 <script>
@@ -1162,6 +1680,7 @@ audio.setAttribute("playsinline", "");
 audio.setAttribute("webkit-playsinline", "");
 const $ = id => document.getElementById(id);
 const ICONS={
+ noteSingle:`<ellipse cx="8" cy="17.6" rx="3.6" ry="2.9" transform="rotate(-22 8 17.6)" fill="currentColor" stroke="none"/><path d="M11.4 17V4.8c0 1.8 2.2 3 4.6 3.8 1.6.6 2.6 1.5 2.6 3.2" stroke-width="2.2"/>`,
  listPlus:`<path d="M4 6h13M4 11h9M4 16h6"/><path d="M17.5 14v6M14.5 17h6" stroke-width="2.2"/>`,
  check:`<path d="m5 12.5 4.5 4.5L19 7.5"/>`,
  menu:`<path d="M4 8h16M4 12h16M4 16h16"/>`,
@@ -1402,9 +1921,12 @@ function goForward() {
  render();$("main").scrollTop=e.scroll||0;
 }
 function card(track,kind="album") {
- return `<div class="card" tabindex="0" role="button" data-kind="${kind}" data-value="${escapeHTML(kind==="artist"?artistOf(track):albumOf(track))}">
- ${coverHTML(track)}
- <div class="card-title">${escapeHTML(kind==="artist"?artistOf(track):albumOf(track))}</div>
+ const value=kind==="artist"?artistOf(track):albumOf(track);
+ const artistArt=kind==="artist"?artistImages[value]:null;
+ const art=artistArt?`<div class="cover"><img src="${artistArt}" alt=""></div>`:coverHTML(track);
+ return `<div class="card" tabindex="0" role="button" data-kind="${kind}" data-value="${escapeHTML(value)}">
+ ${art}
+ <div class="card-title">${escapeHTML(value)}</div>
  <div class="card-sub">${escapeHTML(kind==="artist"?"Sanatçı":artistOf(track))}</div>
  </div>`;
 }
@@ -1430,7 +1952,7 @@ function homePageBase() {
  return `
  <h1>Ana Sayfa</h1>
  <div class="hero">
- <div class="hero-mosaic" aria-hidden="true">${"<i></i>".repeat(20)}</div>
+ ${heroMosaic()}
  <div class="hero-content">
  <div class="hero-label">Kendi müzik dünyan</div>
  <h2>LunaMUSIC'e hoş geldin.</h2>
@@ -1438,7 +1960,7 @@ function homePageBase() {
  </div>
  </div>
  ${section("Kitaplığından seçtiklerimiz",recent.length?
- `<div class="grid">${recentAlbums.map(t=>card(t,"album")).join("")}</div>`:
+ `<div class="grid">${recent.map(trackCard).join("")}</div>`:
  emptyHTML("Henüz müzik yok","Müzik dosyalarını ekleyerek kitaplığını oluştur.") )}
  ${section("Albümlerin",albums.length?
  `<div class="grid">${albums.map(t=>card(t)).join("")}</div>`:
@@ -1537,7 +2059,7 @@ function settingsPage() {
  </button>
  <div class="acct-label">Görünüm</div>
  <div class="acct-group">
-  <div class="acct-row seg-row"><div class="seg" id="themeSeg" role="radiogroup" aria-label="Görünüm" style="--i:${["light","dark","system"].indexOf(themePref)}"><span class="seg-thumb"></span><button role="radio" data-theme="light" aria-checked="false">Açık</button><button role="radio" data-theme="dark" aria-checked="false">Koyu</button><button role="radio" data-theme="system" aria-checked="false">Sistem</button></div></div>
+  <div class="acct-row seg-row"><div class="seg theme-seg" id="themeSeg" role="radiogroup" aria-label="Görünüm" style="--i:${["light","dark","system"].indexOf(themePref)}"><span class="seg-thumb" aria-hidden="true"></span><button role="radio" data-theme="light" aria-checked="false"><span class="theme-seg-icon">${ic("sun")}</span><span>Açık</span></button><button role="radio" data-theme="dark" aria-checked="false"><span class="theme-seg-icon">${ic("moon")}</span><span>Koyu</span></button><button role="radio" data-theme="system" aria-checked="false"><span class="theme-seg-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span>Sistem</span></button></div></div>
  </div>
  <div class="acct-label">Çalma</div>
  <div class="acct-group">
@@ -1546,7 +2068,7 @@ function settingsPage() {
  </div>
  <div class="acct-label">Müzik kitaplığı</div>
  <div class="acct-group">
-  <button class="acct-row" id="goManage"><span>Şarkıları Yönet<small>${state.tracks.length} şarkı · yükle, düzenle, indir</small></span>${ic("forward")}</button>
+  <button class="acct-row" id="goManage"><span class="acct-lead">${ic("edit")}<span>Şarkıları Yönet<small>${state.tracks.length} şarkı · yükle, düzenle, indir</small></span></span>${ic("forward")}</button>
   <div class="acct-row"><span>Depolama<small>Müzikler bu cihazda, tarayıcıda saklanır</small></span></div>
  </div>
  <div class="acct-group">
@@ -1555,6 +2077,8 @@ function settingsPage() {
  <p class="acct-foot">Ücretsiz yerel müzik çalar: şarkılarını yükle, düzenle ve dinle. Apple Music tarafından geliştirilmemiştir.</p>`;
 }
 const DEFAULT_ARTIST="Bilinmeyen Sanatçı",DEFAULT_ALBUM="Bilinmeyen Albüm";
+let artistImages={};
+try{artistImages=JSON.parse(localStorage.getItem("music-artist-images")||"{}")||{};}catch(e){artistImages={};}
 state.profile={first:"",last:"",photo:null};
 function loadProfile() {
  try {
@@ -1656,8 +2180,7 @@ function manageRow(t) {
 function managePage() {
  const list=[...state.tracks].sort((a,b)=>b.added-a.added);
  const total=state.tracks.reduce((n,t)=>n+(t.size||0),0);
- return `<button class="crumb" data-goto="settings">${ic("back")}Hesap</button>
- <h1>Şarkıları Yönet</h1><div class="subtitle">${list.length} şarkı · ${fmtSize(total)}</div>
+ return `<h1>Şarkıları Yönet</h1><div class="subtitle">${list.length} şarkı · ${fmtSize(total)}</div>
  <div class="detail-actions"><button class="import-btn" id="manageUpload">${ic("plus")}Şarkı yükle</button></div>
  ${list.length?`<div class="settings-group manage-list">${list.map(manageRow).join("")}</div>`:
  emptyHTML("Henüz şarkı yok","Şarkı yükle düğmesiyle müzik dosyalarını ekle.")}`;
@@ -1734,6 +2257,12 @@ async function deleteTrack(id) {
  notify("Şarkı silindi.");
 }
 let editing=null;
+function renderEditArtistCover(){
+ const name=$("editArtistInput").value.trim()||DEFAULT_ARTIST;
+ const url=editing?.newArtistImage || artistImages[name] || "";
+ $("editArtistCover").innerHTML=url?`<img src="${url}" alt="">`:noteArt();
+ $("editArtistImageRemove").classList.toggle("hidden",!url);
+}
 function renderEditCover() {
  const url=editing.newCoverUrl || (!editing.removed && editing.track.cover);
  $("editCover").innerHTML=url?`<img src="${url}" alt="">`:noteArt();
@@ -1742,11 +2271,13 @@ function renderEditCover() {
 function openEdit(id) {
  const t=state.tracks.find(x=>x.id===id);
  if(!t) return;
- editing={track:t,newCover:null,newCoverUrl:null,removed:false};
+ editing={track:t,newCover:null,newCoverUrl:null,removed:false,newArtistImage:null};
  $("editTitleInput").value=t.title||"";
  $("editArtistInput").value=t.artist===DEFAULT_ARTIST?"":(t.artist||"");
  $("editAlbumInput").value=t.album===DEFAULT_ALBUM?"":(t.album||"");
+ $("editLyricsInput").value=t.lyrics||"";
  renderEditCover();
+ renderEditArtistCover();
  $("editModal").classList.add("show");
  $("editTitleInput").focus();
 }
@@ -1761,6 +2292,11 @@ async function saveEdit() {
  t.title=$("editTitleInput").value.trim()||t.title;
  t.artist=$("editArtistInput").value.trim()||DEFAULT_ARTIST;
  t.album=$("editAlbumInput").value.trim()||DEFAULT_ALBUM;
+ t.lyrics=$("editLyricsInput").value.trim();
+ if(editing.newArtistImage){
+  artistImages[artistOf(t)]=editing.newArtistImage;
+  try{localStorage.setItem("music-artist-images",JSON.stringify(artistImages));}catch(e){notify("Sanatçı görseli depolama sınırına takıldı.");}
+ }
  if(editing.newCover) {
  if(t.cover && t.coverBlob) URL.revokeObjectURL(t.cover);
  t.coverBlob=editing.newCover;t.cover=editing.newCoverUrl;editing.newCoverUrl=null;
@@ -1833,10 +2369,11 @@ function updateActiveNav() {
  document.body.dataset.page=state.page;
  document.body.classList.toggle("sub",!TAB_ROOTS.includes(state.page)&&state.page!=="settings");
  syncBackLabel();
+ const activeSidebarPage=state.page==="detail"
+  ? (state.detail?.type==="artist"?"artists":"albums")
+  : state.page==="playlistDetail"?"playlists":state.page;
  document.querySelectorAll(".sidebar [data-page]").forEach(b=>
- b.classList.toggle("active",b.dataset.page===state.page ||
- (state.page==="detail" && ["albums","artists"].includes(b.dataset.page)) ||
- (state.page==="manage" && b.dataset.page==="settings"))
+  b.classList.toggle("active",b.dataset.page===activeSidebarPage)
  );
  const tab=state.tab||(LIB_PAGES.includes(state.page)?"library":state.page);
  document.querySelectorAll(".mobile-nav [data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===tab));
@@ -1973,6 +2510,7 @@ function updatePlayer() {
  $("currentTime").textContent=timeFormat(audio.currentTime);
  $("totalTime").textContent=timeFormat(audio.duration || t?.duration);
  window.syncFull&&syncFull();
+ if(typeof setFPQueueView==="function")setFPQueueView(fpQueueView);
 }
 function nextTrack() {
  if(!state.queue.length) return;
@@ -1993,19 +2531,183 @@ function previousTrack() {
  else return;
  playTrack(state.queue[state.queueIndex],false);
 }
+let fpQueueView="queue";
+try{fpQueueView=localStorage.getItem("music-fp-queue-view")==="lyrics"?"lyrics":"queue";}catch(e){}
+function setFPQueueView(view){
+ fpQueueView=view==="lyrics"?"lyrics":"queue";
+ try{localStorage.setItem("music-fp-queue-view",fpQueueView);}catch(e){}
+ const panel=document.querySelector(".fp-queue");
+ if(panel)panel.classList.toggle("view-lyrics",fpQueueView==="lyrics");
+ const mobile=matchMedia("(max-width:760px)").matches;
+ document.querySelector(".fp")?.classList.toggle("fp-sheet-open",mobile&&fpQueueView==="lyrics");
+ document.querySelectorAll("[data-fp-view]").forEach(b=>b.classList.toggle("active",b.dataset.fpView===fpQueueView));
+ const track=state.current;
+ const title=$("fpQueuePanelTitle");
+ const count=$("fpQueueCount");
+ if(title)title.textContent=fpQueueView==="lyrics"&&mobile?(track?.title||"Şarkı Sözleri"):(fpQueueView==="lyrics"?"Şarkı Sözleri":"Sıradaki");
+ if(count)count.textContent=fpQueueView==="lyrics"&&mobile?"Şarkı Sözleri":state.queue.length+" şarkı";
+ const lyrics=$("fpLyricsPanel");
+ if(lyrics){lyrics.innerHTML=track?.lyrics?escapeHTML(track.lyrics):'<div class="lyrics-empty">Bu şarkı için henüz söz eklenmemiş.<br>Şarkı bilgilerini düzenleyerek sözleri ekleyebilirsin.</div>';}
+}
+let lyricsCloseTimer=null;
+function closeLyricsSheet(){
+ const panel=document.querySelector(".fp-queue");
+ if(!panel?.classList.contains("view-lyrics"))return;
+ clearTimeout(lyricsCloseTimer);
+ panel.classList.add("lyrics-closing");
+ lyricsCloseTimer=setTimeout(()=>{panel.classList.remove("lyrics-closing");setFPQueueView("queue");},560);
+}
+function openLyricsSheet(){
+ clearTimeout(lyricsCloseTimer);
+ closeFPQueueMenu();
+ const panel=document.querySelector(".fp-queue");
+ if(panel)panel.classList.remove("lyrics-closing");
+ setFPQueueView("lyrics");
+ const lyrics=$("fpLyricsPanel");if(lyrics)lyrics.scrollTop=0;
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-fp-view]");if(!b)return;const mobile=matchMedia("(max-width:760px)").matches;if(mobile&&b.dataset.fpView==="lyrics"){if(fpQueueView==="lyrics")closeLyricsSheet();else openLyricsSheet();}else setFPQueueView(b.dataset.fpView);});
+/* Dış boşluğa yapılan dokunuş yalnızca sözler kartını kapatır.
+   pointerdown yerine click kullanılır; böylece ilk dokunuş tam ekran oynatıcı
+   kapatma hareketi olarak yorumlanmaz. */
+document.addEventListener("click",e=>{
+ if(!matchMedia("(max-width:760px)").matches||fpQueueView!=="lyrics")return;
+ if(e.target.closest(".fp-queue.view-lyrics,.fp-mobile-tools,#fpMobileMore"))return;
+ closeLyricsSheet();
+},true);
 function renderQueue() {
- $("queueList").innerHTML=state.queue.map((t,i)=>`
+ const queueHTML=state.queue.map((t,i)=>`
  <div class="queue-track ${i===state.queueIndex?"active":""}" data-queue="${i}" tabindex="0">
  ${t.cover?`<img src="${t.cover}" alt="">`:`<div class="song-cover">${noteArt()}</div>`}
  <div><strong>${escapeHTML(t.title)}</strong><small>${escapeHTML(artistOf(t))}</small></div>
  </div>`).join("") || emptyHTML("Kuyruk boş","Bir şarkı çal.");
- document.querySelectorAll("[data-queue]").forEach(el=>
- el.addEventListener("click",()=>{
- state.queueIndex=Number(el.dataset.queue);
- playTrack(state.queue[state.queueIndex],false);
- })
- );
+ const fullQueueHTML=state.queue.map((t,i)=>`
+ <div class="queue-track fp-queue-track ${i===state.queueIndex?"active":""}" data-queue="${i}" tabindex="0">
+ ${t.cover?`<img src="${t.cover}" alt="">`:`<div class="song-cover">${noteArt()}</div>`}
+ <div class="fp-queue-meta"><strong>${escapeHTML(t.title)}</strong><small>${escapeHTML(artistOf(t))}</small></div>
+ <button class="fp-queue-more" type="button" data-fp-queue-menu="${i}" aria-label="${escapeHTML(t.title)} seçenekleri" title="Diğer seçenekler">${ic("more")}</button>
+ </div>`).join("") || emptyHTML("Kuyruk boş","Bir şarkı çal.");
+ $("queueList").innerHTML=queueHTML;
+ if($("fpQueueList")) $("fpQueueList").innerHTML=fullQueueHTML;
+ if($("fpQueueCount")) $("fpQueueCount").textContent=state.queue.length+" şarkı";
+ setFPQueueView(fpQueueView);
+ let dragFrom=null;
+ document.querySelectorAll("[data-fp-queue-menu]").forEach(btn=>{
+  btn.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();openFPQueueMenu(Number(btn.dataset.fpQueueMenu),btn);});
+ });
+ document.querySelectorAll("[data-queue]").forEach(el=>{
+  el.draggable=true;
+  el.addEventListener("click",()=>{
+   if(el.dataset.dragged==="1"){delete el.dataset.dragged;return;}
+   state.queueIndex=Number(el.dataset.queue);
+   playTrack(state.queue[state.queueIndex],false);
+  });
+  el.addEventListener("dragstart",e=>{
+   dragFrom=Number(el.dataset.queue);el.classList.add("dragging");
+   e.dataTransfer.effectAllowed="move";e.dataTransfer.setData("text/plain",String(dragFrom));
+  });
+  el.addEventListener("dragover",e=>{e.preventDefault();e.dataTransfer.dropEffect="move";el.classList.add("drag-over");});
+  el.addEventListener("dragleave",()=>el.classList.remove("drag-over"));
+  el.addEventListener("dragend",()=>{el.classList.remove("dragging");document.querySelectorAll(".drag-over").forEach(x=>x.classList.remove("drag-over"));});
+  el.addEventListener("drop",e=>{
+   e.preventDefault();const from=dragFrom,to=Number(el.dataset.queue);
+   if(from===null||from===to)return;
+   const playing=state.queue[state.queueIndex];
+   const [moved]=state.queue.splice(from,1);state.queue.splice(to,0,moved);
+   state.queueIndex=state.queue.indexOf(playing);
+   el.dataset.dragged="1";dragFrom=null;renderQueue();
+  });
+ });
+
 }
+let fpQueueMenu=null;
+function closeFPQueueMenu(){
+ if(fpQueueMenu){fpQueueMenu.remove();fpQueueMenu=null;}
+ $("fpMobileMore")?.setAttribute("aria-expanded","false");
+}
+function openFPQueueMenu(index,button){
+ closeFPQueueMenu();
+ const track=state.queue[index];if(!track)return;
+ const isFav=!!track.favorite;
+ const menu=document.createElement("div");
+ menu.className="fp-queue-menu";
+ menu.setAttribute("role","menu");
+ menu.setAttribute("aria-label","Şarkı seçenekleri");
+ menu.innerHTML=`
+  <button role="menuitem" data-fpq-action="remove"><span>${ic("trash")}</span>Sıradan Kaldır</button>
+  <div class="fpq-separator"></div>
+  <button role="menuitem" data-fpq-action="album"><span>${ic("album")}</span>Albümde Gör</button>
+  <button role="menuitem" data-fpq-action="artist"><span>${ic("person")}</span>Sanatçıya Git</button>
+  <button role="menuitem" data-fpq-action="favorite"><span>${ic(isFav?"heartFill":"heart")}</span>${isFav?"Favorilerden Çıkar":"Favorilere Ekle"}</button>
+  <div class="fpq-separator"></div>
+  <div class="fpq-sub-wrap"><button class="fpq-sub-trigger" role="menuitem" data-fpq-action="playlist"><span>${ic("plus")}</span>Listeye Ekle<span class="fpq-chevron">›</span></button>
+   <div class="fpq-submenu">${state.playlists.length?state.playlists.map(pl=>`<button role="menuitem" data-fpq-playlist="${pl.id}"><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h11"/></svg></span>${escapeHTML(pl.name)}</button>`).join(""):`<div class="fpq-empty">Henüz çalma listesi yok</div>`}
+   </div>
+  </div>`;
+ document.body.appendChild(menu);fpQueueMenu=menu;
+ if(button?.id==="fpMobileMore")button.setAttribute("aria-expanded","true");
+ const r=button.getBoundingClientRect(),mw=menu.offsetWidth,mh=menu.offsetHeight;
+ const vv=window.visualViewport;
+ const viewTop=vv?vv.offsetTop:0,viewHeight=vv?vv.height:window.innerHeight;
+ const left=Math.max(12,Math.min(window.innerWidth-mw-12,r.right-mw));
+ const preferredTop=r.bottom-mh-8;
+ const top=Math.max(viewTop+12,Math.min(viewTop+viewHeight-mh-12,preferredTop));
+ menu.style.left=left+"px";menu.style.top=top+"px";
+ menu.addEventListener("pointerdown",e=>e.stopPropagation());
+ menu.addEventListener("click",async e=>{
+  e.stopPropagation();
+  const action=e.target.closest("[data-fpq-action]")?.dataset.fpqAction;
+  const playlistId=e.target.closest("[data-fpq-playlist]")?.dataset.fpqPlaylist;
+  if(playlistId){
+   const pl=state.playlists.find(x=>x.id===playlistId);
+   if(pl&&!pl.tracks.includes(track.id)){pl.tracks.push(track.id);savePlaylists();notify("Şarkı listeye eklendi.");}
+   else if(pl)notify("Bu şarkı zaten listede.");
+   closeFPQueueMenu();return;
+  }
+  if(!action)return;
+  if(action==="playlist"){menu.classList.toggle("show-sub");return;}
+  if(action==="remove"){
+   const wasCurrent=index===state.queueIndex;
+   state.queue.splice(index,1);
+   if(index<state.queueIndex)state.queueIndex--;
+   else if(wasCurrent){
+    if(state.queue.length){state.queueIndex=Math.min(index,state.queue.length-1);playTrack(state.queue[state.queueIndex],false);}
+    else{state.queueIndex=-1;state.current=null;audio.pause();audio.removeAttribute("src");updatePlayer();}
+   }
+   renderQueue();notify("Şarkı sıradan kaldırıldı.");
+  }else if(action==="album"){
+   window.closeFullPlayer?.();
+   navigate("detail",{type:"album",value:albumOf(track)});
+  }else if(action==="artist"){
+   window.closeFullPlayer?.();
+   navigate("detail",{type:"artist",value:artistOf(track)});
+  }else if(action==="favorite"){
+   track.favorite=!track.favorite;
+   await dbAction("readwrite","put",track);
+   updatePlayer();render();
+   notify(track.favorite?"Favorilere eklendi.":"Favorilerden çıkarıldı.");
+  }
+  closeFPQueueMenu();
+ });
+}
+let fpMobileMenuPointerAt=0;
+function openMobileSongMenu(e){
+ e.preventDefault();
+ e.stopPropagation();
+ const track=state.current;if(!track)return;
+ let index=state.queue.findIndex(t=>t.id===track.id);
+ if(index<0){state.queue.push(track);index=state.queue.length-1;renderQueue();}
+ openFPQueueMenu(index,e.currentTarget);
+}
+$("fpMobileMore")?.addEventListener("pointerup",e=>{
+ fpMobileMenuPointerAt=Date.now();
+ openMobileSongMenu(e);
+});
+$("fpMobileMore")?.addEventListener("click",e=>{
+ if(e.detail&&Date.now()-fpMobileMenuPointerAt<500)return;
+ openMobileSongMenu(e);
+});
+document.addEventListener("pointerdown",e=>{if(fpQueueMenu&&!e.target.closest(".fp-queue-menu")&&!e.target.closest("[data-fp-queue-menu]")&&!e.target.closest("#fpMobileMore"))closeFPQueueMenu();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeFPQueueMenu();});
 async function clearLibrary() {
  if(!(await confirmSheet("Bütün müzikler silinecek. Bu işlem geri alınamaz.","Tüm Müzikleri Sil"))) return;
  const tracks=[...state.tracks];
@@ -2021,6 +2723,8 @@ function setBrowserThemeColor(color) {
   meta=document.createElement("meta");meta.name="theme-color";meta.id="dynamicThemeColor";document.head.appendChild(meta);
  }
  meta.content=color;
+ const favicon=document.getElementById("app-favicon");
+ if(favicon) favicon.href=document.body.classList.contains("dark")?"icon-dark.png":"icon-light.png";
 }
 function applyTheme(dark) {
  document.body.classList.toggle("dark",dark);
@@ -2037,10 +2741,22 @@ function setThemePref(p) {
 }
 function syncThemeSeg() {
  const seg=$("themeSeg");if(!seg) return;
- seg.style.setProperty("--i",["light","dark","system"].indexOf(themePref));
- seg.querySelectorAll("button").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.theme===themePref)));
+ const buttons=[...seg.querySelectorAll("button")];
+ buttons.forEach(b=>b.setAttribute("aria-checked",String(b.dataset.theme===themePref)));
+ const active=buttons.find(b=>b.dataset.theme===themePref),thumb=seg.querySelector(".seg-thumb");
+ if(active&&thumb){
+  const inset=Math.min(4,active.offsetWidth*.04);
+  seg.style.setProperty("--theme-thumb-x",(active.offsetLeft+inset)+"px");
+  seg.style.setProperty("--theme-thumb-w",Math.max(0,active.offsetWidth-inset*2)+"px");
+ }
 }
 darkMQ.addEventListener("change",()=>{if(themePref==="system") applyTheme(resolveDark());});
+window.addEventListener("resize",()=>requestAnimationFrame(syncThemeSeg),{passive:true});
+if("ResizeObserver" in window){
+ const themeSegObserver=new ResizeObserver(()=>requestAnimationFrame(syncThemeSeg));
+ const observeThemeSeg=()=>{const seg=$("themeSeg");if(seg)themeSegObserver.observe(seg);};
+ document.addEventListener("DOMContentLoaded",observeThemeSeg,{once:true});
+}
 function toggleTheme() {setThemePref(document.body.classList.contains("dark")?"light":"dark");}
 function iosSwitch(id,checked,label) {return `<label class="ios-switch"><input type="checkbox" role="switch" id="${id}" ${checked?"checked":""} aria-label="${label}"><i></i></label>`;}
 function openModal() {
@@ -2186,6 +2902,26 @@ $("coverInput").addEventListener("change",async e=>{
  renderEditCover();
  } catch(err) {notify("Görsel okunamadı.");}
 });
+$("editArtistImageChange").addEventListener("click",()=>$("artistImageInput").click());
+$("artistImageInput").addEventListener("change",async e=>{
+ const f=e.target.files[0];e.target.value="";
+ if(!f||!editing)return;
+ try{
+  const bmp=await createImageBitmap(f);
+  const scale=Math.min(1,700/Math.max(bmp.width,bmp.height));
+  const c=document.createElement("canvas");c.width=Math.round(bmp.width*scale);c.height=Math.round(bmp.height*scale);
+  c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);bmp.close?.();
+  editing.newArtistImage=c.toDataURL("image/jpeg",.82);
+  renderEditArtistCover();
+ }catch(err){notify("Sanatçı görseli okunamadı.");}
+});
+$("editArtistImageRemove").addEventListener("click",()=>{
+ const name=$("editArtistInput").value.trim()||DEFAULT_ARTIST;
+ delete artistImages[name];editing.newArtistImage=null;
+ try{localStorage.setItem("music-artist-images",JSON.stringify(artistImages));}catch(e){}
+ renderEditArtistCover();
+});
+$("editArtistInput").addEventListener("input",renderEditArtistCover);
 $("editCoverChange").addEventListener("click",()=>$("coverInput").click());
 $("editCoverRemove").addEventListener("click",()=>{
  if(editing.newCoverUrl) URL.revokeObjectURL(editing.newCoverUrl);
@@ -2227,15 +2963,48 @@ function syncFullscreenBrowserColor(){
  const fp=$("fp"),mq=matchMedia("(max-width:760px)");
  [["fpFav","heart"],["fpPrev","prev"],["fpPlay","play"],["fpNext","next"],["fpVolLo","volume"],["fpVolHi","volume"],["fpShuffle","shuffle"],["fpRepeat","repeat"],["fpQueue","list"]].forEach(([i,n])=>$(i).innerHTML=ic(n));
  const open=()=>{if(!state.current)return;syncFull();fp.classList.add("open");fp.setAttribute("aria-hidden","false");syncFullscreenBrowserColor();$("fpClose").focus({preventScroll:true});};
- window.openFull=open;const close=()=>{fp.classList.remove("open");fp.setAttribute("aria-hidden","true");setBrowserThemeColor(document.body.classList.contains("dark")?"#111113":"#f5f5f7");};
+ window.openFull=open;const close=()=>{fp.classList.remove("open");fp.setAttribute("aria-hidden","true");setBrowserThemeColor(document.body.classList.contains("dark")?"#111113":"#f5f5f7");};window.closeFullPlayer=close;
+ const fpColors=t=>{
+   const def=["#5b3a7a","#c2466a","#2a2a3a"],set=c=>{c.forEach((v,i)=>fp.style.setProperty("--fp-c"+(i+1),v));};
+   if(!t.cover){set(def);return;}
+   const im=new Image();
+   im.onload=()=>{
+    if(fp.dataset.tid!==String(t.id))return;
+    const cv=document.createElement("canvas");cv.width=cv.height=24;
+    const cx=cv.getContext("2d",{willReadFrequently:true});cx.drawImage(im,0,0,24,24);
+    const d=cx.getImageData(0,0,24,24).data,bk={};
+    for(let i=0;i<d.length;i+=4){
+     const r=d[i],g=d[i+1],b=d[i+2],mx=Math.max(r,g,b),mn=Math.min(r,g,b),sat=mx?(mx-mn)/mx:0,l=(r+g+b)/3;
+     if(l<25||l>245)continue;
+     const k=(r>>5)+","+(g>>5)+","+(b>>5),o=bk[k]||(bk[k]={r:0,g:0,b:0,n:0}),w=.3+sat;
+     o.r+=r*w;o.g+=g*w;o.b+=b*w;o.n+=w;
+    }
+    const list=Object.values(bk).map(o=>({r:o.r/o.n,g:o.g/o.n,b:o.b/o.n,s:o.n})).sort((a,b)=>b.s-a.s),pick=[];
+    for(const c of list){if(pick.every(p=>Math.hypot(p.r-c.r,p.g-c.g,p.b-c.b)>60))pick.push(c);if(pick.length===3)break;}
+    if(!pick.length){set(def);return;}
+    while(pick.length<3)pick.push(pick[pick.length-1]);
+    set(pick.map(c=>`rgb(${c.r|0},${c.g|0},${c.b|0})`));
+   };
+   im.onerror=()=>set(def);im.src=t.cover;
+ };
  window.syncFull=function(){
   const t=state.current;if(!t)return;
   if(fp.dataset.tid!==String(t.id)){
-   fp.dataset.tid=t.id;
-   if(fp.classList.contains("open"))syncFullscreenBrowserColor();
-   $("fpTitle").textContent=t.title;$("fpArtist").textContent=artistOf(t);
-   $("fpArt").innerHTML=t.cover?`<img src="${t.cover}" alt="">`:noteArt();
-   $("fpBg").style.backgroundImage=t.cover?`url("${t.cover}")`:"";
+    const first=!fp.dataset.tid;
+    fp.dataset.tid=t.id;
+    if(fp.classList.contains("open"))syncFullscreenBrowserColor();
+    const artEl=$("fpArt"),txt=document.querySelector(".fp-txt");
+    const oldArt=artEl.innerHTML,oldTitle=$("fpTitle").textContent,oldArtist=$("fpArtist").textContent;
+    $("fpTitle").textContent=t.title;$("fpArtist").textContent=artistOf(t);
+    artEl.innerHTML=t.cover?`<img src="${t.cover}" alt="">`:noteArt();
+    if(!first){
+     const o=document.createElement("div");o.className="fp-old";o.innerHTML=oldArt;artEl.appendChild(o);setTimeout(()=>o.remove(),800);
+     const ot=document.createElement("div");ot.className="fp-old-txt";
+     ot.innerHTML=`<div class="fp-title">${escapeHTML(oldTitle)}</div><div class="fp-artist">${escapeHTML(oldArtist)}</div>`;
+     txt.appendChild(ot);setTimeout(()=>ot.remove(),600);
+     artEl.classList.remove("fp-in");txt.classList.remove("fp-in");void artEl.offsetWidth;artEl.classList.add("fp-in");txt.classList.add("fp-in");
+    }
+    fpColors(t);
   }
   fp.classList.toggle("playing",!audio.paused);
   setIcon($("fpPlay"),audio.paused?"play":"pause");
@@ -2258,12 +3027,33 @@ function syncFullscreenBrowserColor(){
  $("fpProgress").addEventListener("input",e=>{$("progress").value=e.target.value;$("progress").dispatchEvent(new Event("input"));paint(e.target);});
  $("fpVol").addEventListener("input",e=>{$("volume").value=e.target.value;$("volume").dispatchEvent(new Event("input"));paint(e.target);});
  paint($("fpVol"));paint($("fpProgress"));
- document.querySelector(".now-playing").addEventListener("click",e=>{if(e.target.closest("button")||!mq.matches)return;open();});
+ document.querySelector(".now-playing").addEventListener("click",e=>{if(e.target.closest("button"))return;open();});
  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&fp.classList.contains("open"))close();});
  let y0=null,dy=0;
- $("fpWrap").addEventListener("touchstart",e=>{if(e.target.closest("input"))return;y0=e.touches[0].clientY;dy=0;},{passive:true});
+ $("fpWrap").addEventListener("touchstart",e=>{if(fpQueueView==="lyrics"||e.target.closest("input,.fp-queue.view-lyrics"))return;y0=e.touches[0].clientY;dy=0;},{passive:true});
  $("fpWrap").addEventListener("touchmove",e=>{if(y0===null)return;dy=Math.max(0,e.touches[0].clientY-y0);fp.style.transition="none";fp.style.transform=`translateY(${dy}px)`;},{passive:true});
  $("fpWrap").addEventListener("touchend",()=>{if(y0===null)return;y0=null;fp.style.transition="";fp.style.transform="";if(dy>120)close();});
+ const lyricsSheet=document.querySelector(".fp-queue"),lyricsPanel=$("fpLyricsPanel");
+ let lyricsY=null,lyricsDY=0,lyricsDragOrigin=null,lyricsDragging=false;
+ lyricsSheet?.addEventListener("touchstart",e=>{
+  if(!mq.matches||!lyricsSheet.classList.contains("view-lyrics"))return;
+  lyricsY=e.touches[0].clientY;lyricsDY=0;lyricsDragOrigin=null;lyricsDragging=false;e.stopPropagation();
+ },{passive:true});
+ lyricsSheet?.addEventListener("touchmove",e=>{
+  if(lyricsY===null)return;
+  const y=e.touches[0].clientY;
+  if(!lyricsDragging&&lyricsPanel?.scrollTop>0)return;
+  if(!lyricsDragOrigin)lyricsDragOrigin=y;
+  lyricsDY=Math.max(0,y-lyricsDragOrigin);
+  if(!lyricsDY)return;
+  lyricsDragging=true;
+  e.preventDefault();e.stopPropagation();lyricsSheet.style.transition="none";lyricsSheet.style.transform=`translateY(${lyricsDY}px)`;
+ },{passive:false});
+ lyricsSheet?.addEventListener("touchend",e=>{
+  if(lyricsY===null)return;
+  e.stopPropagation();const shouldClose=lyricsDragging&&lyricsDY>120;lyricsY=null;lyricsDY=0;lyricsDragOrigin=null;lyricsDragging=false;lyricsSheet.style.transition="";lyricsSheet.style.transform="";
+  if(shouldClose)closeLyricsSheet();
+ });
 })();
 /* ===== Geri dönüş belleği: kenardan kaydırarak geri, sıra panelinden oynatıcıya dönüş ===== */
 (function(){
@@ -2364,7 +3154,7 @@ function syncFullscreenBrowserColor(){
  };
 })();
 /* ===== Arşiv (düzenleme modu), En Çok Dinlenenler, liste görseli ===== */
-const LIBROWS={playlists:["list","Listeler"],albums:["album","Albümler"],songs:["note","Parçalar"],manage:["download","İndirilenler"],artists:["mic","Sanatçılar"]};
+const LIBROWS={playlists:["list","Listeler"],albums:["album","Albümler"],songs:["noteSingle","Parçalar"],manage:["download","İndirilenler"],artists:["mic","Sanatçılar"]};
 function libCfg() {
  let c={};try{c=JSON.parse(localStorage.getItem("music-lib")||"{}");}catch(e){}
  c.rows=(c.rows||[]).filter(k=>LIBROWS[k]);Object.keys(LIBROWS).forEach(k=>{if(!c.rows.includes(k))c.rows.push(k);});
@@ -2391,7 +3181,7 @@ function libraryPage() {
  <div class="lib-tiles" id="libTiles">${libTileIds(c).map(libTile).join("")}</div>
  <div class="lib-list" id="libList">${rows.map((k,i)=>edit?
   `<div class="lib-row edit ${enter?"enter":""} ${c.hidden.includes(k)?"off":""}" style="--i:${i}" data-key="${k}"><button class="lib-check ${c.hidden.includes(k)?"":"on"}" data-toggle="${k}" aria-label="${LIBROWS[k][1]} göster/gizle">${ic("check")}</button><span>${LIBROWS[k][1]}</span><span class="lib-handle" role="button" tabindex="0" aria-label="Sırala: ${LIBROWS[k][1]}">${ic("menu")}</span></div>`:
-  `<button class="lib-row" data-lib="${k}">${k==="songs"?'<span class="lib-ico"><span class="note-art" aria-hidden="true"></span></span>':ic(LIBROWS[k][0])}<span>${LIBROWS[k][1]}</span>${ic("forward")}</button>`).join("")}</div>
+  `<button class="lib-row" data-lib="${k}">${ic(LIBROWS[k][0])}<span>${LIBROWS[k][1]}</span>${ic("forward")}</button>`).join("")}</div>
  ${edit?"":`<div class="section-head"><h2>Son Eklenenler</h2>${recent.length?'<button class="text-button" data-lib="recent">Tümünü Göster</button>':""}</div>
  ${recent.length?`<div class="grid">${recent.map(t=>card(t,"album")).join("")}</div>`:emptyHTML("Henüz müzik yok","Müzik dosyalarını ekleyerek kitaplığını oluştur.")}`}`;
 }
@@ -2443,13 +3233,10 @@ function libraryPage() {
   counted=t.id;const p=ld(PK,{});p[t.id]=(p[t.id]||0)+1;try{localStorage.setItem(PK,JSON.stringify(p));}catch(e){}
  });
  window.topTen=function(){
-  const pl=ld(PK,{});let s=ld(TK,null);const n=Date.now();
-  if(!s||n-s.ts>3*864e5||(s.ids.length<10&&Object.keys(pl).length>s.ids.length)){
-   const ts=(s&&n-s.ts<=3*864e5)?s.ts:n;
-   s={ts,ids:Object.entries(pl).sort((a,b)=>b[1]-a[1]).slice(0,10).map(e=>e[0])};
-   try{localStorage.setItem(TK,JSON.stringify(s));}catch(e){}
-  }
-  return s.ids.map(id=>state.tracks.find(t=>t.id===id)).filter(Boolean);
+  const pl=ld(PK,{});
+  if(!window.__topIds||(!window.__topIds.length&&Object.keys(pl).length))
+   window.__topIds=Object.entries(pl).sort((a,b)=>b[1]-a[1]).slice(0,10).map(e=>e[0]);
+  return window.__topIds.map(id=>state.tracks.find(t=>t.id===id)).filter(Boolean);
  };
  /* çalma listesi görseli (kare kırpma) */
  const squareCrop=file=>new Promise((res,rej)=>{
@@ -2466,7 +3253,7 @@ function libraryPage() {
 })();
 function homePage() {
  const top=window.topTen?topTen():[];
- return homePageBase()+(top.length?`<div class="section-head"><h2>En Çok Dinlenenler</h2></div><div class="top-sub">3 günde bir güncellenir</div><div>${top.map(songRow).join("")}</div>`:"");
+ return homePageBase()+(top.length?`<div class="section-head"><h2>En Çok Dinlenenler</h2></div><div class="top-sub">Her açılışta güncellenir</div><div>${top.map(songRow).join("")}</div>`:"");
 }
 /* ===== Arşiv alt sayfaları: filtre / sıralama ===== */
 window.__lf="all";window.__ls=null;
@@ -2504,13 +3291,25 @@ function iosMenu(anchor,items) {
  const cap=document.createElement("div");cap.className="sub-capsule";cap.id="subCapsule";
  cap.innerHTML=`<button id="subFilter" aria-label="Filtrele">${ic("menu")}</button><button id="subSort" aria-label="Sırala">${ic("more")}</button>`;
  document.querySelector(".topbar").appendChild(cap);
- $("subFilter").addEventListener("click",e=>{e.stopPropagation();iosMenu($("subFilter"),[
-  {label:"Tüm Parçalar",checked:window.__lf==="all",run:()=>{window.__lf="all";render();}},
-  {label:"Favoriler",checked:window.__lf==="fav",run:()=>{window.__lf="fav";render();}}]);});
- $("subSort").addEventListener("click",e=>{e.stopPropagation();iosMenu($("subSort"),[
-  {label:"Ad",checked:window.__ls==="name",run:()=>{window.__ls="name";render();}},
-  {label:"Ekleme Tarihi",checked:window.__ls==="added",run:()=>{window.__ls="added";render();}},
-  {label:"Sanatçı",checked:window.__ls==="artist",run:()=>{window.__ls="artist";render();}}]);});
+ $("subFilter").addEventListener("click",e=>{
+  e.stopPropagation();const page=state.page;let items=[
+   {label:"Tüm Parçalar",checked:window.__lf==="all",run:()=>{window.__lf="all";render();}},
+   {label:"Favoriler",checked:window.__lf==="fav",run:()=>{window.__lf="fav";render();}}
+  ];
+  if(page==="playlists")items=[{label:"Yeni Çalma Listesi",run:()=>openModal()}];
+  else if(page==="albums"||page==="artists")items=[{label:"Tümünü Göster",run:()=>{window.__lf="all";render();}}];
+  else if(page==="favorites")items=[{label:"Favori Parçalar",checked:true,run:()=>render()}];
+  iosMenu($("subFilter"),items);
+ });
+ $("subSort").addEventListener("click",e=>{
+  e.stopPropagation();const page=state.page;let items=[
+   {label:"Ad",checked:window.__ls==="name",run:()=>{window.__ls="name";render();}},
+   {label:"Ekleme Tarihi",checked:window.__ls==="added",run:()=>{window.__ls="added";render();}},
+   {label:"Sanatçı",checked:window.__ls==="artist",run:()=>{window.__ls="artist";render();}}
+  ];
+  if(page==="playlists"||page==="albums"||page==="artists")items=[{label:"Ada Göre",checked:window.__ls==="name",run:()=>{window.__ls="name";render();}},{label:"Varsayılan Sıra",checked:!window.__ls,run:()=>{window.__ls=null;render();}}];
+  iosMenu($("subSort"),items);
+ });
  document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("libMenu")?.remove();});
 })();
 /* ===== Sekme başına gezinme belleği ===== */
@@ -2640,6 +3439,30 @@ $("page").addEventListener("click",e=>{
  document.addEventListener("wheel",e=>{if(isMobile()&&(e.ctrlKey||e.metaKey))e.preventDefault();},{passive:false});
 })();
 
+/* ===== Ana Sayfa: doğrudan oynatan kartlar + kapak mozaiği ===== */
+var __mos=null;
+function trackCard(t) {
+ return `<div class="card" tabindex="0" role="button" data-song="${t.id}">${coverHTML(t)}
+ <div class="card-title">${escapeHTML(t.title)}</div><div class="card-sub">${escapeHTML(artistOf(t))}</div></div>`;
+}
+function heroMosaic() {
+ const covers=[...new Set(state.tracks.map(t=>t.cover).filter(Boolean))];
+ if(!covers.length) return `<div class="hero-mosaic" aria-hidden="true">${"<i></i>".repeat(20)}</div>`;
+ if(!__mos||__mos.n!==covers.length){
+  const pool=[...covers].sort(()=>Math.random()-.5).slice(0,10),order=[];
+  while(order.length<20) [...pool.keys()].sort(()=>Math.random()-.5).forEach(i=>{if(order.length<20)order.push(i);});
+  __mos={n:covers.length,pool,order};
+ }
+ const vars=__mos.pool.map((c,i)=>`--c${i}:url('${c}')`).join(";");
+ return `<div class="hero-mosaic" aria-hidden="true" style="${vars}">${__mos.order.map(i=>`<i style="background:var(--c${i}) center/cover"></i>`).join("")}</div>`;
+}
+/* Yan çubuk, mini oynatıcının gerçek yüksekliğine göre üstte kalır */
+(function(){
+ const pl=document.querySelector(".player");if(!pl||!window.ResizeObserver)return;
+ const set=()=>document.documentElement.style.setProperty("--player-real",pl.offsetHeight+"px");
+ new ResizeObserver(set).observe(pl);set();
+})();
 </script>
 </body>
 </html>
+
