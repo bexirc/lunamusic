@@ -3761,48 +3761,53 @@ function heroMosaic() {
  new ResizeObserver(set).observe(pl);set();
 })();
 
-/* iOS-style text focus: center the active field in the space left above the keyboard. */
+/* iOS keyboard layout: center the active field inside the actual visible viewport. */
 (function(){
  const vv=window.visualViewport;
+ const selectors="#modalInput,#editTitleInput,#editArtistInput,#editAlbumInput,#editLyricsInput";
  const mobile=()=>matchMedia("(max-width:760px)").matches;
- function updateViewport(){
+ let raf=0,focusTimer=0;
+ function syncViewport(){
+  const top=vv?Math.max(0,vv.offsetTop):0;
   const height=vv?vv.height:window.innerHeight;
+  document.documentElement.style.setProperty("--app-visual-top",top+"px");
   document.documentElement.style.setProperty("--app-visual-height",Math.max(240,height)+"px");
  }
- function centerField(field){
-  if(!mobile()||!field)return;
-  const modal=field.closest(".modal");
-  if(!modal)return;
+ function centerActive(){
+  if(!mobile())return;
+  const field=document.activeElement;
+  if(!field?.matches?.(selectors))return;
+  const modal=field.closest(".modal"),backdrop=field.closest(".modal-backdrop");
+  if(!modal||!backdrop)return;
+  syncViewport();
   requestAnimationFrame(()=>{
-   updateViewport();
    const mr=modal.getBoundingClientRect(),fr=field.getBoundingClientRect();
-   const visibleTop=Math.max(mr.top, vv?vv.offsetTop:0)+12;
-   const visibleBottom=Math.min(mr.bottom, (vv?vv.offsetTop+vv.height:window.innerHeight))-12;
-   const center=(visibleTop+visibleBottom)/2;
-   const fieldCenter=(fr.top+fr.bottom)/2;
-   modal.scrollTop+=fieldCenter-center;
+   const top=Math.max(mr.top,(vv?vv.offsetTop:0))+16;
+   const bottom=Math.min(mr.bottom,(vv?vv.offsetTop+vv.height:window.innerHeight))-16;
+   if(bottom<=top)return;
+   const desired=(top+bottom)/2;
+   const actual=(fr.top+fr.bottom)/2;
+   const delta=actual-desired;
+   if(Math.abs(delta)>2)modal.scrollTop+=delta;
   });
  }
  document.addEventListener("focusin",e=>{
-  if(e.target.matches("#modalInput,#editTitleInput,#editArtistInput,#editAlbumInput,#editLyricsInput")){
-   setTimeout(()=>centerField(e.target),80);
+  if(e.target.matches(selectors)){
+   clearTimeout(focusTimer);
+   focusTimer=setTimeout(centerActive,100);
   }
  });
  if(vv){
-  vv.addEventListener("resize",updateViewport,{passive:true});
-  vv.addEventListener("scroll",()=>{
-   updateViewport();
-   const active=document.activeElement;
-   if(active?.matches?.("#modalInput,#editTitleInput,#editArtistInput,#editAlbumInput,#editLyricsInput"))centerField(active);
-  },{passive:true});
+  vv.addEventListener("resize",()=>{syncViewport();cancelAnimationFrame(raf);raf=requestAnimationFrame(centerActive);},{passive:true});
+  vv.addEventListener("scroll",()=>{syncViewport();cancelAnimationFrame(raf);raf=requestAnimationFrame(centerActive);},{passive:true});
  }
- window.addEventListener("resize",updateViewport,{passive:true});
+ window.addEventListener("resize",()=>{syncViewport();centerActive();},{passive:true});
  const lyrics=$("editLyricsInput");
  if(lyrics){
   const grow=()=>{lyrics.style.height="auto";lyrics.style.height=Math.max(132,lyrics.scrollHeight)+"px";};
   lyrics.addEventListener("input",grow);lyrics.addEventListener("change",grow);grow();
  }
- updateViewport();
+ syncViewport();
 })();
 </script>
 
@@ -3949,5 +3954,107 @@ function heroMosaic() {
 }
 @media(prefers-reduced-motion:reduce){
  .modal-backdrop .modal,.fp .fp-queue.view-lyrics,.queue-panel{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
+</style>
+
+
+<style id="ios-stability-repair-v4">
+@media(max-width:760px){
+ /* Keyboard: keep the dialog inside Safari's real visible viewport, without a fake focus screen. */
+ .modal-backdrop.show{
+  position:fixed!important;
+  top:var(--app-visual-top,0px)!important;
+  left:0!important;right:0!important;
+  height:var(--app-visual-height,100dvh)!important;
+  min-height:0!important;
+  max-height:var(--app-visual-height,100dvh)!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:12px 12px max(12px,env(safe-area-inset-bottom))!important;
+  overflow:hidden!important;
+ }
+ .modal-backdrop.show>.modal{
+  width:min(100%,520px)!important;
+  max-height:calc(var(--app-visual-height,100dvh) - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
+  min-height:0!important;
+  margin:auto!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior:contain!important;
+  scroll-behavior:smooth;
+ }
+ .modal-backdrop.show .modal input:not([type=file]),
+ .modal-backdrop.show .modal textarea,
+ .modal-backdrop.show .modal select{
+  font-size:16px!important;
+  scroll-margin-block:45vh!important;
+ }
+ /* Queue is a real iOS bottom sheet, not a narrow right-side drawer. */
+ #queuePanel.queue-panel{
+  position:fixed!important;
+  z-index:120!important;
+  left:8px!important;right:8px!important;
+  top:auto!important;
+  bottom:max(10px,env(safe-area-inset-bottom))!important;
+  width:auto!important;
+  max-width:none!important;
+  height:min(72dvh,620px)!important;
+  max-height:calc(var(--app-visual-height,100dvh) - 28px - env(safe-area-inset-top))!important;
+  box-sizing:border-box!important;
+  padding:18px 18px calc(16px + env(safe-area-inset-bottom))!important;
+  border:1px solid rgba(255,255,255,.13)!important;
+  border-radius:26px!important;
+  background:rgba(35,35,39,.96)!important;
+  -webkit-backdrop-filter:blur(28px) saturate(160%)!important;
+  backdrop-filter:blur(28px) saturate(160%)!important;
+  box-shadow:0 18px 55px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.10)!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  transform:translate3d(0,calc(100% + 24px),0)!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  transition:transform .48s cubic-bezier(.22,.68,0,1),opacity .28s ease,visibility 0s linear .48s!important;
+  will-change:transform,opacity;
+ }
+ #queuePanel.queue-panel::before{
+  content:"";display:block;width:38px;height:5px;border-radius:99px;
+  background:rgba(255,255,255,.34);margin:0 auto 16px;
+ }
+ #queuePanel.queue-panel.show{
+  transform:translate3d(0,0,0)!important;
+  opacity:1!important;visibility:visible!important;
+  transition:transform .48s cubic-bezier(.22,.68,0,1),opacity .28s ease,visibility 0s!important;
+ }
+ #queuePanel.queue-panel.is-closing{
+  transform:translate3d(0,calc(100% + 24px),0)!important;
+  opacity:0!important;visibility:hidden!important;pointer-events:none!important;
+ }
+ #queuePanel .queue-head{position:sticky;top:0;z-index:2;padding:2px 0 12px;background:rgba(35,35,39,.88);backdrop-filter:blur(16px)}
+ #queuePanel .queue-track{min-height:58px;border-radius:12px;padding:9px 8px}
+ #queueScrim{z-index:119!important;background:rgba(0,0,0,.36)!important;backdrop-filter:blur(2px)}
+ /* Player sheets use the same spring curve and avoid conflicting inline transforms. */
+ .fp .fp-queue.view-lyrics{
+  transition:transform .48s cubic-bezier(.22,.68,0,1),opacity .28s ease!important;
+  will-change:transform,opacity;
+  touch-action:pan-y;
+ }
+ .fp .fp-queue.view-lyrics.lyrics-closing{
+  transform:translate3d(0,calc(100% + 28px),0)!important;
+  opacity:0!important;
+ }
+ .fp .fp-queue.view-lyrics #fpLyricsPanel{
+  overscroll-behavior-y:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+ }
+ .player,.mobile-nav{transform:translateZ(0);backface-visibility:hidden}
+}
+@media(prefers-reduced-motion:reduce){
+ #queuePanel.queue-panel,.fp .fp-queue.view-lyrics,.modal-backdrop.show>.modal{
+  transition-duration:.01ms!important;animation-duration:.01ms!important;
+ }
 }
 </style>
