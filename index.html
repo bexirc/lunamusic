@@ -2125,8 +2125,10 @@ async function looksLikeAudioFile(file){
  }catch(_){return false;}
 }
 async function importFiles(files) {
- await ensureMusicStorage();
+ /* FileList is live in iOS Safari. Snapshot it before any await or input reset. */
  const selected=Array.from(files||[]).filter(f=>f&&typeof f.size==="number");
+ if(!selected.length){notify("Dosya seçimi alınamadı. Dosyayı yeniden seç.");return;}
+ await ensureMusicStorage();
  const list=[];
  for(const file of selected)if(await looksLikeAudioFile(file))list.push(file);
  if(!list.length){
@@ -3106,7 +3108,10 @@ function savePlaylists() {
  try {localStorage.setItem("music-playlists",JSON.stringify(state.playlists));} catch(e) {}
 }
 $("fileInput").addEventListener("change",e=>{
- importFiles(e.target.files);e.target.value="";
+ const input=e.currentTarget;
+ const selected=Array.from(input.files||[]);
+ input.value="";
+ if(selected.length)importFiles(selected);
 });
 $("playBtn").addEventListener("click",()=>{
  if(!state.current) {
