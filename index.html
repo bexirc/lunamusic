@@ -5,16 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <title>Music</title>
-<meta name="application-name" content="Music">
-<meta name="apple-mobile-web-app-title" content="Music">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="color-scheme" content="light dark">
-<link rel="icon" href="./favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
-<link rel="manifest" href="./manifest.webmanifest">
 <style>
 :root {
  --bg:#f5f5f7;
@@ -594,7 +585,6 @@ body.dark .song-more.danger{color:#ff6b61}
  .mobile-nav{left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:calc(8px + env(safe-area-inset-bottom));height:var(--tab-h);border-radius:999px;border:0;padding:0 6px;background:var(--glass-strong);box-shadow:inset 0 0 0 .5px var(--line),0 8px 28px color-mix(in srgb,CanvasText 14%,transparent);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
  .mobile-nav button{height:54px;min-width:44px;border-radius:999px;font-size:.625rem;font-weight:500;gap:2px;transition:color .3s var(--spring)}
  .mobile-nav button.active{color:var(--accent);font-weight:700;background:var(--hover)}
- .nav-pill{display:none!important}
  .player{left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:calc(var(--tab-h) + 16px + env(safe-area-inset-bottom));height:60px;min-height:60px;border-radius:999px;border:0;padding:0 8px;background:var(--panel);box-shadow:inset 0 0 0 .5px var(--line),0 4px 16px color-mix(in srgb,CanvasText 10%,transparent);-webkit-backdrop-filter:none;backdrop-filter:none}
  .now-cover{width:44px;height:44px;border-radius:50%}
  .now-title{font-size:.9375rem;font-weight:500}
@@ -703,8 +693,8 @@ button{transition:transform .35s var(--ios),background-color .25s ease,color .25
 }
 /* ===== Mobil: üst çubuk, arama, sekmeler ===== */
 @media(max-width:760px){
- body:not([data-page="home"]) .top-actions .profile{display:none!important}
- body:not([data-page="home"]):not([data-page="search"]):not(.sub) .topbar{display:none}
+ body:not([data-page="home"]):not([data-page="library"]) .top-actions .profile{display:none!important}
+ body:not([data-page="home"]):not([data-page="library"]):not([data-page="search"]):not(.sub) .topbar{display:none}
  body.sub .topbar{display:flex;justify-content:flex-start}
  body.sub .top-actions{display:none}
  body.sub #backBtn{display:grid;color:var(--accent)}
@@ -774,6 +764,208 @@ body:not([data-page="home"]) #addMusicBtn{display:none}
  body[data-page="home"] #page>h1{padding-right:112px}
  body[data-page="home"] .top-actions{gap:8px}
 }
+:root{--note-mask:url("data:image/png;base64,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")}
+/* ===== Kapaksız şarkı simgesi (kullanıcı nota görseli) + sekme kayma efektleri ===== */
+.note-art{display:block;width:var(--na,56%);aspect-ratio:1;background:currentColor;-webkit-mask:var(--note-mask) center/contain no-repeat;mask:var(--note-mask) center/contain no-repeat}
+.cover-placeholder{--na:54%}
+.detail-cover{--na:54%}
+.now-cover{--na:62%}
+.song-cover{--na:62%}
+.fp-art{--na:46%}
+@keyframes slideFwd{from{opacity:0;transform:translateX(44px)}to{opacity:1;transform:none}}
+@keyframes slideBack{from{opacity:0;transform:translateX(-44px)}to{opacity:1;transform:none}}
+#page.slide-fwd{animation:slideFwd .5s var(--ios)}
+#page.slide-back{animation:slideBack .5s var(--ios)}
+@media(max-width:760px){
+ .main{overflow-x:hidden}
+ .nav-pill{display:block!important}
+ .mobile-nav button.active{background:transparent}
+}
+/* ===== Yükleme çubuğu, seçim kilidi, çapraz geçiş, Arşiv ===== */
+.import-bar{display:none;flex-direction:column;justify-content:center;gap:7px;min-height:44px;margin:0 0 14px}
+body.importing .import-bar{display:flex}
+body.importing #page>h1{display:none}
+.import-bar b{font-size:.8125rem;font-weight:600;color:var(--muted)}
+.import-track{height:8px;border-radius:999px;background:var(--hover);overflow:hidden}
+.import-fill{height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--accent-fill),color-mix(in srgb,var(--accent-fill) 55%,white),var(--accent-fill)) 0 0/200% 100%;transition:width .5s var(--ios);animation:shimmer 1.2s linear infinite}
+@keyframes shimmer{to{background-position:-200% 0}}
+.fp-q{font-size:.75rem;font-weight:600;letter-spacing:.2px;color:rgba(255,255,255,.75)}
+.fp-title,.fp-artist{-webkit-touch-callout:none}
+.cf-row{gap:14px}
+.cf-row input[type=range]{flex:1;accent-color:var(--accent-fill)}
+.cf-row output{min-width:44px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.cf-row.off{opacity:.4;pointer-events:none}
+.lib-capsule{display:none}
+.lib-fav{display:grid;justify-items:center;margin:6px 0 20px}
+.lib-fav-tile{display:grid;gap:8px;justify-items:center;border:0;background:none;color:var(--text);font-size:.8125rem;font-weight:600;padding:0}
+.lib-star{width:118px;height:118px;border-radius:12px;background:#ececf0;display:grid;place-items:center;color:var(--accent-fill);box-shadow:0 2px 10px rgba(0,0,0,.14)}
+.lib-star .ic{width:54px;height:54px}
+.lib-row{position:relative;width:100%;display:flex;align-items:center;gap:14px;min-height:50px;border:0;background:none;color:var(--text);padding:0;font-size:1.3rem}
+.lib-row>.ic:first-child{width:24px;height:24px;color:var(--accent);flex-shrink:0}
+.lib-row>span{flex:1;text-align:left}
+.lib-row>.ic:last-child{width:14px;height:14px;color:var(--muted)}
+.lib-row::after{content:"";position:absolute;left:38px;right:0;bottom:0;border-bottom:1px solid var(--line)}
+.lib-h2{font-size:1.5rem;font-weight:800;margin:26px 0 12px}
+@media(max-width:760px){
+ html,body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+ input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+ .main{padding-top:calc(28px + env(safe-area-inset-top))}
+ body[data-page="home"] .topbar,body[data-page="library"] .topbar{position:absolute;top:calc(28px + env(safe-area-inset-top));right:max(20px,env(safe-area-inset-right));margin:0;z-index:2}
+ body[data-page="library"] .top-actions .profile{display:grid!important}
+ body[data-page="library"] .top-actions{gap:8px}
+ body[data-page="library"] #page>h1{min-height:44px;display:flex;align-items:center;margin:0 0 14px;padding-right:160px}
+ body[data-page="library"] .lib-capsule{display:flex;height:44px;border-radius:999px;background:var(--hover);padding:0 4px}
+ .lib-capsule button{width:42px;height:44px;border:0;background:none;color:var(--text);display:grid;place-items:center;padding:0}
+ .lib-capsule .ic{width:22px;height:22px}
+ body[data-page="library"]:not(.sub) .topbar{display:flex}
+ .queue-panel{transition:transform .5s var(--ios),visibility 0s linear .5s}
+ .queue-panel.show{transition:transform .5s var(--ios),visibility 0s}
+}
+/* ===== Arşiv düzenleme, Göz At sanatçı dairesi, menü, liste görseli ===== */
+[data-kind="artist"] .cover{border-radius:50%}
+.artist-strip{display:flex;gap:16px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:none}
+.artist-strip::-webkit-scrollbar{display:none}
+.artist-strip .card{flex:none;width:92px;text-align:center}
+.artist-strip .card-title{font-size:.8125rem;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.artist-strip .card-sub{display:none}
+.top-sub{font-size:.75rem;color:var(--muted);margin:-8px 0 10px}
+.lib-tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:18px 16px;margin:6px 0 20px}
+.lib-fav-tile{max-width:118px}
+.lib-fav-tile>span:last-child{max-width:118px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lib-star img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.lib-star{overflow:hidden}
+.lib-star .note-art{--na:56%}
+@keyframes wiggle{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(1.6deg)}}
+body.lib-edit .lib-fav-tile{animation:wiggle .28s ease-in-out infinite}
+body.lib-edit .lib-fav-tile.picked{animation:none;transform:scale(1.08);transition:transform .35s var(--ios)}
+body.lib-edit .lib-fav-tile.picked .lib-star{box-shadow:0 0 0 3px var(--accent-fill),0 10px 24px rgba(0,0,0,.25)}
+.lib-hint{text-align:center;font-size:.8125rem;color:var(--muted);margin:-8px 0 14px}
+.lib-row.edit{gap:12px;background:var(--bg)}
+.lib-row.edit.dragging{z-index:5;box-shadow:0 6px 20px rgba(0,0,0,.2);border-radius:10px;transform:scale(1.02);transition:transform .25s var(--ios)}
+.lib-check{width:26px;height:26px;border-radius:50%;border:2px solid var(--muted);background:none;padding:0;display:grid;place-items:center;color:transparent;flex-shrink:0;transition:background-color .25s ease,border-color .25s ease}
+.lib-check.on{background:var(--accent-fill);border-color:var(--accent-fill);color:#fff}
+.lib-check .ic{width:14px;height:14px;stroke-width:3}
+.lib-handle{width:44px;height:44px;display:grid;place-items:center;color:var(--muted);touch-action:none;flex:none!important}
+.lib-handle .ic{width:22px;height:22px}
+.lib-row.edit.off>span:nth-child(2){opacity:.45}
+.lib-done{display:none}
+.ios-menu{position:fixed;z-index:80;min-width:210px;padding:6px;border-radius:16px;background:var(--glass-strong);-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);box-shadow:0 12px 40px rgba(0,0,0,.3),inset 0 0 0 .5px var(--line);transform-origin:top right;animation:menuIn .28s var(--ios)}
+@keyframes menuIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.ios-menu button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:44px;padding:0 14px;border:0;background:none;color:var(--text);font-size:1.0625rem;border-radius:10px}
+.ios-menu button:active{background:var(--hover)}
+.ios-menu .ic{width:20px;height:20px}
+.pl-cover-pick{display:grid;place-items:center;margin:4px 0 14px}
+.pl-cover{width:120px;height:120px;aspect-ratio:1;border-radius:14px;border:0;background:var(--ph);color:var(--accent);font-weight:600;overflow:hidden;padding:0;display:grid;place-items:center}
+.pl-cover img{width:100%;height:100%;object-fit:cover}
+@media(max-width:760px){
+ .queue-panel{z-index:70}
+ body.lib-edit .main{padding-bottom:40px}
+ body.lib-edit .lib-capsule,body.lib-edit .top-actions .profile{display:none!important}
+ body.lib-edit .lib-done{display:block;color:var(--accent);font-weight:700;font-size:1.0625rem;min-height:44px;padding:0 6px}
+}
+/* ===== Arşiv alt sayfaları, düzenleme geçişi, yuvarlak seçim, erişilebilirlik ===== */
+*{-webkit-tap-highlight-color:transparent}
+.sub-capsule{display:none}
+.lib-row.edit.enter{animation:editIn .5s var(--ios) backwards;animation-delay:calc(var(--i,0)*45ms)}
+.lib-hint{animation:fadeIn .4s ease-out}
+@keyframes editIn{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+.lib-check{position:relative}
+.lib-check::after{content:"";position:absolute;inset:-9px}
+.ios-menu button[aria-checked=true]{font-weight:600}
+@media(prefers-reduced-motion:reduce){body.lib-edit .lib-fav-tile{animation:none}}
+@media(max-width:760px){
+ .mobile-nav,.player{transition:transform .5s var(--ios),opacity .35s ease}
+ body.lib-edit .mobile-nav{transform:translateY(170%);opacity:0;pointer-events:none}
+ body.lib-edit .player{transform:translateY(280%);opacity:0;pointer-events:none}
+ .crumb{display:none}
+ body.sub:is([data-page="songs"],[data-page="albums"],[data-page="artists"],[data-page="playlists"],[data-page="favorites"],[data-page="recent"]) .sub-capsule{display:flex;margin-left:auto;height:44px;border-radius:999px;background:var(--hover);padding:0 4px}
+ .sub-capsule button{width:42px;height:44px;border:0;background:none;color:var(--text);display:grid;place-items:center;padding:0}
+ .sub-capsule .ic{width:22px;height:22px}
+ .song{border-radius:14px;margin:0 -8px;padding:8px;transition:background-color .2s ease}
+ .song::after{left:64px;right:8px}
+ .song:active{background:var(--hover)}
+ .song:focus:not(:focus-visible){outline:none}
+ .card{border-radius:14px}
+}
+/* ===== Mobil alt bar ve mini oynatıcı ölçüleri ===== */
+@media(max-width:760px){
+ :root{--bar-x:30px;--tab-h:64px}
+ .mobile-nav{left:max(var(--bar-x),env(safe-area-inset-left));right:max(var(--bar-x),env(safe-area-inset-right))}
+ .mobile-nav button{font-size:.6875rem;gap:3px}
+ .mobile-nav button .ic{width:26px;height:26px}
+ .mobile-nav button>span:first-child{display:grid;place-items:center}
+ .player{left:max(var(--bar-x),env(safe-area-inset-left));right:max(var(--bar-x),env(safe-area-inset-right));height:52px;min-height:52px}
+ .now-cover{width:38px;height:38px}
+ .player .play-btn .ic,.player #nextBtn .ic{width:26px;height:26px}
+}
+/* ===== iOS geri tuşu, Parçalar nota simgesi ===== */
+.lib-row>.lib-ico{flex:none;width:24px;height:24px;display:grid;place-items:center;color:var(--accent)}
+.lib-ico .note-art{--na:78%}
+@media(max-width:760px){
+ body.sub .top-left{display:flex;align-items:center}
+ body.sub #backBtn{display:flex;align-items:center;gap:1px;width:auto;min-width:44px;height:44px;padding:0 10px 0 0;border-radius:999px;background:transparent;color:var(--accent);font-size:1.0625rem;font-weight:400;box-shadow:none}
+ body.sub #backBtn .ic{width:28px;height:28px;stroke-width:2.4}
+ body.sub #backBtn:active{opacity:.5}
+ body.sub #backBtn:disabled{opacity:1}
+}
+/* ===== apple-design-super denetimi ===== */
+.progress-row,.progress-row *{font-size:.75rem}
+.js-repeat[data-one="1"]::after{font-size:.6875rem}
+.fp-prog input,.fp-vol input{min-height:28px}
+.seg button{min-height:40px}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){
+ .ios-menu,.queue-panel,.modal{background:Canvas;-webkit-backdrop-filter:none;backdrop-filter:none}
+ .ios-menu,.lib-capsule,.sub-capsule{box-shadow:inset 0 0 0 1px CanvasText}
+ .lib-capsule,.sub-capsule{background:Canvas}
+ .seg-thumb{box-shadow:inset 0 0 0 1px CanvasText}
+}
+@media(max-width:760px){
+ body::before,body::after{content:"";position:fixed;left:0;right:0;pointer-events:none;z-index:4}
+ body::before{top:0;height:calc(env(safe-area-inset-top) + 14px);background:linear-gradient(var(--bg),transparent)}
+ body::after{bottom:0;height:calc(var(--tab-h) + env(safe-area-inset-bottom) + 70px);background:linear-gradient(transparent,color-mix(in srgb,var(--bg) 88%,transparent))}
+ body.lib-edit::after{opacity:0}
+}
+/* ===== apple-design-super 2. tur: sayfalar, basış durumları, metin boyutu ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.search{-webkit-appearance:none;appearance:none}
+@media(max-width:760px){
+ .queue-panel::before,.modal::before{content:"";display:block;width:36px;height:5px;border-radius:3px;background:color-mix(in srgb,CanvasText 28%,transparent);margin:0 auto 12px;flex:none}
+ .text-button:active,.lib-fav-tile:active,.lib-row:active,.round-btn:active,.fp-grab:active{opacity:.55}
+ .acct-card:active,button.acct-row:active{background:var(--hover)}
+ .lib-row,.lib-fav-tile,.text-button,.acct-card,button.acct-row{transition:opacity .15s ease,background-color .2s ease,transform .35s var(--ios)}
+ .mobile-nav{height:auto;min-height:var(--tab-h)}
+ .mobile-nav button{height:auto;min-height:54px;padding:4px 0}
+ .player{height:auto;min-height:52px}
+}
+/* ===== Eylem sayfası (action sheet) ===== */
+.as-back{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.4);display:flex;align-items:flex-end;justify-content:center;padding:0 max(10px,env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom));animation:fadeIn .25s ease-out}
+.as-box{width:min(100%,420px);display:grid;gap:8px;animation:sheetUp .5s var(--ios)}
+.as-card{border-radius:14px;overflow:hidden;background:var(--glass-strong);-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%)}
+.as-card p{margin:0;padding:14px 16px;text-align:center;font-size:.8125rem;color:var(--muted)}
+.as-card button{display:block;width:100%;min-height:56px;border:0;border-top:1px solid var(--line);background:none;color:var(--text);font-size:1.125rem}
+.as-card button:active{background:var(--hover)}
+.as-card .as-del{color:#ff3b30}
+.as-card .as-cancel{font-weight:600;border-top:0;background:var(--bg)}
+@media(prefers-reduced-transparency:reduce){.as-card{background:Canvas;-webkit-backdrop-filter:none;backdrop-filter:none}}
+/* ===== Arşiv karoları + Favori Parçalar / çalma listesi sayfası (Apple Music) ===== */
+.lib-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,112px));justify-content:center;gap:18px 14px}
+.lib-fav-tile{width:100%;max-width:none;gap:8px}
+.lib-star{width:100%;height:auto;aspect-ratio:1;border-radius:8px;background:#e5e5ea;box-shadow:none}
+.lib-star .ic{width:52%;height:52%}
+.lib-fav-tile>span:last-child{max-width:100%;font-size:.75rem;font-weight:700}
+.pl-hero{display:grid;justify-items:center;text-align:center;gap:6px;margin:4px 0 22px}
+.pl-hero h1{margin:12px 0 0;font-size:1.5rem;font-weight:800}
+.pl-art{width:min(62vw,240px);aspect-ratio:1;border-radius:10px;overflow:hidden;background:var(--ph);color:var(--accent-fill);display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.pl-art img{width:100%;height:100%;object-fit:cover}
+.pl-art .note-art{--na:52%}
+.pl-star{display:grid;place-items:center;width:100%;height:100%;background:#e5e5ea;color:var(--accent-fill)}
+.pl-star .ic{width:46%;height:46%}
+.pl-meta{color:var(--muted);font-size:.9375rem}
+.pl-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin-top:14px}
+.pl-btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:50px;border:0;border-radius:14px;background:var(--hover);color:var(--accent);font-size:1.0625rem;font-weight:600}
+.pl-btn .ic{width:20px;height:20px}
+.pl-btn:active,.pl-add:active{opacity:.55}
+.pl-add{margin-top:6px;min-height:44px;border:0;background:none;color:var(--accent);font-size:1.0625rem;font-weight:600;display:flex;align-items:center;gap:6px}
 </style>
 </head>
 <body>
@@ -813,6 +1005,8 @@ body:not([data-page="home"]) #addMusicBtn{display:none}
  <button class="round-btn" id="themeBtn" title="Görünümü değiştir" aria-label="Görünümü değiştir" data-icon="moon"></button>
  <button class="round-btn" id="settingsBtn" aria-label="Ayarlar" title="Ayarlar" data-icon="gear"></button>
  <button class="round-btn add-music" id="addMusicBtn" aria-label="Müzik ekle" title="Müzik ekle" data-icon="plus"></button>
+ <div class="lib-capsule" id="libCapsule"><button id="libEdit" aria-label="Yeni liste oluştur" data-icon="listPlus"></button><button id="libMore" aria-label="Diğer" data-icon="more"></button></div>
+ <button class="lib-done" id="libDone">Bitti</button>
  <button class="profile" id="profileBtn" aria-label="Profil"></button>
  </div>
  </div>
@@ -821,7 +1015,7 @@ body:not([data-page="home"]) #addMusicBtn{display:none}
  </div>
  <footer class="player">
  <div class="now-playing">
- <div class="now-cover" id="nowCover" data-icon="note"></div>
+ <div class="now-cover" id="nowCover"><span class="note-art" aria-hidden="true"></span></div>
  <div class="now-info">
  <div class="now-title" id="nowTitle">Bir şarkı seç</div>
  <div class="now-artist" id="nowArtist">Müzik kitaplığın hazır</div>
@@ -848,11 +1042,11 @@ body:not([data-page="home"]) #addMusicBtn{display:none}
  <input class="volume" id="volume" type="range" min="0" max="1" step=".01" value=".8" aria-label="Ses düzeyi">
  </div>
  </footer>
- <nav class="mobile-nav">
+ <nav class="mobile-nav" aria-label="Sekmeler">
  <span class="nav-pill" aria-hidden="true"></span>
  <button class="active" data-page="home"><span data-icon="tabHome"></span><span>Ana Sayfa</span></button>
  <button data-page="browse"><span data-icon="tabGrid"></span><span>Göz At</span></button>
- <button data-page="songs"><span data-icon="tabLibrary"></span><span>Arşiv</span></button>
+ <button data-page="library"><span data-icon="tabLibrary"></span><span>Arşiv</span></button>
  <button data-page="search"><span data-icon="tabSearch"></span><span>Arayın</span></button>
  </nav>
 </div>
@@ -871,6 +1065,7 @@ body:not([data-page="home"]) #addMusicBtn{display:none}
 <div class="modal-backdrop" id="modal">
  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
  <h2 id="modalTitle">Yeni çalma listesi</h2>
+ <div class="pl-cover-pick"><button type="button" class="pl-cover" id="plCover" aria-label="Görsel ekle">+ Görsel</button><input type="file" id="plCoverFile" accept="image/*" hidden></div>
  <input id="modalInput" placeholder="Liste adı" aria-label="Liste adı">
  <div class="modal-actions">
  <button class="secondary-btn" id="modalCancel">İptal</button>
@@ -910,7 +1105,7 @@ body:not([data-page="home"]) #addMusicBtn{display:none}
    <div class="fp-txt"><div class="fp-title" id="fpTitle"></div><div class="fp-artist" id="fpArtist"></div></div>
    <button class="fp-ic" id="fpFav" aria-label="Favorilere ekle"></button>
   </div>
-  <div class="fp-prog"><input id="fpProgress" type="range" min="0" max="1000" value="0" aria-label="Şarkı ilerlemesi"><div class="fp-times"><span id="fpCur">0:00</span><span id="fpRem">-0:00</span></div></div>
+  <div class="fp-prog"><input id="fpProgress" type="range" min="0" max="1000" value="0" aria-label="Şarkı ilerlemesi"><div class="fp-times"><span id="fpCur">0:00</span><span class="fp-q" id="fpQ"></span><span id="fpRem">-0:00</span></div></div>
   <div class="fp-ctrl">
    <button id="fpPrev" aria-label="Önceki şarkı"></button>
    <button class="fp-play" id="fpPlay" aria-label="Oynat veya duraklat"></button>
@@ -925,6 +1120,7 @@ body:not([data-page="home"]) #addMusicBtn{display:none}
  </div>
 </section>
 <script>
+var TAB_ROOTS=["home","browse","library","search"],tabMem={};
 const DB_NAME = "MusicReplicaDB";
 const STORE = "tracks";
 const state = {
@@ -944,6 +1140,12 @@ const audio = new Audio();
 audio.volume = .8;
 const $ = id => document.getElementById(id);
 const ICONS={
+ listPlus:`<path d="M4 6h13M4 11h9M4 16h6"/><path d="M17.5 14v6M14.5 17h6" stroke-width="2.2"/>`,
+ check:`<path d="m5 12.5 4.5 4.5L19 7.5"/>`,
+ menu:`<path d="M4 8h16M4 12h16M4 16h16"/>`,
+ star:`<path fill="currentColor" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" d="m12 2.8 2.7 5.8 6.3.8-4.6 4.4 1.2 6.3L12 17l-5.6 3.1 1.2-6.3L3 9.4l6.3-.8L12 2.8Z"/>`,
+ mic:`<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/>`,
+ more:`<g fill="currentColor" stroke="none"><circle cx="5.5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="18.5" cy="12" r="1.8"/></g>`,
  tabHome:`<path fill="currentColor" stroke="none" d="M12 3.1 2.9 10.9c-.6.5-.2 1.5.6 1.5H5V19a1.9 1.9 0 0 0 1.9 1.9h3.2v-5.4h3.8v5.4h3.2A1.9 1.9 0 0 0 19 19v-6.6h1.5c.8 0 1.2-1 .6-1.5L12 3.1Z"/>`,
  tabGrid:`<g fill="currentColor" stroke="none"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></g>`,
  tabSearch:`<circle cx="10.5" cy="10.5" r="6.3" stroke-width="2.3"/><path d="m15.4 15.4 5 5" stroke-width="2.4"/>`,
@@ -977,6 +1179,7 @@ const ICONS={
  download:'<path d="M12 4v11M7.5 11 12 15.5 16.5 11M5 20h14"/>',
  trash:'<path d="M5 7h14M10 7V5h4v2M7 7l1 13h8l1-13M10 11v6M14 11v6"/>'
 };
+function noteArt() {return `<span class="note-art" aria-hidden="true"></span>`;}
 function ic(name) {return `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICONS[name]||""}</svg>`;}
 function setIcon(el,name) {if(el) el.innerHTML=ic(name);}
 function hydrateIcons(root=document) {root.querySelectorAll("[data-icon]").forEach(el=>setIcon(el,el.dataset.icon));}
@@ -1040,7 +1243,7 @@ function notify(msg) {
 }
 function coverHTML(track,cls="cover") {
  if(track?.cover) return `<div class="${cls}"><img src="${track.cover}" alt=""></div>`;
- return `<div class="${cls}"><span class="cover-placeholder">${ic("note")}</span></div>`;
+ return `<div class="${cls}"><span class="cover-placeholder">${noteArt()}</span></div>`;
 }
 function artistOf(t) {return t.artist || "Bilinmeyen Sanatçı";}
 function albumOf(t) {return t.album || "Bilinmeyen Albüm";}
@@ -1113,8 +1316,10 @@ async function importFiles(files) {
  f.type.startsWith("audio/") || /\.(mp3|m4a|wav|flac|ogg|aac)$/i.test(f.name)
  );
  if(!list.length) return notify("Desteklenen müzik dosyası bulunamadı.");
- let added=0;
+ let added=0,idx=0;
+ impProgress(0,list.length,0);
  for(const file of list) {
+ impProgress(idx++,list.length,.35);
  const duplicate=state.tracks.some(t=>
  t.name===file.name && t.size===file.size
  );
@@ -1134,6 +1339,7 @@ async function importFiles(files) {
  notify("Dosya kaydedilemedi. Depolama alanını kontrol et.");
  }
  }
+ impDone();
  notify(added+" müzik eklendi.");
  render();
 }
@@ -1145,6 +1351,8 @@ async function loadLibrary() {
 }
 function snap() {return {page:state.page,detail:state.detail,scroll:$("main").scrollTop};}
 function navigate(page,detail=null) {
+ if(document.body.classList.contains("lib-edit")) return;
+ if(window.matchMedia("(max-width:760px)").matches&&TAB_ROOTS.includes(page)&&detail===null&&state.tab!==page){switchTab(page);return;}
  if(state.page!==page || JSON.stringify(state.detail)!==JSON.stringify(detail)) {
  state.previousPages.push(snap());
  state.nextPages=[];
@@ -1156,7 +1364,9 @@ function navigate(page,detail=null) {
  if(page==="search" && window.matchMedia("(max-width:760px)").matches) setTimeout(()=>$("searchInput").focus(),60);
 }
 function goBack() {
+ if(document.body.classList.contains("lib-edit")) return;
  if(!state.previousPages.length) return;
+ window.__navDir="back";
  state.nextPages.push(snap());
  const e=state.previousPages.pop();
  state.page=e.page;state.detail=e.detail;
@@ -1178,7 +1388,7 @@ function card(track,kind="album") {
 }
 function songRow(track,index) {
  return `<div class="song ${state.current?.id===track.id?"active":""}" tabindex="0" data-song="${track.id}">
- <div class="song-cover">${track.cover?`<img src="${track.cover}" alt="">`:ic("note")}</div>
+ <div class="song-cover">${track.cover?`<img src="${track.cover}" alt="">`:noteArt()}</div>
  <div class="song-info">
  <div class="song-name">${escapeHTML(track.title)}</div>
  <div class="song-artist">${escapeHTML(artistOf(track))} · ${escapeHTML(albumOf(track))}</div>
@@ -1191,7 +1401,7 @@ function songRow(track,index) {
 function section(title,content,action="") {
  return `<div class="section-head"><h2>${title}</h2>${action}</div>${content}`;
 }
-function homePage() {
+function homePageBase() {
  const recent=[...state.tracks].sort((a,b)=>b.added-a.added).slice(0,6);
  const albums=getUniqueAlbums().slice(0,6);
  const recentAlbums=getUniqueAlbumsOf(recent);
@@ -1259,9 +1469,9 @@ function collectionPage(title,items,kind) {
 }
 function playlistsPage() {
  return `<h1>Çalma Listelerin</h1><div class="subtitle">Kendi listelerin</div>
- <div class="grid">${state.playlists.map(p=>`
+ <div class="grid">${libPlaylists().map(p=>`
  <div class="card" tabindex="0" role="button" data-playlist="${p.id}">
- <div class="cover"><span class="cover-placeholder">${ic("note")}</span></div>
+ ${p.cover?`<div class="cover"><img src="${p.cover}" alt=""></div>`:`<div class="cover"><span class="cover-placeholder">${noteArt()}</span></div>`}
  <div class="card-title">${escapeHTML(p.name)}</div>
  <div class="card-sub">${p.tracks.length} şarkı</div>
  </div>`).join("")}</div>
@@ -1275,7 +1485,7 @@ function detailPage(type,value) {
  const first=tracks[0];
  if(!first) return emptyHTML("İçerik bulunamadı","");
  return `<div class="detail-head">
- <div class="detail-cover">${first.cover?`<img src="${first.cover}" alt="">`:ic("note")}</div>
+ <div class="detail-cover">${first.cover?`<img src="${first.cover}" alt="">`:noteArt()}</div>
  <div>
  <div class="detail-meta">${type==="artist"?"SANATÇI":"ALBÜM"}</div>
  <h1>${escapeHTML(value)}</h1>
@@ -1306,6 +1516,11 @@ function settingsPage() {
  <div class="acct-label">Görünüm</div>
  <div class="acct-group">
   <div class="acct-row seg-row"><div class="seg" id="themeSeg" role="radiogroup" aria-label="Görünüm" style="--i:${["light","dark","system"].indexOf(themePref)}"><span class="seg-thumb"></span><button role="radio" data-theme="light" aria-checked="false">Açık</button><button role="radio" data-theme="dark" aria-checked="false">Koyu</button><button role="radio" data-theme="system" aria-checked="false">Sistem</button></div></div>
+ </div>
+ <div class="acct-label">Çalma</div>
+ <div class="acct-group">
+  <div class="acct-row"><span>Çapraz Geçiş<small>Şarkılar arasında yumuşak geçiş</small></span>${iosSwitch("cfSwitch",__cf.on,"Çapraz geçiş")}</div>
+  <div class="acct-row cf-row ${__cf.on?"":"off"}"><span>Süre</span><input id="cfRange" type="range" min="1" max="10" step="1" value="${__cf.sec}" aria-label="Çapraz geçiş süresi"><output id="cfOut">${__cf.sec} sn</output></div>
  </div>
  <div class="acct-label">Müzik kitaplığı</div>
  <div class="acct-group">
@@ -1371,8 +1586,8 @@ async function setAvatar(file) {
  saveProfile();refreshProfileUI();
  } catch(e) {notify("Görsel okunamadı.");}
 }
-function removeAvatar() {
- if(!confirm("Profil fotoğrafı silinsin mi?")) return;
+async function removeAvatar() {
+ if(!(await confirmSheet("Profil fotoğrafı silinsin mi?","Fotoğrafı Sil"))) return;
  state.profile.photo=null;
  saveProfile();refreshProfileUI();
 }
@@ -1405,7 +1620,7 @@ function extOf(t) {const m=/\.([a-z0-9]+)$/i.exec(t.name||"");return m?m[1].toUp
 function manageRow(t) {
  const n=escapeHTML(t.title);
  return `<div class="manage-row">
- <div class="song-cover">${t.cover?`<img src="${t.cover}" alt="">`:ic("note")}</div>
+ <div class="song-cover">${t.cover?`<img src="${t.cover}" alt="">`:noteArt()}</div>
  <div class="song-info">
  <div class="song-name">${n}</div>
  <div class="song-artist">${escapeHTML(artistOf(t))} · ${escapeHTML(albumOf(t))}</div>
@@ -1482,7 +1697,7 @@ async function downloadTrack(t) {
 }
 async function deleteTrack(id) {
  const t=state.tracks.find(x=>x.id===id);
- if(!t || !confirm("“"+t.title+"” silinsin mi?")) return;
+ if(!t || !(await confirmSheet("“"+t.title+"” silinsin mi?","Şarkıyı Sil"))) return;
  try {await dbAction("readwrite","delete",id);} catch(e) {notify("Şarkı silinemedi.");return;}
  if(state.current?.id===id) {
  audio.pause();audio.removeAttribute("src");state.current=null;
@@ -1499,7 +1714,7 @@ async function deleteTrack(id) {
 let editing=null;
 function renderEditCover() {
  const url=editing.newCoverUrl || (!editing.removed && editing.track.cover);
- $("editCover").innerHTML=url?`<img src="${url}" alt="">`:ic("note");
+ $("editCover").innerHTML=url?`<img src="${url}" alt="">`:noteArt();
  $("editCoverRemove").classList.toggle("hidden",!url);
 }
 function openEdit(id) {
@@ -1540,13 +1755,14 @@ function render() {
  switch(state.page) {
  case "home": p.innerHTML=homePage();break;
  case "browse": p.innerHTML=`<h1>Göz At</h1><div class="subtitle">Müzik kitaplığını keşfet</div>
- ${section("Sanatçılar",gridOf(getUniqueArtists(),"artist"))}
+ ${section("Sanatçılar",`<div class="artist-strip">${getUniqueArtists().map(t=>card(t,"artist")).join("")}</div>`)}
  ${section("Albümler",gridOf(getUniqueAlbums(),"album"))}`;break;
- case "recent": p.innerHTML=listPage("Son Eklenenler",[...state.tracks].sort((a,b)=>b.added-a.added));break;
- case "songs": p.innerHTML=listPage("Şarkılar",state.tracks);break;
- case "favorites": p.innerHTML=listPage("Favoriler",state.tracks.filter(t=>t.favorite));break;
- case "artists": p.innerHTML=collectionPage("Sanatçılar",getUniqueArtists(),"artist");break;
- case "albums": p.innerHTML=collectionPage("Albümler",getUniqueAlbums(),"album");break;
+ case "recent": p.innerHTML=listPage("Son Eklenenler",libView([...state.tracks].sort((a,b)=>b.added-a.added)));break;
+ case "library": p.innerHTML=libraryPage();break;
+ case "songs": p.innerHTML=listPage("Parçalar",libView(state.tracks));break;
+ case "favorites": p.innerHTML=favPage();break;
+ case "artists": p.innerHTML=collectionPage("Sanatçılar",libItems(getUniqueArtists(),"artist"),"artist");break;
+ case "albums": p.innerHTML=collectionPage("Albümler",libItems(getUniqueAlbums(),"album"),"album");break;
  case "playlists": p.innerHTML=playlistsPage();break;
  case "settings": p.innerHTML=settingsPage();break;
  case "profile": p.innerHTML=profilePage();break;
@@ -1555,24 +1771,32 @@ function render() {
  case "detail": p.innerHTML=detailPage(state.detail.type,state.detail.value);break;
  case "playlistDetail": {
  const pl=state.playlists.find(x=>x.id===state.detail);
- p.innerHTML=pl?`<h1>${escapeHTML(pl.name)}</h1><div class="subtitle">${pl.tracks.length} şarkı</div>
- <div class="detail-actions"><button class="import-btn" id="playCollection">${ic("play")}Çal</button><button class="secondary-btn" id="addTracksToPlaylist">${ic("plus")}Şarkı ekle</button></div>
- <div class="song-list">${pl.tracks.map(id=>state.tracks.find(t=>t.id===id)).filter(Boolean).map(songRow).join("")}</div>`:"";
+ p.innerHTML=pl?plPage(pl):"";
  break;
  }
  default:p.innerHTML=homePage();
  }
  bindPageEvents();
  const vk=state.page+"|"+state.detail;
- if(window.__vk!==vk){window.__vk=vk;const pg=$("page");pg.classList.remove("page-in","page-fade");void pg.offsetWidth;
-  pg.classList.add(state.detail||["manage","profile","settings"].includes(state.page)?"page-in":"page-fade");
-  pg.querySelectorAll(".card,.song,.section-head").forEach((e,i)=>e.style.setProperty("--i",Math.min(i,10)));}
+ const dir=window.__navDir;window.__navDir=null;
+ if(window.__vk!==vk){window.__vk=vk;const pg=$("page");
+  pg.classList.remove("page-in","page-fade","slide-fwd","slide-back");void pg.offsetWidth;
+  const TABS=["home","browse","library","search"],ni=TABS.indexOf(state.tab),oi=window.__tabIdx,ts=window.__tabSwitch;window.__tabSwitch=false;
+  let cls;
+  if(ts&&ni>=0&&oi>=0&&ni!==oi) cls=ni>oi?"slide-fwd":"slide-back";
+  else if(dir==="back") cls="slide-back";
+  else if(state.detail||["manage","profile","settings"].includes(state.page)) cls="page-in";
+  else if(ni>=0&&oi>=0&&ni!==oi) cls=ni>oi?"slide-fwd":"slide-back";
+  else cls="page-fade";
+  if(ni>=0) window.__tabIdx=ni;
+  pg.classList.add(cls);
+  if(cls==="page-in"||cls==="page-fade") pg.querySelectorAll(".card,.song,.section-head").forEach((e,i)=>e.style.setProperty("--i",Math.min(i,10)));}
  updateActiveNav();
  refreshProfileUI();
  $("backBtn").disabled=!state.previousPages.length;
  $("forwardBtn").disabled=!state.nextPages.length;
 }
-const LIB_PAGES=["songs","recent","artists","albums","favorites","playlists","detail","playlistDetail"];
+const LIB_PAGES=["library","songs","recent","artists","albums","favorites","playlists","detail","playlistDetail"];
 function movePill(animate=true) {
  const nav=document.querySelector(".mobile-nav"),pill=nav.querySelector(".nav-pill");
  const btn=nav.querySelector("button.active");
@@ -1585,13 +1809,14 @@ function movePill(animate=true) {
 }
 function updateActiveNav() {
  document.body.dataset.page=state.page;
- document.body.classList.toggle("sub",["detail","playlistDetail","profile"].includes(state.page));
+ document.body.classList.toggle("sub",!TAB_ROOTS.includes(state.page)&&state.page!=="settings");
+ syncBackLabel();
  document.querySelectorAll(".sidebar [data-page]").forEach(b=>
  b.classList.toggle("active",b.dataset.page===state.page ||
  (state.page==="detail" && ["albums","artists"].includes(b.dataset.page)) ||
  (state.page==="manage" && b.dataset.page==="settings"))
  );
- const tab=LIB_PAGES.includes(state.page)?"songs":state.page;
+ const tab=state.tab||(LIB_PAGES.includes(state.page)?"library":state.page);
  document.querySelectorAll(".mobile-nav [data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===tab));
  movePill(updateActiveNav.ready===true);
  updateActiveNav.ready=true;
@@ -1605,8 +1830,8 @@ function tracksForCurrentView() {
   return state.tracks.filter(t=>state.detail.type==="artist"
    ? artistOf(t)===state.detail.value : albumOf(t)===state.detail.value);
  }
- if(state.page==="favorites") return state.tracks.filter(t=>t.favorite);
- if(state.page==="recent") return [...state.tracks].sort((a,b)=>b.added-a.added);
+ if(state.page==="favorites") return libView(state.tracks.filter(t=>t.favorite));
+ if(state.page==="recent") return libView([...state.tracks].sort((a,b)=>b.added-a.added));
  if(state.page==="search") {
   const q=$("searchInput").value.trim().toLowerCase();
   return state.tracks.filter(t=>[t.title,t.artist,t.album].join(" ").toLowerCase().includes(q));
@@ -1675,7 +1900,7 @@ function bindPageEvents() {
   pl.tracks.push(available[index].id);savePlaylists();render();
   notify("Şarkı listeye eklendi.");
  });
- $("themeSeg")?.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>setThemePref(b.dataset.theme)));syncThemeSeg();
+ $("themeSeg")?.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>setThemePref(b.dataset.theme)));syncThemeSeg();window.__cfBind&&__cfBind();
  $("clearLibrary")?.addEventListener("click",clearLibrary);
  $("goManage")?.addEventListener("click",()=>navigate("manage"));
  $("goProfile")?.addEventListener("click",()=>navigate("profile"));
@@ -1718,7 +1943,7 @@ function updatePlayer() {
  const t=state.current;
  $("nowTitle").textContent=t?.title||"Bir şarkı seç";
  $("nowArtist").textContent=t?artistOf(t):"Müzik kitaplığın hazır";
- $("nowCover").innerHTML=t?.cover?`<img src="${t.cover}" alt="">`:ic("note");
+ $("nowCover").innerHTML=t?.cover?`<img src="${t.cover}" alt="">`:noteArt();
  setIcon($("favoriteCurrent"),t?.favorite?"heartFill":"heart");
  $("favoriteCurrent").classList.toggle("on",!!t?.favorite);
  setIcon($("playBtn"),audio.paused?"play":"pause");
@@ -1749,7 +1974,7 @@ function previousTrack() {
 function renderQueue() {
  $("queueList").innerHTML=state.queue.map((t,i)=>`
  <div class="queue-track ${i===state.queueIndex?"active":""}" data-queue="${i}" tabindex="0">
- ${t.cover?`<img src="${t.cover}" alt="">`:`<div class="song-cover">${ic("note")}</div>`}
+ ${t.cover?`<img src="${t.cover}" alt="">`:`<div class="song-cover">${noteArt()}</div>`}
  <div><strong>${escapeHTML(t.title)}</strong><small>${escapeHTML(artistOf(t))}</small></div>
  </div>`).join("") || emptyHTML("Kuyruk boş","Bir şarkı çal.");
  document.querySelectorAll("[data-queue]").forEach(el=>
@@ -1760,7 +1985,7 @@ function renderQueue() {
  );
 }
 async function clearLibrary() {
- if(!confirm("Bütün müzikleri silmek istediğine emin misin?")) return;
+ if(!(await confirmSheet("Bütün müzikler silinecek. Bu işlem geri alınamaz.","Tüm Müzikleri Sil"))) return;
  const tracks=[...state.tracks];
  for(const t of tracks) await dbAction("readwrite","delete",t.id);
  state.tracks=[];state.queue=[];state.current=null;
@@ -1790,6 +2015,7 @@ darkMQ.addEventListener("change",()=>{if(themePref==="system") applyTheme(resolv
 function toggleTheme() {setThemePref(document.body.classList.contains("dark")?"light":"dark");}
 function iosSwitch(id,checked,label) {return `<label class="ios-switch"><input type="checkbox" role="switch" id="${id}" ${checked?"checked":""} aria-label="${label}"><i></i></label>`;}
 function openModal() {
+ window.__plCoverData=null;if($("plCover")) $("plCover").textContent="+ Görsel";
  $("modalInput").value="";
  $("modal").classList.add("show");
  $("modalInput").focus();
@@ -1797,7 +2023,7 @@ function openModal() {
 function createPlaylist() {
  const name=$("modalInput").value.trim();
  if(!name) return;
- state.playlists.push({id:uid(),name,tracks:[]});
+ state.playlists.push({id:uid(),name,tracks:[],cover:window.__plCoverData||null});window.__plCoverData=null;
  savePlaylists();
  $("modal").classList.remove("show");
  navigate("playlists");
@@ -1910,7 +2136,6 @@ document.addEventListener("keydown",e=>{
 $("modal").addEventListener("click",e=>{if(e.target===$("modal")) $("modal").classList.remove("show");});
 document.querySelector(".now-playing").addEventListener("click",e=>{
  if(e.target.closest("button")) return;
- if(window.matchMedia("(max-width:760px)").matches) $("queuePanel").classList.add("show");
 });
 hydrateIcons();
 let savedTheme=null;
@@ -1954,7 +2179,7 @@ loadLibrary();
   if(fp.dataset.tid!==String(t.id)){
    fp.dataset.tid=t.id;
    $("fpTitle").textContent=t.title;$("fpArtist").textContent=artistOf(t);
-   $("fpArt").innerHTML=t.cover?`<img src="${t.cover}" alt="">`:ic("note");
+   $("fpArt").innerHTML=t.cover?`<img src="${t.cover}" alt="">`:noteArt();
    $("fpBg").style.backgroundImage=t.cover?`url("${t.cover}")`:"";
   }
   fp.classList.toggle("playing",!audio.paused);
@@ -1965,7 +2190,8 @@ loadLibrary();
  };
  window.syncFullTime=function(){
   if(audio.duration){$("fpProgress").value=audio.currentTime/audio.duration*1000;paint($("fpProgress"));}
-  $("fpCur").textContent=timeFormat(audio.currentTime);
+  if(audio.duration&&state.current&&state.current.size){const k=Math.round(state.current.size*8/audio.duration/1000);$("fpQ").textContent=((state.current.name||"").split(".").pop().toUpperCase().slice(0,4))+" · "+k+" kbps";}
+ $("fpCur").textContent=timeFormat(audio.currentTime);
   $("fpRem").textContent="-"+timeFormat(Math.max(0,(audio.duration||0)-audio.currentTime));
  };
  $("fpClose").addEventListener("click",close);
@@ -1973,7 +2199,7 @@ loadLibrary();
  $("fpPrev").addEventListener("click",()=>$("previousBtn").click());
  $("fpNext").addEventListener("click",()=>$("nextBtn").click());
  $("fpFav").addEventListener("click",()=>$("favoriteCurrent").click());
- $("fpQueue").addEventListener("click",()=>{close();setTimeout(()=>$("queueBtn").click(),220);});
+ $("fpQueue").addEventListener("click",()=>$("queueBtn").click());
  $("fpProgress").addEventListener("input",e=>{$("progress").value=e.target.value;$("progress").dispatchEvent(new Event("input"));paint(e.target);});
  $("fpVol").addEventListener("input",e=>{$("volume").value=e.target.value;$("volume").dispatchEvent(new Event("input"));paint(e.target);});
  paint($("fpVol"));paint($("fpProgress"));
@@ -2001,16 +2227,339 @@ loadLibrary();
  $("fpQueue").addEventListener("click",()=>{window.__fromFP=true;});
  $("closeQueue").addEventListener("click",()=>{if(window.__fromFP){window.__fromFP=false;setTimeout(()=>window.openFull&&openFull(),220);}});
 })();
-</script>
-<script>
-/* PWA service worker: uygulama kabuğunu çevrimdışı kullanılabilir tutar. */
-if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js", { scope: "./" }).catch((error) => {
-      console.warn("Service worker kaydedilemedi:", error);
-    });
-  });
+/* ===== Yükleme çubuğu / panoya kopyala / çapraz geçiş / Arşiv ===== */
+(function(){
+ const bar=document.createElement("div");bar.className="import-bar";bar.id="importBar";
+ bar.innerHTML='<b id="importLbl"></b><div class="import-track"><div class="import-fill" id="importFill"></div></div>';
+ $("page").parentNode.insertBefore(bar,$("page"));
+ window.impProgress=function(done,total,frac){
+  document.body.classList.add("importing");
+  $("importLbl").textContent=`Müzik ekleniyor · ${Math.min(done+1,total)}/${total}`;
+  $("importFill").style.width=Math.min(100,((done+(frac||0))/total)*100)+"%";
+ };
+ window.impDone=function(){$("importFill").style.width="100%";setTimeout(()=>document.body.classList.remove("importing"),550);};
+ /* tam ekran: şarkı adına basılı tut → panoya kopyala */
+ let timer=null,sx=0,sy=0;
+ const copyText=async txt=>{
+  try{await navigator.clipboard.writeText(txt);}
+  catch(e){const ta=document.createElement("textarea");ta.value=txt;ta.style.cssText="position:fixed;opacity:0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(_){}ta.remove();}
+ };
+ const trigger=()=>{
+  const t=state.current;if(!t)return;
+  const al=t.album&&!/bilinmeyen/i.test(t.album)?` (${t.album})`:"";
+  copyText(`${artistOf(t)} - ${t.title}${al}`);
+  navigator.vibrate&&navigator.vibrate(15);notify("Şarkı bilgisi panoya kopyalandı.");
+ };
+ ["fpTitle","fpArtist"].forEach(id=>{
+  const el=$(id);
+  el.addEventListener("pointerdown",e=>{sx=e.clientX;sy=e.clientY;clearTimeout(timer);timer=setTimeout(trigger,550);});
+  el.addEventListener("pointermove",e=>{if(Math.hypot(e.clientX-sx,e.clientY-sy)>10)clearTimeout(timer);});
+  ["pointerup","pointercancel","pointerleave"].forEach(ev=>el.addEventListener(ev,()=>clearTimeout(timer)));
+  el.addEventListener("contextmenu",e=>e.preventDefault());
+ });
+ /* Arşiv yönlendirme */
+ $("page").addEventListener("click",e=>{const b=e.target.closest("[data-lib]");if(b)navigate(b.dataset.lib);});
+ /* çapraz geçiş */
+ const cf=window.__cf={on:true,sec:4};
+ try{Object.assign(cf,JSON.parse(localStorage.getItem("music-crossfade")||"{}"));}catch(e){}
+ cf.sec=Math.min(10,Math.max(1,+cf.sec||4));
+ let ctx=null,g1=null,busy=false,tried=null,curOld=null;
+ window.__cfGraph=function(){
+  try{
+   if(ctx){ctx.state==="suspended"&&ctx.resume();return true;}
+   ctx=new (window.AudioContext||window.webkitAudioContext)();
+   const src=ctx.createMediaElementSource(audio);g1=ctx.createGain();src.connect(g1);g1.connect(ctx.destination);ctx.resume&&ctx.resume();return true;
+  }catch(e){ctx=null;return false;}
+ };
+ audio.addEventListener("play",()=>{if(cf.on)__cfGraph();});
+ audio.addEventListener("pause",()=>{if(curOld)curOld.pause();});
+ audio.addEventListener("timeupdate",()=>{
+  if(!cf.on||busy||audio.paused||!ctx||!audio.duration||state.repeat==="one"||!state.current)return;
+  const rem=audio.duration-audio.currentTime;
+  if(rem>cf.sec||rem<.4||audio.duration<cf.sec*2.5||tried===state.current.id)return;
+  tried=state.current.id;busy=true;
+  const before=state.current,old=new Audio(audio.currentSrc||audio.src);
+  old.currentTime=audio.currentTime;
+  let og,os;
+  try{og=ctx.createGain();os=ctx.createMediaElementSource(old);os.connect(og);og.connect(ctx.destination);}catch(err){busy=false;return;}
+  const t=ctx.currentTime;
+  g1.gain.cancelScheduledValues(t);g1.gain.setValueAtTime(0,t);g1.gain.linearRampToValueAtTime(1,t+rem);
+  og.gain.setValueAtTime(1,t);og.gain.linearRampToValueAtTime(0,t+rem);
+  nextTrack();
+  if(state.current===before){g1.gain.cancelScheduledValues(ctx.currentTime);g1.gain.setValueAtTime(1,ctx.currentTime);busy=false;return;}
+  curOld=old;old.play().catch(()=>{});
+  setTimeout(()=>{old.pause();old.removeAttribute("src");try{os.disconnect();og.disconnect();}catch(_){}curOld=null;busy=false;},rem*1000+250);
+ });
+ window.__cfBind=function(){
+  const sw=$("cfSwitch"),rg=$("cfRange");if(!sw||!rg)return;
+  const save=()=>{try{localStorage.setItem("music-crossfade",JSON.stringify(cf));}catch(e){}};
+  paint(rg);
+  sw.addEventListener("change",()=>{cf.on=sw.checked;save();if(cf.on)__cfGraph();document.querySelector(".cf-row").classList.toggle("off",!cf.on);});
+  rg.addEventListener("input",()=>{cf.sec=+rg.value;$("cfOut").textContent=cf.sec+" sn";paint(rg);save();});
+ };
+})();
+/* ===== Arşiv (düzenleme modu), En Çok Dinlenenler, liste görseli ===== */
+const LIBROWS={playlists:["list","Listeler"],albums:["album","Albümler"],songs:["note","Parçalar"],manage:["download","İndirilenler"],artists:["mic","Sanatçılar"]};
+function libCfg() {
+ let c={};try{c=JSON.parse(localStorage.getItem("music-lib")||"{}");}catch(e){}
+ c.rows=(c.rows||[]).filter(k=>LIBROWS[k]);Object.keys(LIBROWS).forEach(k=>{if(!c.rows.includes(k))c.rows.push(k);});
+ c.hidden=(c.hidden||[]).filter(k=>LIBROWS[k]);c.tiles=c.tiles||[];return c;
 }
+function libSave(c) {try{localStorage.setItem("music-lib",JSON.stringify(c));}catch(e){}}
+function libTileIds(c) {
+ const all=["fav",...state.playlists.map(p=>p.id)],o=c.tiles.filter(i=>all.includes(i));
+ all.forEach(i=>{if(!o.includes(i))o.push(i);});return o;
+}
+function libTile(id) {
+ if(id==="fav") return `<button class="lib-fav-tile" data-tile="fav" data-lib="favorites"><span class="lib-star">${ic("star")}</span><span>Favori Parçalar</span></button>`;
+ const p=state.playlists.find(x=>x.id===id);if(!p) return "";
+ const first=state.tracks.find(t=>p.tracks.includes(t.id)&&t.cover);
+ const img=p.cover||first?.cover;
+ return `<button class="lib-fav-tile" data-tile="${p.id}" data-pl="${p.id}"><span class="lib-star">${img?`<img src="${img}" alt="">`:noteArt()}</span><span>${escapeHTML(p.name)}</span></button>`;
+}
+function libraryPage() {
+ const edit=!!window.__libEdit,c=libCfg(),enter=!!window.__libEnter;window.__libEnter=false;
+ const recent=[...state.tracks].sort((a,b)=>b.added-a.added).slice(0,5);
+ const rows=c.rows.filter(k=>edit||!c.hidden.includes(k));
+ return `<h1>Arşiv</h1>
+ ${edit?'<div class="lib-hint">Sabitlenenleri taşımak için dokun: önce kartı, sonra yerini seç.</div>':""}
+ <div class="lib-tiles" id="libTiles">${libTileIds(c).map(libTile).join("")}</div>
+ <div class="lib-list" id="libList">${rows.map((k,i)=>edit?
+  `<div class="lib-row edit ${enter?"enter":""} ${c.hidden.includes(k)?"off":""}" style="--i:${i}" data-key="${k}"><button class="lib-check ${c.hidden.includes(k)?"":"on"}" data-toggle="${k}" aria-label="${LIBROWS[k][1]} göster/gizle">${ic("check")}</button><span>${LIBROWS[k][1]}</span><span class="lib-handle" role="button" tabindex="0" aria-label="Sırala: ${LIBROWS[k][1]}">${ic("menu")}</span></div>`:
+  `<button class="lib-row" data-lib="${k}">${k==="songs"?'<span class="lib-ico"><span class="note-art" aria-hidden="true"></span></span>':ic(LIBROWS[k][0])}<span>${LIBROWS[k][1]}</span>${ic("forward")}</button>`).join("")}</div>
+ ${edit?"":`<div class="section-head"><h2>Son Eklenenler</h2>${recent.length?'<button class="text-button" data-lib="recent">Tümünü Göster</button>':""}</div>
+ ${recent.length?`<div class="grid">${recent.map(t=>card(t,"album")).join("")}</div>`:emptyHTML("Henüz müzik yok","Müzik dosyalarını ekleyerek kitaplığını oluştur.")}`}`;
+}
+(function(){
+ const pg=$("page");let picked=null;
+ const setEdit=on=>{window.__libEnter=on;window.__libEdit=on;picked=null;document.body.classList.toggle("lib-edit",on);render();};
+ const closeMenu=()=>document.getElementById("libMenu")?.remove();
+ $("libEdit").addEventListener("click",()=>{window.__plCoverData=null;openModal();});
+ $("libMore").addEventListener("click",e=>{
+  e.stopPropagation();if(document.getElementById("libMenu")){closeMenu();return;}
+  const r=$("libMore").getBoundingClientRect(),m=document.createElement("div");
+  m.className="ios-menu";m.id="libMenu";m.style.top=(r.bottom+8)+"px";m.style.right=Math.max(12,innerWidth-r.right)+"px";
+  m.innerHTML=`<button>Düzenle${ic("edit")}</button>`;
+  m.firstChild.addEventListener("click",()=>{closeMenu();setEdit(true);});
+  document.body.appendChild(m);
+ });
+ document.addEventListener("pointerdown",e=>{if(!e.target.closest("#libMenu,#libMore,#subFilter,#subSort"))closeMenu();});
+ $("libDone").addEventListener("click",()=>setEdit(false));
+ pg.addEventListener("click",e=>{
+  const pl=e.target.closest("[data-pl]");if(pl&&!window.__libEdit){navigate("playlistDetail",pl.dataset.pl);return;}
+  const tg=e.target.closest("[data-toggle]");
+  if(tg){const c=libCfg(),k=tg.dataset.toggle,i=c.hidden.indexOf(k);i>=0?c.hidden.splice(i,1):c.hidden.push(k);libSave(c);
+   tg.classList.toggle("on",i>=0);tg.closest(".lib-row").classList.toggle("off",i<0);return;}
+  const t=e.target.closest("[data-tile]");
+  if(t&&window.__libEdit){
+   const id=t.dataset.tile;
+   if(!picked){picked=id;t.classList.add("picked");return;}
+   if(picked===id){picked=null;t.classList.remove("picked");return;}
+   const c=libCfg(),o=libTileIds(c);o.splice(o.indexOf(picked),1);o.splice(o.indexOf(id)+(0),0,picked);c.tiles=o;libSave(c);picked=null;render();
+  }
+ });
+ pg.addEventListener("click",e=>{if(window.__libEdit&&e.target.closest("[data-lib]")&&!e.target.closest("[data-tile]"))e.stopImmediatePropagation();},true);
+ pg.addEventListener("pointerdown",e=>{
+  const h=e.target.closest(".lib-handle");if(!h)return;e.preventDefault();
+  const row=h.closest(".lib-row"),list=row.parentNode;row.classList.add("dragging");h.setPointerCapture(e.pointerId);
+  const move=ev=>{for(const r of [...list.children]){if(r===row)continue;const b=r.getBoundingClientRect();
+   if(ev.clientY>b.top&&ev.clientY<b.bottom){list.insertBefore(row,ev.clientY<b.top+b.height/2?r:r.nextSibling);break;}}};
+  const up=()=>{h.removeEventListener("pointermove",move);h.removeEventListener("pointerup",up);h.removeEventListener("pointercancel",up);
+   row.classList.remove("dragging");const c=libCfg();c.rows=[...list.children].map(r=>r.dataset.key);libSave(c);};
+  h.addEventListener("pointermove",move);h.addEventListener("pointerup",up);h.addEventListener("pointercancel",up);
+ });
+ /* oynatma sayacı + 3 günde bir güncellenen ilk 10 */
+ const PK="music-plays",TK="music-top10",ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d;}catch(e){return d;}};
+ let counted=null;
+ audio.addEventListener("timeupdate",()=>{
+  const t=state.current;if(!t)return;
+  if(audio.currentTime<2)counted=null;
+  if(audio.currentTime<20||counted===t.id)return;
+  counted=t.id;const p=ld(PK,{});p[t.id]=(p[t.id]||0)+1;try{localStorage.setItem(PK,JSON.stringify(p));}catch(e){}
+ });
+ window.topTen=function(){
+  const pl=ld(PK,{});let s=ld(TK,null);const n=Date.now();
+  if(!s||n-s.ts>3*864e5||(s.ids.length<10&&Object.keys(pl).length>s.ids.length)){
+   const ts=(s&&n-s.ts<=3*864e5)?s.ts:n;
+   s={ts,ids:Object.entries(pl).sort((a,b)=>b[1]-a[1]).slice(0,10).map(e=>e[0])};
+   try{localStorage.setItem(TK,JSON.stringify(s));}catch(e){}
+  }
+  return s.ids.map(id=>state.tracks.find(t=>t.id===id)).filter(Boolean);
+ };
+ /* çalma listesi görseli (kare kırpma) */
+ const squareCrop=file=>new Promise((res,rej)=>{
+  const url=URL.createObjectURL(file),im=new Image();
+  im.onload=()=>{const m=Math.min(im.width,im.height),c=document.createElement("canvas");c.width=c.height=512;
+   c.getContext("2d").drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,512,512);URL.revokeObjectURL(url);res(c.toDataURL("image/jpeg",.85));};
+  im.onerror=rej;im.src=url;
+ });
+ $("plCover").addEventListener("click",()=>$("plCoverFile").click());
+ $("plCoverFile").addEventListener("change",async e=>{
+  const f=e.target.files[0];e.target.value="";if(!f)return;
+  try{window.__plCoverData=await squareCrop(f);$("plCover").innerHTML=`<img src="${window.__plCoverData}" alt="">`;}catch(err){notify("Görsel okunamadı.");}
+ });
+})();
+function homePage() {
+ const top=window.topTen?topTen():[];
+ return homePageBase()+(top.length?`<div class="section-head"><h2>En Çok Dinlenenler</h2></div><div class="top-sub">3 günde bir güncellenir</div><div>${top.map(songRow).join("")}</div>`:"");
+}
+/* ===== Arşiv alt sayfaları: filtre / sıralama ===== */
+window.__lf="all";window.__ls=null;
+const trc=(x,y)=>String(x).localeCompare(String(y),"tr");
+function libView(list) {
+ let a=[...list];if(window.__lf==="fav")a=a.filter(t=>t.favorite);
+ const k=window.__ls;
+ if(k==="name")a.sort((x,y)=>trc(x.title,y.title));
+ else if(k==="artist")a.sort((x,y)=>trc(artistOf(x),artistOf(y)));
+ else if(k==="added")a.sort((x,y)=>y.added-x.added);
+ return a;
+}
+function libItems(list,kind) {
+ const a=libView(list);
+ if(window.__ls==="name")a.sort((x,y)=>trc(kind==="artist"?artistOf(x):albumOf(x),kind==="artist"?artistOf(y):albumOf(y)));
+ return a;
+}
+function libPlaylists() {
+ const a=[...state.playlists];if(window.__ls==="name"||window.__ls==="artist")a.sort((x,y)=>trc(x.name,y.name));
+ return a;
+}
+function iosMenu(anchor,items) {
+ document.getElementById("libMenu")?.remove();
+ const r=anchor.getBoundingClientRect(),m=document.createElement("div");
+ m.className="ios-menu";m.id="libMenu";m.setAttribute("role","menu");
+ m.style.top=(r.bottom+8)+"px";m.style.right=Math.max(12,innerWidth-r.right)+"px";
+ items.forEach(it=>{
+  const b=document.createElement("button");b.setAttribute("role","menuitemradio");b.setAttribute("aria-checked",String(!!it.checked));
+  b.innerHTML=`<span>${it.label}</span>${it.checked?ic("check"):""}`;
+  b.addEventListener("click",()=>{m.remove();it.run();});m.appendChild(b);
+ });
+ document.body.appendChild(m);
+}
+(function(){
+ const cap=document.createElement("div");cap.className="sub-capsule";cap.id="subCapsule";
+ cap.innerHTML=`<button id="subFilter" aria-label="Filtrele">${ic("menu")}</button><button id="subSort" aria-label="Sırala">${ic("more")}</button>`;
+ document.querySelector(".topbar").appendChild(cap);
+ $("subFilter").addEventListener("click",e=>{e.stopPropagation();iosMenu($("subFilter"),[
+  {label:"Tüm Parçalar",checked:window.__lf==="all",run:()=>{window.__lf="all";render();}},
+  {label:"Favoriler",checked:window.__lf==="fav",run:()=>{window.__lf="fav";render();}}]);});
+ $("subSort").addEventListener("click",e=>{e.stopPropagation();iosMenu($("subSort"),[
+  {label:"Ad",checked:window.__ls==="name",run:()=>{window.__ls="name";render();}},
+  {label:"Ekleme Tarihi",checked:window.__ls==="added",run:()=>{window.__ls="added";render();}},
+  {label:"Sanatçı",checked:window.__ls==="artist",run:()=>{window.__ls="artist";render();}}]);});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("libMenu")?.remove();});
+})();
+/* ===== Sekme başına gezinme belleği ===== */
+state.tab=state.tab||"home";
+function switchTab(t) {
+ if(document.body.classList.contains("lib-edit")) return;
+ const cur=state.tab,main=$("main");
+ if(t===cur) {
+  if(state.page!==t||state.detail) {
+   state.previousPages=[];state.nextPages=[];state.page=t;state.detail=null;
+   window.__navDir="back";render();main.scrollTop=0;
+  } else main.scrollTo({top:0,behavior:"smooth"});
+  return;
+ }
+ tabMem[cur]={page:state.page,detail:state.detail,scroll:main.scrollTop,prev:state.previousPages,next:state.nextPages};
+ const m=tabMem[t]||{page:t,detail:null,scroll:0,prev:[],next:[]};
+ state.tab=t;state.page=m.page;state.detail=m.detail;state.previousPages=m.prev;state.nextPages=m.next;
+ window.__tabSwitch=true;render();main.scrollTop=m.scroll||0;
+ if(t==="search"&&state.page==="search") setTimeout(()=>$("searchInput").focus(),60);
+}
+document.querySelector(".mobile-nav").addEventListener("click",e=>{
+ const b=e.target.closest("button[data-page]");if(!b) return;
+ e.stopImmediatePropagation();e.preventDefault();switchTab(b.dataset.page);
+},true);
+var BACK_NAMES={home:"Ana Sayfa",browse:"Göz At",library:"Arşiv",search:"Arayın",songs:"Parçalar",albums:"Albümler",artists:"Sanatçılar",playlists:"Listeler",favorites:"Favori Parçalar",recent:"Son Eklenenler",settings:"Hesap",profile:"Profil",manage:"Şarkıları Yönet"};
+function syncBackLabel() {
+ const pv=state.previousPages[state.previousPages.length-1];
+ document.querySelectorAll(".mobile-nav button[data-page]").forEach(b=>{if(b.dataset.page===state.tab)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");});
+ $("backBtn").innerHTML=ic("back")+`<span>${pv?(BACK_NAMES[pv.page]||"Geri"):"Geri"}</span>`;
+}
+/* ===== Sayfalar: aşağı kaydırarak kapat (HIG Sheets) ===== */
+(function(){
+ const mq=matchMedia("(max-width:760px)");
+ function drag(el,close){
+  let y0=null,dy=0;
+  el.addEventListener("touchstart",e=>{
+   if(!mq.matches)return;const y=e.touches[0].clientY;
+   if(y-el.getBoundingClientRect().top>72||e.target.closest("input,textarea,select,button")){y0=null;return;}
+   y0=y;dy=0;},{passive:true});
+  el.addEventListener("touchmove",e=>{if(y0===null)return;dy=Math.max(0,e.touches[0].clientY-y0);el.style.transition="none";el.style.transform=`translateY(${dy}px)`;},{passive:true});
+  el.addEventListener("touchend",()=>{if(y0===null)return;y0=null;el.style.transition="";el.style.transform="";if(dy>110)close();});
+ }
+ drag($("queuePanel"),()=>$("closeQueue").click());
+ document.querySelectorAll(".modal").forEach(md=>drag(md,()=>(md.closest(".modal-backdrop")||md.parentNode).classList.remove("show")));
+ const si=$("searchInput");si.type="search";si.setAttribute("enterkeyhint","search");si.setAttribute("autocapitalize","off");si.spellcheck=false;
+})();
+/* ===== Eylem sayfası, Medya Oturumu, durum geri yükleme, sıralama klavye alternatifi ===== */
+function confirmSheet(title,destructive) {
+ return new Promise(res=>{
+  const o=document.createElement("div");o.className="as-back";
+  o.innerHTML=`<div class="as-box" role="alertdialog" aria-label="${escapeHTML(title)}"><div class="as-card"><p>${escapeHTML(title)}</p><button class="as-del">${escapeHTML(destructive)}</button></div><div class="as-card"><button class="as-cancel">Vazgeç</button></div></div>`;
+  const done=v=>{document.removeEventListener("keydown",key);o.remove();res(v);};
+  const key=e=>{if(e.key==="Escape")done(false);};
+  o.addEventListener("click",e=>{if(e.target===o)done(false);});
+  o.querySelector(".as-del").addEventListener("click",()=>done(true));
+  o.querySelector(".as-cancel").addEventListener("click",()=>done(false));
+  document.addEventListener("keydown",key);document.body.appendChild(o);o.querySelector(".as-cancel").focus();
+ });
+}
+(function(){
+ /* kaydırmadan sıralama: ok tuşları */
+ $("page").addEventListener("keydown",e=>{
+  const h=e.target.closest&&e.target.closest(".lib-handle");if(!h||!["ArrowUp","ArrowDown"].includes(e.key))return;
+  e.preventDefault();const row=h.closest(".lib-row"),list=row.parentNode,up=e.key==="ArrowUp",t=up?row.previousElementSibling:row.nextElementSibling;
+  if(!t)return;list.insertBefore(row,up?t:t.nextSibling);h.focus();
+  const c=libCfg();c.rows=[...list.children].map(r=>r.dataset.key);libSave(c);
+ });
+ /* Medya Oturumu: kilit ekranı ve kulaklık kontrolleri */
+ if("mediaSession" in navigator){
+  const ms=navigator.mediaSession,upd=()=>{const t=state.current;if(!t||!window.MediaMetadata)return;
+   ms.metadata=new MediaMetadata({title:t.title,artist:artistOf(t),album:albumOf(t),artwork:t.cover?[{src:t.cover,sizes:"512x512"}]:[]});};
+  audio.addEventListener("loadedmetadata",upd);
+  audio.addEventListener("play",()=>{upd();ms.playbackState="playing";});
+  audio.addEventListener("pause",()=>{ms.playbackState="paused";});
+  const set=(a,f)=>{try{ms.setActionHandler(a,f);}catch(e){}};
+  set("play",()=>audio.play());set("pause",()=>audio.pause());
+  set("previoustrack",()=>$("previousBtn").click());set("nexttrack",()=>$("nextBtn").click());
+  set("seekto",e=>{if(e.seekTime!=null)audio.currentTime=e.seekTime;});
+ }
+ /* kaldığın yerden devam: son sekme/sayfa */
+ const SAFE=["songs","albums","artists","playlists","favorites","recent"];
+ try{
+  const l=JSON.parse(localStorage.getItem("music-last")||"null");
+  if(l&&matchMedia("(max-width:760px)").matches&&TAB_ROOTS.includes(l.tab)){
+   state.tab=l.tab;state.page=(TAB_ROOTS.includes(l.page)||SAFE.includes(l.page))?l.page:l.tab;state.detail=null;
+   if(!TAB_ROOTS.includes(state.page))state.previousPages=[{page:l.tab,detail:null,scroll:0}];
+  }
+ }catch(e){}
+ const save=()=>{if(document.body.classList.contains("lib-edit"))return;try{localStorage.setItem("music-last",JSON.stringify({tab:state.tab,page:state.page}));}catch(e){}};
+ document.addEventListener("visibilitychange",()=>{if(document.hidden)save();});
+ addEventListener("pagehide",save);
+ const mi=$("modalInput");mi.setAttribute("enterkeyhint","done");mi.maxLength=60;mi.autocomplete="off";
+})();
+/* ===== Favori Parçalar ve çalma listesi sayfaları ===== */
+function plHero(art,title,tracks,extra="") {
+ const mins=Math.round(tracks.reduce((a,t)=>a+(t.duration||0),0)/60);
+ return `<div class="pl-hero"><div class="pl-art">${art}</div><h1>${title}</h1>
+ <div class="pl-meta">${tracks.length} parça${mins?` · ${mins} dk`:""}</div>
+ <div class="pl-actions"><button class="pl-btn" data-play-all>${ic("play")}Oynat</button><button class="pl-btn" data-shuffle-all>${ic("shuffle")}Karıştır</button></div>${extra}</div>`;
+}
+function favPage() {
+ const t=libView(state.tracks.filter(x=>x.favorite));
+ return plHero(`<span class="pl-star">${ic("star")}</span>`,"Favori Parçalar",t)+
+  (t.length?`<div class="song-list">${t.map(songRow).join("")}</div>`:emptyHTML("Henüz favori yok","Şarkılardaki kalp simgesiyle favori ekle."));
+}
+function plPage(pl) {
+ const t=pl.tracks.map(id=>state.tracks.find(x=>x.id===id)).filter(Boolean),img=pl.cover||t.find(x=>x.cover)?.cover;
+ return plHero(img?`<img src="${img}" alt="">`:noteArt(),escapeHTML(pl.name),t,`<button class="pl-add" id="addTracksToPlaylist">${ic("plus")}Şarkı ekle</button>`)+
+  (t.length?`<div class="song-list">${t.map(songRow).join("")}</div>`:emptyHTML("Bu liste boş","“Şarkı ekle” ile başla."));
+}
+$("page").addEventListener("click",e=>{
+ const a=e.target.closest("[data-play-all],[data-shuffle-all]");if(!a)return;
+ playCollection(tracksForCurrentView(),a.hasAttribute("data-shuffle-all"));
+});
 </script>
 </body>
 </html>
