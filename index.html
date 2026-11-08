@@ -2,8 +2,14 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Music">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="1024x1024" href="icon-light.png" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" sizes="1024x1024" href="icon-dark.png" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
 <title>Music</title>
 <meta name="color-scheme" content="light dark">
 <style>
@@ -966,6 +972,15 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .pl-btn .ic{width:20px;height:20px}
 .pl-btn:active,.pl-add:active{opacity:.55}
 .pl-add{margin-top:6px;min-height:44px;border:0;background:none;color:var(--accent);font-size:1.0625rem;font-weight:600;display:flex;align-items:center;gap:6px}
+
+/* iOS/mobile: disable pinch/double-tap page zoom while retaining normal scrolling and controls */
+@media (max-width: 760px) {
+ html, body { touch-action: pan-x pan-y; }
+ body { -webkit-text-size-adjust: 100%; }
+ button, a, input, .song, .card { touch-action: manipulation; }
+ input[type="range"] { touch-action: pan-x; }
+}
+
 </style>
 </head>
 <body>
@@ -1999,11 +2014,18 @@ async function clearLibrary() {
  audio.pause();audio.removeAttribute("src");$("progress").value=0;paint($("progress"));updatePlayer();renderQueue();render();
  notify("Kitaplık temizlendi.");
 }
+function setBrowserThemeColor(color) {
+ let meta=document.getElementById("dynamicThemeColor");
+ if(!meta){
+  document.querySelectorAll('meta[name="theme-color"]').forEach(m=>m.remove());
+  meta=document.createElement("meta");meta.name="theme-color";meta.id="dynamicThemeColor";document.head.appendChild(meta);
+ }
+ meta.content=color;
+}
 function applyTheme(dark) {
  document.body.classList.toggle("dark",dark);
  setIcon($("themeBtn"),dark?"sun":"moon");
- const meta=document.querySelector('meta[name="theme-color"]');
- if(meta) meta.content=dark?"#111113":"#f5f5f7";
+ setBrowserThemeColor(dark?"#111113":"#f5f5f7");
 }
 let themePref="system";
 const darkMQ=matchMedia("(prefers-color-scheme: dark)");
@@ -2175,16 +2197,42 @@ $("editModal").addEventListener("click",e=>{if(e.target===$("editModal")) closeE
 paint($("progress"));paint($("volume"));syncModes();
 loadProfile();refreshProfileUI();
 loadLibrary();
+/* Tam ekran albüm rengini destekleyen tarayıcı üst/status çubuğuna yansıt */
+let __fullThemeColor=null;
+function sampleCoverColor(src,done) {
+ if(!src){done(document.body.classList.contains("dark")?"#111113":"#f5f5f7");return;}
+ const im=new Image();
+ im.onload=()=>{
+  try{
+   const c=document.createElement("canvas");c.width=c.height=12;
+   const x=c.getContext("2d",{willReadFrequently:true});x.drawImage(im,0,0,12,12);
+   const d=x.getImageData(0,0,12,12).data;let r=0,g=0,b=0,n=0;
+   for(let i=0;i<d.length;i+=4){if(d[i+3]<100)continue;r+=d[i];g+=d[i+1];b+=d[i+2];n++;}
+   if(!n)throw Error("empty image");
+   // Slightly soften the sampled color so status chrome stays readable.
+   r=Math.round(r/n*.78+28);g=Math.round(g/n*.78+28);b=Math.round(b/n*.78+28);
+   done("#"+[r,g,b].map(v=>Math.max(0,Math.min(255,v)).toString(16).padStart(2,"0")).join(""));
+  }catch(e){done(document.body.classList.contains("dark")?"#111113":"#f5f5f7");}
+ };
+ im.onerror=()=>done(document.body.classList.contains("dark")?"#111113":"#f5f5f7");
+ im.src=src;
+}
+function syncFullscreenBrowserColor(){
+ const t=state.current;
+ if(!t||!$("fp")?.classList.contains("open"))return;
+ sampleCoverColor(t.cover,color=>{if($("fp")?.classList.contains("open")&&state.current===t)setBrowserThemeColor(color);});
+}
 /* ===== Tam ekran oynatıcı ===== */
 (function(){
  const fp=$("fp"),mq=matchMedia("(max-width:760px)");
  [["fpFav","heart"],["fpPrev","prev"],["fpPlay","play"],["fpNext","next"],["fpVolLo","volume"],["fpVolHi","volume"],["fpShuffle","shuffle"],["fpRepeat","repeat"],["fpQueue","list"]].forEach(([i,n])=>$(i).innerHTML=ic(n));
- const open=()=>{if(!state.current)return;syncFull();fp.classList.add("open");fp.setAttribute("aria-hidden","false");$("fpClose").focus({preventScroll:true});};
- window.openFull=open;const close=()=>{fp.classList.remove("open");fp.setAttribute("aria-hidden","true");};
+ const open=()=>{if(!state.current)return;syncFull();fp.classList.add("open");fp.setAttribute("aria-hidden","false");syncFullscreenBrowserColor();$("fpClose").focus({preventScroll:true});};
+ window.openFull=open;const close=()=>{fp.classList.remove("open");fp.setAttribute("aria-hidden","true");setBrowserThemeColor(document.body.classList.contains("dark")?"#111113":"#f5f5f7");};
  window.syncFull=function(){
   const t=state.current;if(!t)return;
   if(fp.dataset.tid!==String(t.id)){
    fp.dataset.tid=t.id;
+   if(fp.classList.contains("open"))syncFullscreenBrowserColor();
    $("fpTitle").textContent=t.title;$("fpArtist").textContent=artistOf(t);
    $("fpArt").innerHTML=t.cover?`<img src="${t.cover}" alt="">`:noteArt();
    $("fpBg").style.backgroundImage=t.cover?`url("${t.cover}")`:"";
@@ -2577,6 +2625,21 @@ $("page").addEventListener("click",e=>{
  const a=e.target.closest("[data-play-all],[data-shuffle-all]");if(!a)return;
  playCollection(tracksForCurrentView(),a.hasAttribute("data-shuffle-all"));
 });
+
+/* iOS Safari fallback: block pinch and double-tap zoom gestures, not ordinary scroll. */
+(function(){
+ const isMobile=()=>matchMedia("(max-width:760px)").matches;
+ ["gesturestart","gesturechange","gestureend"].forEach(type=>document.addEventListener(type,e=>{if(isMobile())e.preventDefault();},{passive:false}));
+ let lastTouchEnd=0;
+ document.addEventListener("touchend",e=>{
+  if(!isMobile())return;
+  const now=Date.now();
+  if(now-lastTouchEnd<=280 && !e.target.closest("input,textarea,select,button,a,[role=button]"))e.preventDefault();
+  lastTouchEnd=now;
+ },{passive:false});
+ document.addEventListener("wheel",e=>{if(isMobile()&&(e.ctrlKey||e.metaKey))e.preventDefault();},{passive:false});
+})();
+
 </script>
 </body>
 </html>
