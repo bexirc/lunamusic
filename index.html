@@ -3747,57 +3747,73 @@ function heroMosaic() {
  new ResizeObserver(set).observe(pl);set();
 })();
 
-/* Mobile keyboard ergonomics for playlist creation and song editing dialogs. */
+/* Mobile keyboard focus: keep the active editor in the full visible area above the keyboard. */
 (function(){
  const backdrops=[$("modal"),$("editModal")].filter(Boolean);
  const vv=window.visualViewport;
+ let lastFocused=null, raf=0;
+ const mobile=()=>matchMedia("(max-width:760px)").matches;
  function syncModalViewport(){
   const height=vv?vv.height:window.innerHeight;
-  document.documentElement.style.setProperty("--app-visual-height",Math.max(260,height)+"px");
+  const top=vv?vv.offsetTop:0;
+  document.documentElement.style.setProperty("--app-visual-height",Math.max(240,height)+"px");
+  document.documentElement.style.setProperty("--app-visual-top",Math.max(0,top)+"px");
   backdrops.forEach(backdrop=>{
    const active=document.activeElement;
-   const isEditing=backdrop.classList.contains("show") &&
-    active && backdrop.contains(active) && /^(INPUT|TEXTAREA)$/.test(active.tagName);
-   backdrop.classList.toggle("keyboard-open",!!isEditing);
+   const editing=backdrop.classList.contains("show") &&
+    active && backdrop.contains(active) && /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName);
+   backdrop.classList.toggle("keyboard-open",!!(mobile()&&editing));
+   backdrop.classList.toggle("focus-locked",!!(mobile()&&editing));
   });
  }
  function revealField(field){
-  if(!field || !matchMedia("(max-width:760px)").matches)return;
+  if(!field || !mobile())return;
   syncModalViewport();
   requestAnimationFrame(()=>{
    const modal=field.closest(".modal");
    if(!modal)return;
+   const mr=modal.getBoundingClientRect(), fr=field.getBoundingClientRect();
+   const margin=14, visibleBottom=(vv?vv.offsetTop+vv.height:window.innerHeight)-margin;
+   if(fr.bottom>visibleBottom)modal.scrollTop+=fr.bottom-visibleBottom+12;
+   else if(fr.top<mr.top+margin)modal.scrollTop-=mr.top+margin-fr.top;
+   /* Keep the next field discoverable without hiding the rest of the editor. */
    const fields=[...modal.querySelectorAll('input:not([type="file"]):not([type="hidden"]),textarea,select')]
-    .filter(el=>!el.disabled && el.offsetParent!==null);
-   const idx=fields.indexOf(field),next=idx>=0?fields[idx+1]:null;
-   const mr=modal.getBoundingClientRect(),fr=field.getBoundingClientRect();
-   const nr=next?.getBoundingClientRect(),bottom=mr.bottom-18;
-   let wanted=fr.bottom;
-   if(nr && nr.top<bottom)wanted=Math.max(wanted,nr.bottom);
-   if(wanted>bottom)modal.scrollTop+=wanted-bottom+10;
-   else if(fr.top<mr.top+12)modal.scrollTop-=mr.top+12-fr.top;
+    .filter(el=>!el.disabled&&el.offsetParent!==null);
+   const next=fields[fields.indexOf(field)+1];
+   if(next){
+    const nr=next.getBoundingClientRect();
+    if(nr.top>visibleBottom-4)modal.scrollTop+=nr.top-visibleBottom+10;
+   }
   });
  }
  document.addEventListener("focusin",e=>{
   if(e.target.matches("#modalInput,#editTitleInput,#editArtistInput,#editAlbumInput,#editLyricsInput")){
+   lastFocused=e.target;
    syncModalViewport();
-   setTimeout(()=>revealField(e.target),80);
+   setTimeout(()=>revealField(e.target),90);
   }
  });
- document.addEventListener("focusout",()=>setTimeout(syncModalViewport,80));
- if(vv){vv.addEventListener("resize",syncModalViewport);vv.addEventListener("scroll",syncModalViewport);}
+ document.addEventListener("focusout",()=>{
+  setTimeout(()=>{
+   /* Keep the editing surface locked while focus moves between its own fields.
+      Release only after focus leaves the editor or the keyboard is dismissed. */
+   syncModalViewport();
+   if(!backdrops.some(b=>b.classList.contains("keyboard-open")))lastFocused=null;
+  },100);
+ });
+ if(vv){
+  vv.addEventListener("resize",()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(syncModalViewport);});
+  vv.addEventListener("scroll",()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(syncModalViewport);});
+ }
  window.addEventListener("resize",syncModalViewport,{passive:true});
  backdrops.forEach(b=>new MutationObserver(syncModalViewport).observe(b,{attributes:true,attributeFilter:["class"]}));
  const lyrics=$("editLyricsInput");
  if(lyrics){
   const grow=()=>{lyrics.style.height="auto";lyrics.style.height=Math.max(132,lyrics.scrollHeight)+"px";};
-  lyrics.addEventListener("input",grow);
-  lyrics.addEventListener("change",grow);
-  grow();
+  lyrics.addEventListener("input",grow);lyrics.addEventListener("change",grow);grow();
  }
  syncModalViewport();
 })();
-
 </script>
 
 <style id="mobile-queue-polish-v2">
@@ -3871,7 +3887,73 @@ function heroMosaic() {
  #modal #modalInput{display:block!important;visibility:visible!important;opacity:1!important;
   position:relative!important;transform:none!important;scroll-margin:8px!important}
 }
-</style>
+</style
+/* Apple-inspired mobile keyboard focus surface: full visible canvas, square edges, natural scrolling. */
+@media(max-width:760px){
+ #modal.modal-backdrop.keyboard-open,
+ #editModal.modal-backdrop.keyboard-open{
+  position:fixed!important;
+  inset:var(--app-visual-top,0px) 0 auto 0!important;
+  width:100vw!important;
+  height:var(--app-visual-height,100dvh)!important;
+  min-height:0!important;
+  max-height:var(--app-visual-height,100dvh)!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:stretch!important;
+  justify-content:stretch!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  border-radius:0!important;
+  overscroll-behavior:contain!important;
+  z-index:9999!important;
+ }
+ #modal.modal-backdrop.keyboard-open>.modal,
+ #editModal.modal-backdrop.keyboard-open>.modal{
+  position:relative!important;
+  display:block!important;
+  flex:1 1 auto!important;
+  width:100%!important;
+  max-width:none!important;
+  height:100%!important;
+  max-height:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:calc(14px + env(safe-area-inset-top)) 18px calc(18px + env(safe-area-inset-bottom))!important;
+  box-sizing:border-box!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-y:contain!important;
+  touch-action:pan-y!important;
+  border-radius:0!important;
+  transform:none!important;
+  box-shadow:none!important;
+ }
+ #modal.modal-backdrop.keyboard-open .modal *,
+ #editModal.modal-backdrop.keyboard-open .modal *{
+  scroll-margin-block:14px;
+ }
+ #modal.modal-backdrop.keyboard-open input,
+ #modal.modal-backdrop.keyboard-open textarea,
+ #editModal.modal-backdrop.keyboard-open input,
+ #editModal.modal-backdrop.keyboard-open textarea{
+  font-size:16px!important;
+  scroll-margin:14px!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ #modal.modal-backdrop.keyboard-open,
+ #editModal.modal-backdrop.keyboard-open,
+ #modal.modal-backdrop.keyboard-open>.modal,
+ #editModal.modal-backdrop.keyboard-open>.modal{
+  scroll-behavior:auto!important;
+  transition-duration:.01ms!important;
+  animation-duration:.01ms!important;
+}
+
+>
 
 </body>
 <script>
