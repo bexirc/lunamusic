@@ -1956,42 +1956,62 @@ function syncModes() {
  b.dataset.one=state.repeat==="one"?"1":"";
  });
 }
+let __musicDBPromise=null;
 function openDB() {
- return new Promise((resolve,reject) => {
- const req = indexedDB.open(DB_NAME,1);
- req.onupgradeneeded = () => {
- const db = req.result;
- if (!db.objectStoreNames.contains(STORE))
- db.createObjectStore(STORE,{keyPath:"id"});
- };
- req.onsuccess = () => resolve(req.result);
- req.onerror = () => reject(req.error);
+ if(__musicDBPromise)return __musicDBPromise;
+ __musicDBPromise=new Promise((resolve,reject)=>{
+  if(!("indexedDB" in window)){reject(new Error("IndexedDB desteklenmiyor"));return;}
+  const req=indexedDB.open(DB_NAME,1);
+  req.onupgradeneeded=()=>{
+   const db=req.result;
+   if(!db.objectStoreNames.contains(STORE))db.createObjectStore(STORE,{keyPath:"id"});
+  };
+  req.onsuccess=()=>{
+   const db=req.result;
+   db.onversionchange=()=>{db.close();__musicDBPromise=null;};
+   resolve(db);
+  };
+  req.onerror=()=>{__musicDBPromise=null;reject(req.error||new Error("Veritabanı açılamadı"));};
+  req.onblocked=()=>console.warn("Müzik kitaplığı veritabanı başka bir sekme tarafından kilitlenmiş.");
  });
+ return __musicDBPromise;
 }
 async function dbAction(mode,action,data) {
- const db = await openDB();
- return new Promise((resolve,reject) => {
- const tx = db.transaction(STORE,mode);
- tx.oncomplete = () => db.close();
- const store = tx.objectStore(STORE);
- let req;
- if(action==="all") req=store.getAll();
- if(action==="put") req=store.put(data);
- if(action==="delete") req=store.delete(data);
- req.onsuccess=()=>resolve(req.result);
- req.onerror=()=>reject(req.error);
+ const db=await openDB();
+ return new Promise((resolve,reject)=>{
+  let tx,request,result;
+  try{
+   tx=db.transaction(STORE,mode);
+   const store=tx.objectStore(STORE);
+   if(action==="all")request=store.getAll();
+   else if(action==="put")request=store.put(data);
+   else if(action==="delete")request=store.delete(data);
+   else throw new Error("Bilinmeyen veritabanı işlemi: "+action);
+   if(request)request.onsuccess=()=>{result=request.result;};
+   if(request)request.onerror=()=>{try{tx.abort();}catch(_){};reject(request.error);};
+   tx.oncomplete=()=>resolve(result);
+   tx.onerror=()=>reject(tx.error||new Error("Veritabanı işlemi başarısız"));
+   tx.onabort=()=>reject(tx.error||new Error("Veritabanı işlemi iptal edildi"));
+  }catch(err){reject(err);}
  });
 }
 
-/* Durable local music library: request persistent storage where the browser supports it. */
-(async function keepMusicStoragePersistent(){
- try{
-  if(navigator.storage && navigator.storage.persist){
-   const already=await navigator.storage.persisted();
-   if(!already) await navigator.storage.persist();
-  }
- }catch(err){console.warn("Persistent storage request unavailable:",err);}
-})();
+/* iOS Safari may evict origin storage unless persistent storage is granted. */
+let __storageReady=null;
+async function ensureMusicStorage(){
+ if(!__storageReady)__storageReady=(async()=>{
+  if(!navigator.storage)return {persisted:false,estimate:null};
+  let persisted=false,estimate=null;
+  try{
+   persisted=await navigator.storage.persisted?.()||false;
+   if(!persisted&&navigator.storage.persist)persisted=await navigator.storage.persist();
+   estimate=await navigator.storage.estimate?.();
+  }catch(err){console.warn("Depolama kalıcılığı doğrulanamadı:",err);}
+  return {persisted,estimate};
+ })();
+ return __storageReady;
+}
+ensureMusicStorage();
 
 function uid() {
  return crypto.randomUUID ? crypto.randomUUID() :
@@ -2083,6 +2103,7 @@ async function readMetadata(file) {
  return result;
 }
 async function importFiles(files) {
+ await ensureMusicStorage();
  const list=Array.from(files).filter(f=>
  f.type.startsWith("audio/") || /\.(mp3|m4a|wav|flac|ogg|aac)$/i.test(f.name)
  );
@@ -2100,7 +2121,7 @@ async function importFiles(files) {
  id:uid(),name:file.name,size:file.size,
  title:meta.title,artist:meta.artist,album:meta.album,
  cover:meta.coverBlob?URL.createObjectURL(meta.coverBlob):null,coverBlob:meta.coverBlob,duration:0,favorite:false,
- added:Date.now(),type:file.type || "audio/mpeg",blob:file
+ added:Date.now(),type:file.type || "audio/mpeg",blob:file.slice(0,file.size,file.type || "audio/mpeg"),audioBlob:file.slice(0,file.size,file.type || "audio/mpeg")
  };
  try {
  await dbAction("readwrite","put",track);
@@ -2115,9 +2136,18 @@ async function importFiles(files) {
  render();
 }
 async function loadLibrary() {
- try {state.tracks=await dbAction("readonly","all");}
- catch(e){state.tracks=[];}
- state.tracks.forEach(t=>{t.cover=t.coverBlob?URL.createObjectURL(t.coverBlob):null;});
+ try{
+  const records=await dbAction("readonly","all");
+  state.tracks=records.map(t=>{
+   const audioBlob=t.audioBlob||t.blob||t.fileBlob||null;
+   return {...t,blob:audioBlob,audioBlob,cover:t.coverBlob?URL.createObjectURL(t.coverBlob):null};
+  }).filter(t=>t.blob instanceof Blob);
+  if(records.length&&!state.tracks.length)notify("Kayıtlar bulundu ancak ses dosyaları okunamadı. Dosyaları yeniden içe aktarman gerekebilir.");
+ }catch(e){
+  console.error("Müzik kitaplığı yüklenemedi:",e);
+  state.tracks=[];
+  notify("Müzik kitaplığı açılamadı. Safari site verilerini kontrol et.");
+ }
  render();
 }
 function snap() {return {page:state.page,detail:state.detail,scroll:$("main").scrollTop};}
@@ -2723,9 +2753,19 @@ function playTrack(track,resetQueue=true) {
  }
  state.current=track;
  $("progress").value=0;paint($("progress"));
- if(audio.src) URL.revokeObjectURL(audio.src);
- audio.src=URL.createObjectURL(track.blob);
- audio.play().catch(()=>notify("Bu ses dosyası tarayıcıda oynatılamadı."));
+ const playable=track.audioBlob||track.blob;
+ if(!(playable instanceof Blob)){notify("Bu şarkının kayıtlı ses dosyası bulunamadı.");return;}
+ const previousAudioURL=audio.dataset.objectUrl;
+ const nextAudioURL=URL.createObjectURL(playable);
+ audio.pause();
+ audio.src=nextAudioURL;
+ audio.dataset.objectUrl=nextAudioURL;
+ audio.load();
+ if(previousAudioURL)URL.revokeObjectURL(previousAudioURL);
+ audio.play().catch(err=>{
+  console.warn("Ses oynatma başarısız:",err);
+  notify("Şarkı başlatılamadı. Ekrana dokunup yeniden dene.");
+ });
  updatePlayer();
  renderQueue();
  render();
@@ -4056,5 +4096,38 @@ function heroMosaic() {
  #queuePanel.queue-panel,.fp .fp-queue.view-lyrics,.modal-backdrop.show>.modal{
   transition-duration:.01ms!important;animation-duration:.01ms!important;
  }
+}
+</style>
+
+
+<style id="ios-performance-and-motion-v5">
+:root{--ios:cubic-bezier(.22,.68,0,1);--ios-exit:cubic-bezier(.4,0,1,1)}
+@media(max-width:760px){
+ html{scroll-behavior:auto!important}
+ body{overscroll-behavior-y:none}
+ .fp,.fp-queue,.queue-panel,.modal-backdrop,.modal,.player,.mobile-nav{
+  -webkit-backface-visibility:hidden;backface-visibility:hidden;
+ }
+ .fp{transition:transform .42s var(--ios),visibility 0s .42s!important}
+ .fp.open{transition:transform .42s var(--ios),visibility 0s!important}
+ .fp-queue.view-lyrics,#queuePanel.queue-panel{
+  -webkit-backdrop-filter:blur(16px) saturate(145%)!important;
+  backdrop-filter:blur(16px) saturate(145%)!important;
+  box-shadow:0 12px 34px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.09)!important;
+  transition:transform .42s var(--ios),opacity .24s ease,visibility 0s!important;
+ }
+ .fp-queue.view-lyrics{transform:translate3d(0,0,0);contain:layout paint}
+ .fp-queue.view-lyrics.lyrics-closing{transform:translate3d(0,calc(100% + 28px),0)!important;opacity:0!important}
+ #queuePanel.queue-panel{transition:transform .42s var(--ios),opacity .24s ease,visibility 0s .42s!important}
+ #queuePanel.queue-panel.show{transition:transform .42s var(--ios),opacity .24s ease,visibility 0s!important}
+ .fp-art,.fp-bg,.fp-queue.view-lyrics,.queue-panel,.modal{transform:translateZ(0);will-change:transform}
+ .fp-bg{filter:blur(38px) saturate(1.25) brightness(.72)!important}
+ .fp-queue.view-lyrics #fpLyricsPanel,#queuePanel{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+ .song,.card,.queue-track{contain:layout paint}
+ .song img,.card img,.queue-track img{content-visibility:auto}
+ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 </style>
