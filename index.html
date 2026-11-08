@@ -1138,6 +1138,13 @@ const state = {
 };
 const audio = new Audio();
 audio.volume = .8;
+/* iOS: keep playback on the native media-element path for background audio. */
+const IS_IOS_AUDIO = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+ (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+audio.preload = "auto";
+audio.playsInline = true;
+audio.setAttribute("playsinline", "");
+audio.setAttribute("webkit-playsinline", "");
 const $ = id => document.getElementById(id);
 const ICONS={
  listPlus:`<path d="M4 6h13M4 11h9M4 16h6"/><path d="M17.5 14v6M14.5 17h6" stroke-width="2.2"/>`,
@@ -2260,11 +2267,14 @@ loadLibrary();
  /* Arşiv yönlendirme */
  $("page").addEventListener("click",e=>{const b=e.target.closest("[data-lib]");if(b)navigate(b.dataset.lib);});
  /* çapraz geçiş */
- const cf=window.__cf={on:true,sec:4};
+ const cf=window.__cf={on:!IS_IOS_AUDIO,sec:4};
  try{Object.assign(cf,JSON.parse(localStorage.getItem("music-crossfade")||"{}"));}catch(e){}
+ /* iOS crossfade routes audio through AudioContext, which can silence background playback. */
+ if(IS_IOS_AUDIO) cf.on=false;
  cf.sec=Math.min(10,Math.max(1,+cf.sec||4));
  let ctx=null,g1=null,busy=false,tried=null,curOld=null;
  window.__cfGraph=function(){
+  if(IS_IOS_AUDIO) return false;
   try{
    if(ctx){ctx.state==="suspended"&&ctx.resume();return true;}
    ctx=new (window.AudioContext||window.webkitAudioContext)();
@@ -2292,9 +2302,16 @@ loadLibrary();
  });
  window.__cfBind=function(){
   const sw=$("cfSwitch"),rg=$("cfRange");if(!sw||!rg)return;
+  if(IS_IOS_AUDIO){
+   sw.checked=false;sw.disabled=true;
+   sw.setAttribute("aria-label","iOS arka plan ses uyumluluğu için çapraz geçiş kapalı");
+   const label=sw.closest(".acct-row")?.querySelector("span");
+   if(label) label.innerHTML='Çapraz Geçiş<small>iOS arka plan ses uyumluluğu için kapalı</small>';
+   document.querySelector(".cf-row")?.classList.add("off");
+  }
   const save=()=>{try{localStorage.setItem("music-crossfade",JSON.stringify(cf));}catch(e){}};
   paint(rg);
-  sw.addEventListener("change",()=>{cf.on=sw.checked;save();if(cf.on)__cfGraph();document.querySelector(".cf-row").classList.toggle("off",!cf.on);});
+  sw.addEventListener("change",()=>{if(IS_IOS_AUDIO){cf.on=false;sw.checked=false;return;}cf.on=sw.checked;save();if(cf.on)__cfGraph();document.querySelector(".cf-row").classList.toggle("off",!cf.on);});
   rg.addEventListener("input",()=>{cf.sec=+rg.value;$("cfOut").textContent=cf.sec+" sn";paint(rg);save();});
  };
 })();
