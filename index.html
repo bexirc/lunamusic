@@ -1483,14 +1483,14 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
   align-items:center;padding:12px 12px calc(12px + env(safe-area-inset-bottom));
   height:100dvh;height:var(--app-visual-height,100dvh);
  }
- .modal-backdrop.keyboard-open{align-items:flex-start}
- .modal-backdrop .modal{
+
+.modal-backdrop .modal{
   width:100%;max-width:520px;max-height:calc(var(--app-visual-height,100dvh) - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   margin:auto 0;padding:20px 17px calc(18px + env(safe-area-inset-bottom));
   overflow-y:auto;-webkit-overflow-scrolling:touch;
  }
- .modal-backdrop.keyboard-open .modal{margin-top:8px;margin-bottom:8px}
- .modal .field input,.modal input:not([type=file]),.modal textarea{font-size:16px}
+
+.modal .field input,.modal input:not([type=file]),.modal textarea{font-size:16px}
  .edit-artwork-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:17px}
  .edit-artwork-card{padding:10px;min-width:0}
  .edit-artwork-label{font-size:12px;line-height:1.25;min-height:30px;margin-bottom:8px}
@@ -1656,8 +1656,7 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
   border:1px solid var(--line)!important;border-radius:14px!important;
   -webkit-appearance:none;appearance:none;
  }
- #modal.keyboard-open .modal{margin-top:8px!important;margin-bottom:8px!important}
- #modal.keyboard-open #modalInput{scroll-margin:24px}
+
 }
 /* Reverse the entrance motion when overlays close. */
 .modal-backdrop.is-closing{display:flex!important;pointer-events:none}
@@ -3320,7 +3319,7 @@ function syncFullscreenBrowserColor(){
  },{passive:false});
  const finishLyricsDrag=()=>{
   if(lyricsY===null)return;
-  const shouldClose=lyricsDY>118||lyricsVelocity>.58;
+  const shouldClose=lyricsDY>112||lyricsVelocity>.60;
   lyricsY=null;
   if(shouldClose){
    closeLyricsSheet();
@@ -3628,13 +3627,28 @@ function syncBackLabel() {
 (function(){
  const mq=matchMedia("(max-width:760px)");
  function drag(el,close){
-  let y0=null,dy=0;
+  let y0=null,dy=0,lastY=0,lastT=0,velocity=0;
   el.addEventListener("touchstart",e=>{
-   if(!mq.matches)return;const y=e.touches[0].clientY;
-   if(y-el.getBoundingClientRect().top>72||e.target.closest("input,textarea,select,button")){y0=null;return;}
-   y0=y;dy=0;},{passive:true});
-  el.addEventListener("touchmove",e=>{if(y0===null)return;dy=Math.max(0,e.touches[0].clientY-y0);el.style.transition="none";el.style.transform=`translateY(${dy}px)`;},{passive:true});
-  el.addEventListener("touchend",()=>{if(y0===null)return;y0=null;el.style.transition="";el.style.transform="";if(dy>110)close();});
+   if(!mq.matches||e.touches.length!==1)return;
+   const y=e.touches[0].clientY,rect=el.getBoundingClientRect();
+   if(y-rect.top>78||e.target.closest("input,textarea,select,button,.queue-track")){y0=null;return;}
+   y0=lastY=y;dy=0;velocity=0;lastT=performance.now();el.style.transition="none";
+  },{passive:true});
+  el.addEventListener("touchmove",e=>{
+   if(y0===null||e.touches.length!==1)return;
+   const now=performance.now(),y=e.touches[0].clientY,next=Math.max(0,y-y0);
+   if(next<=0)return;
+   const dt=Math.max(1,now-lastT);velocity=(y-lastY)/dt;lastY=y;lastT=now;dy=next;
+   e.preventDefault();el.style.transform=`translate3d(0,${next}px,0)`;
+   el.style.opacity=String(Math.max(.35,1-next/650));
+  },{passive:false});
+  const finish=()=>{
+   if(y0===null)return;y0=null;
+   if(dy>120||velocity>.62){el.style.transition="transform .28s cubic-bezier(.4,0,1,1),opacity .24s ease";el.style.transform="translate3d(0,105%,0)";el.style.opacity="0";setTimeout(()=>{el.style.transform="";el.style.opacity="";close();},270);}
+   else{el.style.transition="transform .38s cubic-bezier(.22,.68,0,1),opacity .28s ease";el.style.transform="translate3d(0,0,0)";el.style.opacity="1";setTimeout(()=>{el.style.transition="";el.style.transform="";el.style.opacity="";},400);}
+   dy=0;velocity=0;
+  };
+  el.addEventListener("touchend",finish);el.addEventListener("touchcancel",finish);
  }
  drag($("queuePanel"),()=>$("closeQueue").click());
  /* Modal gövdesi doğal dikey kaydırmayı korur; tüm yüzeye sürükle-kapat dinleyicisi bağlanmaz. */
@@ -3747,72 +3761,48 @@ function heroMosaic() {
  new ResizeObserver(set).observe(pl);set();
 })();
 
-/* Mobile keyboard focus: keep the active editor in the full visible area above the keyboard. */
+/* iOS-style text focus: center the active field in the space left above the keyboard. */
 (function(){
- const backdrops=[$("modal"),$("editModal")].filter(Boolean);
  const vv=window.visualViewport;
- let lastFocused=null, raf=0;
  const mobile=()=>matchMedia("(max-width:760px)").matches;
- function syncModalViewport(){
+ function updateViewport(){
   const height=vv?vv.height:window.innerHeight;
-  const top=vv?vv.offsetTop:0;
   document.documentElement.style.setProperty("--app-visual-height",Math.max(240,height)+"px");
-  document.documentElement.style.setProperty("--app-visual-top",Math.max(0,top)+"px");
-  backdrops.forEach(backdrop=>{
-   const active=document.activeElement;
-   const editing=backdrop.classList.contains("show") &&
-    active && backdrop.contains(active) && /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName);
-   backdrop.classList.toggle("keyboard-open",!!(mobile()&&editing));
-   backdrop.classList.toggle("focus-locked",!!(mobile()&&editing));
-  });
  }
- function revealField(field){
-  if(!field || !mobile())return;
-  syncModalViewport();
+ function centerField(field){
+  if(!mobile()||!field)return;
+  const modal=field.closest(".modal");
+  if(!modal)return;
   requestAnimationFrame(()=>{
-   const modal=field.closest(".modal");
-   if(!modal)return;
-   const mr=modal.getBoundingClientRect(), fr=field.getBoundingClientRect();
-   const margin=14, visibleBottom=(vv?vv.offsetTop+vv.height:window.innerHeight)-margin;
-   if(fr.bottom>visibleBottom)modal.scrollTop+=fr.bottom-visibleBottom+12;
-   else if(fr.top<mr.top+margin)modal.scrollTop-=mr.top+margin-fr.top;
-   /* Keep the next field discoverable without hiding the rest of the editor. */
-   const fields=[...modal.querySelectorAll('input:not([type="file"]):not([type="hidden"]),textarea,select')]
-    .filter(el=>!el.disabled&&el.offsetParent!==null);
-   const next=fields[fields.indexOf(field)+1];
-   if(next){
-    const nr=next.getBoundingClientRect();
-    if(nr.top>visibleBottom-4)modal.scrollTop+=nr.top-visibleBottom+10;
-   }
+   updateViewport();
+   const mr=modal.getBoundingClientRect(),fr=field.getBoundingClientRect();
+   const visibleTop=Math.max(mr.top, vv?vv.offsetTop:0)+12;
+   const visibleBottom=Math.min(mr.bottom, (vv?vv.offsetTop+vv.height:window.innerHeight))-12;
+   const center=(visibleTop+visibleBottom)/2;
+   const fieldCenter=(fr.top+fr.bottom)/2;
+   modal.scrollTop+=fieldCenter-center;
   });
  }
  document.addEventListener("focusin",e=>{
   if(e.target.matches("#modalInput,#editTitleInput,#editArtistInput,#editAlbumInput,#editLyricsInput")){
-   lastFocused=e.target;
-   syncModalViewport();
-   setTimeout(()=>revealField(e.target),90);
+   setTimeout(()=>centerField(e.target),80);
   }
  });
- document.addEventListener("focusout",()=>{
-  setTimeout(()=>{
-   /* Keep the editing surface locked while focus moves between its own fields.
-      Release only after focus leaves the editor or the keyboard is dismissed. */
-   syncModalViewport();
-   if(!backdrops.some(b=>b.classList.contains("keyboard-open")))lastFocused=null;
-  },100);
- });
  if(vv){
-  vv.addEventListener("resize",()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(syncModalViewport);});
-  vv.addEventListener("scroll",()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(syncModalViewport);});
+  vv.addEventListener("resize",updateViewport,{passive:true});
+  vv.addEventListener("scroll",()=>{
+   updateViewport();
+   const active=document.activeElement;
+   if(active?.matches?.("#modalInput,#editTitleInput,#editArtistInput,#editAlbumInput,#editLyricsInput"))centerField(active);
+  },{passive:true});
  }
- window.addEventListener("resize",syncModalViewport,{passive:true});
- backdrops.forEach(b=>new MutationObserver(syncModalViewport).observe(b,{attributes:true,attributeFilter:["class"]}));
+ window.addEventListener("resize",updateViewport,{passive:true});
  const lyrics=$("editLyricsInput");
  if(lyrics){
   const grow=()=>{lyrics.style.height="auto";lyrics.style.height=Math.max(132,lyrics.scrollHeight)+"px";};
   lyrics.addEventListener("input",grow);lyrics.addEventListener("change",grow);grow();
  }
- syncModalViewport();
+ updateViewport();
 })();
 </script>
 
@@ -3882,78 +3872,12 @@ function heroMosaic() {
   -webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;
   touch-action:pan-y!important;transform:none!important;
  }
- #modal.keyboard-open{align-items:flex-start!important}
- #modal.keyboard-open .modal{margin:0!important}
- #modal #modalInput{display:block!important;visibility:visible!important;opacity:1!important;
-  position:relative!important;transform:none!important;scroll-margin:8px!important}
+
+
+ 
 }
 </style
-/* Apple-inspired mobile keyboard focus surface: full visible canvas, square edges, natural scrolling. */
-@media(max-width:760px){
- #modal.modal-backdrop.keyboard-open,
- #editModal.modal-backdrop.keyboard-open{
-  position:fixed!important;
-  inset:var(--app-visual-top,0px) 0 auto 0!important;
-  width:100vw!important;
-  height:var(--app-visual-height,100dvh)!important;
-  min-height:0!important;
-  max-height:var(--app-visual-height,100dvh)!important;
-  box-sizing:border-box!important;
-  display:flex!important;
-  align-items:stretch!important;
-  justify-content:stretch!important;
-  padding:0!important;
-  margin:0!important;
-  overflow:hidden!important;
-  border-radius:0!important;
-  overscroll-behavior:contain!important;
-  z-index:9999!important;
- }
- #modal.modal-backdrop.keyboard-open>.modal,
- #editModal.modal-backdrop.keyboard-open>.modal{
-  position:relative!important;
-  display:block!important;
-  flex:1 1 auto!important;
-  width:100%!important;
-  max-width:none!important;
-  height:100%!important;
-  max-height:100%!important;
-  min-height:0!important;
-  margin:0!important;
-  padding:calc(14px + env(safe-area-inset-top)) 18px calc(18px + env(safe-area-inset-bottom))!important;
-  box-sizing:border-box!important;
-  overflow-x:hidden!important;
-  overflow-y:auto!important;
-  -webkit-overflow-scrolling:touch!important;
-  overscroll-behavior-y:contain!important;
-  touch-action:pan-y!important;
-  border-radius:0!important;
-  transform:none!important;
-  box-shadow:none!important;
- }
- #modal.modal-backdrop.keyboard-open .modal *,
- #editModal.modal-backdrop.keyboard-open .modal *{
-  scroll-margin-block:14px;
- }
- #modal.modal-backdrop.keyboard-open input,
- #modal.modal-backdrop.keyboard-open textarea,
- #editModal.modal-backdrop.keyboard-open input,
- #editModal.modal-backdrop.keyboard-open textarea{
-  font-size:16px!important;
-  scroll-margin:14px!important;
- }
-}
-@media(prefers-reduced-motion:reduce){
- #modal.modal-backdrop.keyboard-open,
- #editModal.modal-backdrop.keyboard-open,
- #modal.modal-backdrop.keyboard-open>.modal,
- #editModal.modal-backdrop.keyboard-open>.modal{
-  scroll-behavior:auto!important;
-  transition-duration:.01ms!important;
-  animation-duration:.01ms!important;
-}
 
->
 
 </body>
 <script>
@@ -3993,3 +3917,37 @@ function heroMosaic() {
 
 </html>
 
+
+
+<style id="ios-keyboard-and-sheet-polish">
+@media(max-width:760px){
+ .modal-backdrop{height:var(--app-visual-height,100dvh)!important}
+ .modal-backdrop .modal{
+  max-height:calc(var(--app-visual-height,100dvh) - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
+  scroll-behavior:smooth;
+  overscroll-behavior:contain;
+ }
+ .modal input:not([type=file]),.modal textarea{font-size:16px!important;scroll-margin-block:40vh}
+ .fp .fp-queue.view-lyrics{
+  transform:translate3d(0,0,0);
+  transform-origin:bottom center;
+  transition:transform .48s cubic-bezier(.22,.68,0,1),opacity .38s ease!important;
+  will-change:transform,opacity;
+  touch-action:pan-y;
+ }
+ .fp .fp-queue.view-lyrics.lyrics-closing{
+  transform:translate3d(0,calc(100% + 28px),0)!important;
+  opacity:0!important;
+ }
+ .queue-panel{
+  touch-action:pan-y;
+  will-change:transform;
+  transition:transform .48s cubic-bezier(.22,.68,0,1),opacity .28s ease,visibility 0s .48s!important;
+ }
+ .queue-panel.show{transition:transform .48s cubic-bezier(.22,.68,0,1),opacity .28s ease,visibility 0s!important}
+ .queue-panel.is-closing{opacity:0;pointer-events:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .modal-backdrop .modal,.fp .fp-queue.view-lyrics,.queue-panel{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
+</style>
