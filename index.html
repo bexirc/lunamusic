@@ -1431,9 +1431,13 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .fp-queue-switch{display:none!important}
  .fp-mobile-tools{position:relative;z-index:4;isolation:isolate}
  .fp.fp-sheet-open .fp-mobile-tools{z-index:4;pointer-events:none}
- .fp-queue.view-lyrics{display:flex;flex-direction:column;position:absolute;z-index:8;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 44px);bottom:calc(env(safe-area-inset-bottom) + 12px);width:auto;max-width:none;margin:0;padding:16px 18px 18px;border-radius:24px 24px 20px 20px;background:rgba(25,25,28,.96);border:1px solid rgba(255,255,255,.18);-webkit-backdrop-filter:blur(28px) saturate(145%);backdrop-filter:blur(28px) saturate(145%);box-shadow:0 16px 48px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.12);animation:lyricsSheetUp .46s var(--ios) both;will-change:transform,opacity}
- .fp-queue.view-lyrics.lyrics-closing{animation:lyricsSheetDown .56s cubic-bezier(.22,.61,.36,1) both;pointer-events:none}
+ .fp-queue.view-lyrics{display:flex;flex-direction:column;position:absolute;z-index:8;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 44px);bottom:calc(env(safe-area-inset-bottom) + 12px);width:auto;max-width:none;margin:0;padding:16px 18px 18px;border-radius:24px 24px 20px 20px;background:rgba(25,25,28,.96);border:1px solid rgba(255,255,255,.18);-webkit-backdrop-filter:blur(28px) saturate(145%);backdrop-filter:blur(28px) saturate(145%);box-shadow:0 16px 48px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.12);transform:translateY(0);opacity:1;transition:transform .55s var(--ios),opacity .55s var(--ios);will-change:transform,opacity}
+ .fp-queue.view-lyrics.lyrics-closing{transform:translateY(calc(100% + 28px));opacity:0;pointer-events:none}
  .fp-queue.view-lyrics .fp-queue-head{display:flex;position:relative;align-items:center;padding:15px 4px 16px;border-bottom:1px solid rgba(255,255,255,.13)}
+ .fp-queue.view-lyrics .fp-queue-head>div{padding-right:48px}
+ .lyrics-close-btn{position:absolute;right:2px;top:13px;width:38px;height:38px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.17);border-radius:50%;background:rgba(255,255,255,.10);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.12);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+ .lyrics-close-btn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+ .lyrics-close-btn:active{transform:scale(.92);background:rgba(255,255,255,.18)}
  .fp-queue.view-lyrics .fp-queue-head::before{content:"";position:absolute;top:0;left:50%;width:38px;height:5px;border-radius:999px;background:rgba(255,255,255,.34);transform:translateX(-50%)}
  .fp-queue.view-lyrics .fp-queue-head>div{display:flex;flex-direction:column;gap:6px;min-width:0;width:100%}
  .fp-queue.view-lyrics .fp-queue-head strong{max-width:100%;font-size:1.2rem;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff}
@@ -1441,8 +1445,6 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .fp-queue.view-lyrics #fpQueueList{display:none!important}
  .fp-queue.view-lyrics #fpLyricsPanel{display:block;flex:1 1 auto;align-self:stretch;width:100%;box-sizing:border-box;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:22px 5px max(18px,env(safe-area-inset-bottom));text-align:left;white-space:pre-wrap;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.3) transparent;color:rgba(255,255,255,.95);font-size:clamp(1.15rem,5.3vw,1.42rem);line-height:1.78;font-weight:520;letter-spacing:-.01em;-webkit-overflow-scrolling:touch}
  .fp-queue.view-lyrics .lyrics-empty{padding:48px 12px;text-align:center;font-size:1rem;line-height:1.65;color:rgba(255,255,255,.62)}
- @keyframes lyricsSheetUp{from{opacity:0;transform:translateY(calc(100% + 28px))}to{opacity:1;transform:translateY(0)}}
- @keyframes lyricsSheetDown{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(calc(100% + 28px))}}
 }
 
 
@@ -1466,6 +1468,224 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .fp .fp-queue.view-lyrics,.fp .fp-queue-menu,.fp .fp-mobile-tools{animation:none!important;transition:none!important}
 }
 
+
+/* Mobil modal: klavye açılınca içerik görünür alanda kayar, form yatayda daralmaz. */
+.modal-backdrop{overscroll-behavior:contain}
+.modal{max-height:calc(100dvh - 40px);overflow-y:auto;overscroll-behavior:contain}
+.modal input,.modal textarea{max-width:100%;min-width:0}
+.modal .lyrics-field textarea{
+ display:block;width:100%;min-width:100%;max-width:100%;
+ min-height:132px;height:auto;resize:none;overflow-y:hidden;
+ box-sizing:border-box;white-space:pre-wrap;overflow-wrap:anywhere;
+}
+@media(max-width:760px){
+ .modal-backdrop{
+  align-items:center;padding:12px 12px calc(12px + env(safe-area-inset-bottom));
+  height:100dvh;height:var(--app-visual-height,100dvh);
+ }
+ .modal-backdrop.keyboard-open{align-items:flex-start}
+ .modal-backdrop .modal{
+  width:100%;max-width:520px;max-height:calc(var(--app-visual-height,100dvh) - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  margin:auto 0;padding:20px 17px calc(18px + env(safe-area-inset-bottom));
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+ }
+ .modal-backdrop.keyboard-open .modal{margin-top:8px;margin-bottom:8px}
+ .modal .field input,.modal input:not([type=file]),.modal textarea{font-size:16px}
+ .edit-artwork-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:17px}
+ .edit-artwork-card{padding:10px;min-width:0}
+ .edit-artwork-label{font-size:12px;line-height:1.25;min-height:30px;margin-bottom:8px}
+ .edit-cover-row{display:flex;flex-direction:column;align-items:center;gap:8px;margin:0}
+ .edit-cover{width:min(100%,112px);height:auto;aspect-ratio:1;border-radius:13px}
+ .artist-edit-cover{border-radius:50%}
+ .edit-cover-actions{width:100%;display:flex;flex-direction:row;align-items:stretch;justify-content:center;gap:5px}
+ .edit-cover-actions button{
+  flex:1 1 0;min-width:0;min-height:32px;height:32px;padding:0 5px;
+  font-size:11px;line-height:1.1;border-radius:10px;white-space:nowrap;
+ }
+ .modal .lyrics-field{width:100%;min-width:0}
+ .modal .lyrics-field textarea{width:100%;min-width:100%;max-width:100%;padding:12px}
+}
+
+
+/* Mobil son düzenleme: eşit görsel kartları, yumuşak form alanı ve net modal başlığı. */
+@media(max-width:760px){
+ #editModal .modal,
+ #modal .modal{
+  border-radius:26px!important;
+  overflow:hidden;
+ }
+ #editModal .modal{
+  position:relative;
+  padding:22px 16px calc(26px + env(safe-area-inset-bottom));
+ }
+ #editModal .edit-modal-heading{
+  display:flex;align-items:center;justify-content:center;
+  position:relative;min-height:38px;margin:0 0 16px;
+ }
+ #editModal .edit-modal-heading h2{
+  margin:0!important;text-align:center;font-size:18px;line-height:1.25;
+ }
+ #editModal .edit-modal-close{
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
+  display:grid;place-items:center;width:34px;height:34px;
+  border:0;border-radius:50%;background:var(--hover);color:var(--muted);
+  font-size:25px;font-weight:400;line-height:1;padding:0;
+  box-shadow:inset 0 0 0 1px var(--line);
+  -webkit-tap-highlight-color:transparent;
+ }
+ #editModal .edit-artwork-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;margin:0 0 18px;
+ }
+ #editModal .edit-artwork-card{
+  display:flex;flex-direction:column;align-items:center;
+  min-width:0;padding:11px 8px 10px;border-radius:17px;
+  background:var(--hover);
+ }
+ #editModal .edit-artwork-label{
+  width:100%;min-height:30px;margin:0 0 9px;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;font-size:12px;line-height:1.2;
+ }
+ #editModal .edit-cover-row{
+  width:100%;display:flex;flex-direction:column;align-items:center;
+  gap:9px;margin:0;
+ }
+ #editModal .edit-cover{
+  width:min(100%,112px);height:auto;aspect-ratio:1;
+  border-radius:15px;flex:none;object-fit:cover;
+ }
+ #editModal .artist-edit-cover{border-radius:50%}
+ #editModal .edit-cover-actions{
+  width:100%;display:flex;flex-direction:row;justify-content:center;
+  align-items:center;gap:5px;
+ }
+ #editModal .edit-cover-actions button{
+  flex:1 1 0;min-width:0;min-height:32px;height:32px;
+  padding:0 4px;border-radius:999px;font-size:10.5px;
+  line-height:1.1;white-space:nowrap;
+ }
+ #editModal .lyrics-field textarea{
+  width:100%;min-width:100%;max-width:100%;
+  border-radius:16px!important;background:var(--hover)!important;
+  border:1px solid var(--line)!important;
+ }
+ #editModal .modal-actions{
+  margin-top:25px!important;padding-top:4px;
+  display:flex;gap:10px;
+ }
+ #editModal .modal-actions button{
+  min-height:44px;border-radius:999px;padding:0 20px;
+ }
+ #modal .modal{
+  border-radius:26px 26px 26px 26px!important;
+  padding-bottom:24px;
+ }
+}
+
+
+@media(max-width:760px){
+ #editModal .edit-artwork-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;padding:0 2px}
+ #editModal .edit-artwork-card{width:100%;min-width:0;align-items:stretch;padding:12px 9px}
+ #editModal .edit-cover-row{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%}
+ #editModal .edit-cover{width:clamp(84px,28vw,112px);height:auto;aspect-ratio:1}
+ #editModal .edit-cover-actions{display:flex;flex-direction:column;width:100%;max-width:150px;gap:7px}
+ #editModal .edit-cover-actions button{width:100%;flex:0 0 auto;min-height:34px;height:34px;font-size:11px;padding:0 8px}
+ #modal #modalInput{
+  display:block!important;position:relative!important;visibility:visible!important;
+  opacity:1!important;z-index:2!important;width:100%!important;height:48px!important;
+  min-height:48px!important;box-sizing:border-box!important;flex:none!important;
+  margin:8px 0 14px!important;padding:0 14px!important;
+  background:var(--bg)!important;color:var(--text)!important;
+  border:1px solid var(--line)!important;border-radius:14px!important;
+  font-size:16px!important;outline:none!important;pointer-events:auto!important;
+ }
+ #modal #modalInput:focus{border-color:var(--accent)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 15%,transparent)}
+}
+.modal-backdrop.is-closing{pointer-events:none}
+.modal-backdrop.is-closing .modal{animation:sheetDown .32s var(--ios) both!important}
+.modal-backdrop.is-closing{animation:fadeOut .28s ease both!important}
+@keyframes sheetDown{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(28px) scale(.98)}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
+.queue-panel.is-closing{transform:translateX(105%)!important;opacity:0!important;transition:transform .32s var(--ios),opacity .25s ease!important}
+
+
+/* Mobile song editor: artwork columns stay side by side, actions directly underneath each image. */
+@media(max-width:760px){
+ #editModal .edit-artwork-grid{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  align-items:start;gap:18px!important;margin:0 0 18px!important;
+ }
+ #editModal .edit-artwork-card{
+  display:flex;flex-direction:column;align-items:center;
+  min-width:0;padding:10px 7px 11px!important;border-radius:17px;
+ }
+ #editModal .edit-artwork-label{
+  min-height:32px;width:100%;display:flex;align-items:center;justify-content:center;
+  text-align:center;font-size:12px;margin:0 0 8px!important;
+ }
+ #editModal .edit-cover-row{
+  width:100%;display:flex!important;flex-direction:column!important;
+  align-items:center!important;gap:9px!important;
+ }
+ #editModal .edit-cover{
+  width:min(100%,116px)!important;height:auto!important;aspect-ratio:1;
+ }
+ #editModal .edit-cover-actions{
+  width:100%;display:flex!important;flex-direction:column!important;
+  align-items:stretch!important;gap:6px!important;
+ }
+ #editModal .edit-cover-actions button{
+  width:100%;min-width:0;min-height:32px;height:32px;
+  padding:0 6px!important;border-radius:999px!important;
+  font-size:11px;white-space:nowrap;
+ }
+ /* Playlist input stays in the modal's scroll flow when the keyboard appears. */
+ #modal.modal-backdrop{position:fixed!important;inset:0!important;overflow:hidden!important}
+ #modal .modal{
+  position:relative!important;display:block!important;flex:none!important;
+  width:min(100%,520px)!important;max-height:calc(var(--app-visual-height,100dvh) - 24px - env(safe-area-inset-top))!important;
+  overflow-y:auto!important;overscroll-behavior:contain;
+  transform:translateZ(0);opacity:1;
+ }
+ #modal #modalInput{
+  display:block!important;position:relative!important;visibility:visible!important;
+  opacity:1!important;width:100%!important;height:48px!important;min-height:48px!important;
+  margin:0 0 14px!important;box-sizing:border-box!important;z-index:2;
+  background:var(--hover)!important;color:var(--text)!important;
+  border:1px solid var(--line)!important;border-radius:14px!important;
+  -webkit-appearance:none;appearance:none;
+ }
+ #modal.keyboard-open .modal{margin-top:8px!important;margin-bottom:8px!important}
+ #modal.keyboard-open #modalInput{scroll-margin:24px}
+}
+/* Reverse the entrance motion when overlays close. */
+.modal-backdrop.is-closing{display:flex!important;pointer-events:none}
+.modal-backdrop.is-closing .modal{animation:sheetDown .32s var(--ios) both!important}
+.modal-backdrop.is-closing{animation:fadeOut .28s ease both!important}
+.queue-panel.is-closing{transform:translateX(105%)!important;opacity:0!important}
+@media(prefers-reduced-motion:reduce){
+ .modal-backdrop.is-closing,.modal-backdrop.is-closing .modal{animation-duration:.01ms!important}
+ .queue-panel.is-closing{transition-duration:.01ms!important}
+}
+
+</style>
+
+<style>
+/* Şarkı düzenleme: mobilde kusursuz daire, masaüstünde macOS kapatma noktası. */
+@media(max-width:760px){
+ #editModal .edit-modal-close{width:36px!important;height:36px!important;min-width:36px;min-height:36px;aspect-ratio:1/1;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important;border-radius:50%!important;font-family:Arial,sans-serif;font-size:23px!important;font-weight:400!important;line-height:36px!important;text-align:center;text-indent:0;transform:translateY(-50%)}
+ #editModal .edit-macos-close{display:none!important}
+}
+@media(min-width:761px){
+ #editModal .edit-modal-close{display:none!important}
+ #editModal .edit-macos-close{position:absolute;z-index:5;left:22px;top:20px;width:13px;height:13px;min-width:13px;min-height:13px;padding:0;border-radius:50%;box-sizing:border-box;border:1px solid #e0443e;background:#ff5f57;box-shadow:inset 0 0 0 .5px rgba(255,255,255,.22);cursor:pointer;display:block;transition:background .2s ease,box-shadow .2s ease,transform .2s ease}
+ #editModal .edit-macos-close::after{content:"×";position:absolute;inset:-2px 0 0;display:flex;align-items:center;justify-content:center;color:#681b18;font:600 12px/1 Arial,sans-serif;opacity:0;transform:scale(.72);transition:opacity .2s ease,transform .2s ease}
+ #editModal .edit-macos-close:hover::after,#editModal .edit-macos-close:focus-visible::after{opacity:1;transform:scale(1)}
+ #editModal .edit-macos-close:hover{background:#ff625a;box-shadow:0 0 0 2px rgba(255,95,87,.13)}
+ #editModal .modal{position:relative}
+ #editModal .edit-modal-heading{margin-top:30px!important}
+}
 </style>
 </head>
 <body>
@@ -1575,7 +1795,7 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
 </div>
 <div class="modal-backdrop" id="editModal">
  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editTitle">
- <h2 id="editTitle">Şarkıyı Düzenle</h2>
+ <button type="button" class="edit-macos-close" id="editCloseMac" aria-label="Düzenlemeyi kapat"></button><div class="edit-modal-heading"><h2 id="editTitle">Şarkıyı Düzenle</h2><button type="button" class="edit-modal-close" id="editClose" aria-label="Düzenlemeyi kapat">×</button></div>
  <div class="edit-artwork-grid">
   <section class="edit-artwork-card">
    <div class="edit-artwork-label">Şarkı Kapağı</div>
@@ -1601,7 +1821,7 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  <label class="field"><span>Başlık</span><input id="editTitleInput" autocomplete="off"></label>
  <label class="field"><span>Sanatçı</span><input id="editArtistInput" placeholder="Bilinmeyen Sanatçı" autocomplete="off"></label>
  <label class="field"><span>Albüm</span><input id="editAlbumInput" placeholder="Bilinmeyen Albüm" autocomplete="off"></label>
- <label class="field lyrics-field"><span>Şarkı Sözleri</span><textarea id="editLyricsInput" rows="5" placeholder="Şarkı sözlerini buraya ekle..."></textarea></label>
+ <label class="field lyrics-field"><span>Şarkı Sözleri</span><textarea id="editLyricsInput" rows="5" placeholder="Şarkı sözlerini buraya ekle..." class="lyrics-autogrow"></textarea></label>
  <div class="modal-actions">
  <button class="secondary-btn" id="editCancel">İptal</button>
  <button class="import-btn" id="editSave">Kaydet</button>
@@ -1642,7 +1862,7 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
    </div>
   </div>
   <aside class="fp-queue" aria-label="Sıradaki şarkılar">
-   <div class="fp-queue-head"><div><strong id="fpQueuePanelTitle">Sıradaki</strong><span id="fpQueueCount">0 şarkı</span></div></div>
+   <div class="fp-queue-head"><div><strong id="fpQueuePanelTitle">Sıradaki</strong><span id="fpQueueCount">0 şarkı</span></div><button type="button" class="lyrics-close-btn" id="lyricsCloseBtn" aria-label="Şarkı sözlerini kapat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
    <div class="fp-queue-switch" role="group" aria-label="Oynatıcı yan paneli">
     <button type="button" data-fp-view="lyrics"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M8 7h8M6 11h12M8 15h8"/></svg> Şarkı Sözleri</button>
     <button type="button" data-fp-view="queue"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h11"/></svg> Sıradaki Parçalar</button>
@@ -1763,6 +1983,17 @@ async function dbAction(mode,action,data) {
  req.onerror=()=>reject(req.error);
  });
 }
+
+/* Durable local music library: request persistent storage where the browser supports it. */
+(async function keepMusicStoragePersistent(){
+ try{
+  if(navigator.storage && navigator.storage.persist){
+   const already=await navigator.storage.persisted();
+   if(!already) await navigator.storage.persist();
+  }
+ }catch(err){console.warn("Persistent storage request unavailable:",err);}
+})();
+
 function uid() {
  return crypto.randomUUID ? crypto.randomUUID() :
  Date.now()+"-"+Math.random().toString(36).slice(2);
@@ -2279,12 +2510,12 @@ function openEdit(id) {
  renderEditCover();
  renderEditArtistCover();
  $("editModal").classList.add("show");
- $("editTitleInput").focus();
+ $("editTitleInput").blur();
 }
 function closeEdit() {
  if(editing?.newCoverUrl) URL.revokeObjectURL(editing.newCoverUrl);
  editing=null;
- $("editModal").classList.remove("show");
+ closeAnimatedLayer($("editModal"));
 }
 async function saveEdit() {
  if(!editing) return;
@@ -2555,7 +2786,11 @@ function closeLyricsSheet(){
  if(!panel?.classList.contains("view-lyrics"))return;
  clearTimeout(lyricsCloseTimer);
  panel.classList.add("lyrics-closing");
- lyricsCloseTimer=setTimeout(()=>{panel.classList.remove("lyrics-closing");setFPQueueView("queue");},560);
+ lyricsCloseTimer=setTimeout(()=>{
+  panel.classList.remove("lyrics-closing");
+  panel.style.transform="";panel.style.transition="";
+  setFPQueueView("queue");
+ },570);
 }
 function openLyricsSheet(){
  clearTimeout(lyricsCloseTimer);
@@ -2566,6 +2801,7 @@ function openLyricsSheet(){
  const lyrics=$("fpLyricsPanel");if(lyrics)lyrics.scrollTop=0;
 }
 document.addEventListener("click",e=>{const b=e.target.closest("[data-fp-view]");if(!b)return;const mobile=matchMedia("(max-width:760px)").matches;if(mobile&&b.dataset.fpView==="lyrics"){if(fpQueueView==="lyrics")closeLyricsSheet();else openLyricsSheet();}else setFPQueueView(b.dataset.fpView);});
+document.getElementById("lyricsCloseBtn")?.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();closeLyricsSheet();});
 /* Dış boşluğa yapılan dokunuş yalnızca sözler kartını kapatır.
    pointerdown yerine click kullanılır; böylece ilk dokunuş tam ekran oynatıcı
    kapatma hareketi olarak yorumlanmaz. */
@@ -2759,18 +2995,39 @@ if("ResizeObserver" in window){
 }
 function toggleTheme() {setThemePref(document.body.classList.contains("dark")?"light":"dark");}
 function iosSwitch(id,checked,label) {return `<label class="ios-switch"><input type="checkbox" role="switch" id="${id}" ${checked?"checked":""} aria-label="${label}"><i></i></label>`;}
+
+function closeAnimatedLayer(el){
+ if(!el || !el.classList.contains("show")) return;
+ if(el.__closingTimer) clearTimeout(el.__closingTimer);
+ el.classList.add("is-closing");
+ const css=getComputedStyle(el);
+ const toMs=value=>Math.max(0,...String(value||"0s").split(",").map(part=>{
+  const v=part.trim();
+  return v.endsWith("ms")?parseFloat(v)||0:(parseFloat(v)||0)*1000;
+ }));
+ const duration=Math.max(
+  toMs(css.transitionDuration)+toMs(css.transitionDelay),
+  toMs(css.animationDuration)+toMs(css.animationDelay),
+  300
+ );
+ el.__closingTimer=setTimeout(()=>{
+  el.classList.remove("show","is-closing");
+  el.__closingTimer=null;
+ },duration+40);
+}
+
 function openModal() {
  window.__plCoverData=null;if($("plCover")) $("plCover").textContent="+ Görsel";
  $("modalInput").value="";
  $("modal").classList.add("show");
- $("modalInput").focus();
+ $("modalInput").blur();
 }
 function createPlaylist() {
  const name=$("modalInput").value.trim();
  if(!name) return;
  state.playlists.push({id:uid(),name,tracks:[],cover:window.__plCoverData||null});window.__plCoverData=null;
  savePlaylists();
- $("modal").classList.remove("show");
+ closeAnimatedLayer($("modal"));
  navigate("playlists");
 }
 function savePlaylists() {
@@ -2809,7 +3066,7 @@ $("progress").addEventListener("input",e=>{
 });
 $("volume").addEventListener("input",e=>{audio.volume=Number(e.target.value);paint(e.target);});
 $("queueBtn").addEventListener("click",()=>$("queuePanel").classList.add("show"));
-$("closeQueue").addEventListener("click",()=>$("queuePanel").classList.remove("show"));
+$("closeQueue").addEventListener("click",()=>closeAnimatedLayer($("queuePanel")));
 $("themeBtn").addEventListener("click",toggleTheme);
 $("addMusicBtn").addEventListener("click",()=>$("fileInput").click());
 $("backBtn").addEventListener("click",goBack);
@@ -2817,7 +3074,7 @@ $("settingsBtn").addEventListener("click",()=>navigate("settings"));
 window.addEventListener("resize",()=>movePill(false));
 $("forwardBtn").addEventListener("click",goForward);
 $("createPlaylist").addEventListener("click",openModal);
-$("modalCancel").addEventListener("click",()=>$("modal").classList.remove("show"));
+$("modalCancel").addEventListener("click",() => closeAnimatedLayer($("modal")));
 $("modalSave").addEventListener("click",createPlaylist);
 $("modalInput").addEventListener("keydown",e=>{if(e.key==="Enter")createPlaylist();});
 $("searchInput").addEventListener("input",()=>{
@@ -2869,8 +3126,8 @@ uploadArea.addEventListener("click",()=>$("fileInput").click());
 uploadArea.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();$("fileInput").click();}});
 document.addEventListener("keydown",e=>{
  if(e.key==="Escape") {
- $("modal").classList.remove("show");
- $("queuePanel").classList.remove("show");
+ closeAnimatedLayer($("modal"));
+ closeAnimatedLayer($("queuePanel"));
  closeEdit();
  return;
  }
@@ -2878,7 +3135,7 @@ document.addEventListener("keydown",e=>{
  e.preventDefault();e.target.click();
  }
 });
-$("modal").addEventListener("click",e=>{if(e.target===$("modal")) $("modal").classList.remove("show");});
+$("modal").addEventListener("click",e=>{if(e.target===$("modal")) closeAnimatedLayer($("modal"));});
 document.querySelector(".now-playing").addEventListener("click",e=>{
  if(e.target.closest("button")) return;
 });
@@ -2928,6 +3185,8 @@ $("editCoverRemove").addEventListener("click",()=>{
  editing.newCover=null;editing.newCoverUrl=null;editing.removed=true;renderEditCover();
 });
 $("editCancel").addEventListener("click",closeEdit);
+$("editClose").addEventListener("click",closeEdit);
+$("editCloseMac").addEventListener("click",closeEdit);
 $("editSave").addEventListener("click",saveEdit);
 $("editModal").addEventListener("click",e=>{if(e.target===$("editModal")) closeEdit();});
 paint($("progress"));paint($("volume"));syncModes();
@@ -3034,26 +3293,25 @@ function syncFullscreenBrowserColor(){
  $("fpWrap").addEventListener("touchmove",e=>{if(y0===null)return;dy=Math.max(0,e.touches[0].clientY-y0);fp.style.transition="none";fp.style.transform=`translateY(${dy}px)`;},{passive:true});
  $("fpWrap").addEventListener("touchend",()=>{if(y0===null)return;y0=null;fp.style.transition="";fp.style.transform="";if(dy>120)close();});
  const lyricsSheet=document.querySelector(".fp-queue"),lyricsPanel=$("fpLyricsPanel");
- let lyricsY=null,lyricsDY=0,lyricsDragOrigin=null,lyricsDragging=false;
+ let lyricsY=null,lyricsDY=0;
  lyricsSheet?.addEventListener("touchstart",e=>{
-  if(!mq.matches||!lyricsSheet.classList.contains("view-lyrics"))return;
-  lyricsY=e.touches[0].clientY;lyricsDY=0;lyricsDragOrigin=null;lyricsDragging=false;e.stopPropagation();
+  if(!mq.matches||!lyricsSheet.classList.contains("view-lyrics")||e.target.closest("button")||(lyricsPanel?.scrollTop||0)>0)return;
+  lyricsY=e.touches[0].clientY;lyricsDY=0;e.stopPropagation();
  },{passive:true});
  lyricsSheet?.addEventListener("touchmove",e=>{
   if(lyricsY===null)return;
-  const y=e.touches[0].clientY;
-  if(!lyricsDragging&&lyricsPanel?.scrollTop>0)return;
-  if(!lyricsDragOrigin)lyricsDragOrigin=y;
-  lyricsDY=Math.max(0,y-lyricsDragOrigin);
+  lyricsDY=Math.max(0,e.touches[0].clientY-lyricsY);
   if(!lyricsDY)return;
-  lyricsDragging=true;
   e.preventDefault();e.stopPropagation();lyricsSheet.style.transition="none";lyricsSheet.style.transform=`translateY(${lyricsDY}px)`;
  },{passive:false});
- lyricsSheet?.addEventListener("touchend",e=>{
+ const finishLyricsDrag=()=>{
   if(lyricsY===null)return;
-  e.stopPropagation();const shouldClose=lyricsDragging&&lyricsDY>120;lyricsY=null;lyricsDY=0;lyricsDragOrigin=null;lyricsDragging=false;lyricsSheet.style.transition="";lyricsSheet.style.transform="";
+  const shouldClose=lyricsDY>120;lyricsY=null;lyricsDY=0;
+  lyricsSheet.style.transition="";lyricsSheet.style.transform="";
   if(shouldClose)closeLyricsSheet();
- });
+ };
+ lyricsSheet?.addEventListener("touchend",finishLyricsDrag);
+ lyricsSheet?.addEventListener("touchcancel",finishLyricsDrag);
 })();
 /* ===== Geri dönüş belleği: kenardan kaydırarak geri, sıra panelinden oynatıcıya dönüş ===== */
 (function(){
@@ -3063,8 +3321,8 @@ function syncFullscreenBrowserColor(){
  document.addEventListener("touchend",e=>{
   if(sx===null||!mq.matches)return;const t=e.changedTouches[0];
   if(t.clientX-sx>80&&Math.abs(t.clientY-sy)<50&&!$("fp").classList.contains("open")){
-   const q=$("queuePanel");if(q.classList.contains("show")){q.classList.remove("show");return;}
-   const m=document.querySelector(".modal-backdrop.show");if(m){m.classList.remove("show");return;}
+   const q=$("queuePanel");if(q.classList.contains("show")){closeAnimatedLayer(q);return;}
+   const m=document.querySelector(".modal-backdrop.show");if(m){closeAnimatedLayer(m);return;}
    goBack();
   }
   sx=null;
@@ -3353,7 +3611,7 @@ function syncBackLabel() {
   el.addEventListener("touchend",()=>{if(y0===null)return;y0=null;el.style.transition="";el.style.transform="";if(dy>110)close();});
  }
  drag($("queuePanel"),()=>$("closeQueue").click());
- document.querySelectorAll(".modal").forEach(md=>drag(md,()=>(md.closest(".modal-backdrop")||md.parentNode).classList.remove("show")));
+ document.querySelectorAll(".modal").forEach(md=>drag(md,()=>closeAnimatedLayer(md.closest(".modal-backdrop")||md.parentNode)));
  const si=$("searchInput");si.type="search";si.setAttribute("enterkeyhint","search");si.setAttribute("autocapitalize","off");si.spellcheck=false;
 })();
 /* ===== Eylem sayfası, Medya Oturumu, durum geri yükleme, sıralama klavye alternatifi ===== */
@@ -3462,7 +3720,125 @@ function heroMosaic() {
  const set=()=>document.documentElement.style.setProperty("--player-real",pl.offsetHeight+"px");
  new ResizeObserver(set).observe(pl);set();
 })();
+
+/* Mobile keyboard ergonomics for playlist creation and song editing dialogs. */
+(function(){
+ const backdrops=[$("modal"),$("editModal")].filter(Boolean);
+ const vv=window.visualViewport;
+ function syncModalViewport(){
+  const height=vv?vv.height:window.innerHeight;
+  document.documentElement.style.setProperty("--app-visual-height",Math.max(260,height)+"px");
+  backdrops.forEach(backdrop=>{
+   const active=document.activeElement;
+   const isEditing=backdrop.classList.contains("show") &&
+    active && backdrop.contains(active) && /^(INPUT|TEXTAREA)$/.test(active.tagName);
+   backdrop.classList.toggle("keyboard-open",!!isEditing);
+  });
+ }
+ function revealField(field){
+  if(!field)return;
+  syncModalViewport();
+  requestAnimationFrame(()=>{
+   const modal=field.closest(".modal");
+   if(!modal)return;
+   const r=field.getBoundingClientRect(),m=modal.getBoundingClientRect();
+   if(r.bottom>m.bottom-18) modal.scrollTop+=r.bottom-(m.bottom-18);
+   else if(r.top<m.top+12) modal.scrollTop-=m.top+12-r.top;
+  });
+ }
+ document.addEventListener("focusin",e=>{
+  if(e.target.matches("#modalInput,#editTitleInput,#editArtistInput,#editAlbumInput,#editLyricsInput")){
+   syncModalViewport();
+   setTimeout(()=>revealField(e.target),80);
+  }
+ });
+ document.addEventListener("focusout",()=>setTimeout(syncModalViewport,80));
+ if(vv){vv.addEventListener("resize",syncModalViewport);vv.addEventListener("scroll",syncModalViewport);}
+ window.addEventListener("resize",syncModalViewport,{passive:true});
+ backdrops.forEach(b=>new MutationObserver(syncModalViewport).observe(b,{attributes:true,attributeFilter:["class"]}));
+ const lyrics=$("editLyricsInput");
+ if(lyrics){
+  const grow=()=>{lyrics.style.height="auto";lyrics.style.height=Math.max(132,lyrics.scrollHeight)+"px";};
+  lyrics.addEventListener("input",grow);
+  lyrics.addEventListener("change",grow);
+  grow();
+ }
+ syncModalViewport();
+})();
+
 </script>
+
+<style id="mobile-queue-polish-v2">
+@media(max-width:760px){
+ /* Sıra kartı yalnızca aşağı kayarak kapanır, yatay hareket iptal edildi. */
+ .queue-panel{z-index:12!important;transform:translateY(105%)!important;transition:transform .5s var(--ios),opacity .28s ease!important}
+ .queue-panel.show{transform:translateY(0)!important}
+ .queue-panel.is-closing{transform:translateY(105%)!important;opacity:0!important;pointer-events:none!important}
+ /* Çalma sırasında kapak boyutu her iki eksende %10 küçülür. */
+ .fp.playing .fp-art{transform:scale(.9)!important}
+ /* Şarkı sözleri düğmesi daha küçük ve sade. */
+ .fp-mobile-tools [data-fp-view="lyrics"]{min-height:34px!important;height:34px!important;padding:0 13px!important;font-size:12px!important;border-radius:999px!important}
+ /* Sözler kartı aşağıdan yukarı gelir, aynı yoldan geri iner. */
+ .fp .fp-queue.view-lyrics{animation:lyricsSheetRise .48s var(--ios) both!important;transition:transform .48s var(--ios),opacity .48s var(--ios)!important}
+ .fp .fp-queue.view-lyrics.lyrics-closing{animation:none!important;transform:translateY(calc(100% + 28px))!important;opacity:0!important}
+}
+@keyframes lyricsSheetRise{from{transform:translateY(calc(100% + 28px));opacity:0}to{transform:translateY(0);opacity:1}}
+@media(prefers-reduced-motion:reduce){@keyframes lyricsSheetRise{from{opacity:0}to{opacity:1}}}
+#queueScrim{position:fixed;inset:0;z-index:11;background:rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:opacity .28s ease;-webkit-tap-highlight-color:transparent}
+#queueScrim.show{opacity:1;pointer-events:auto}
+@media(min-width:761px){#queueScrim{display:none!important}}
+</style>
+
+
+<script id="mobile-queue-scrim-v2">
+(()=>{
+ const panel=document.getElementById('queuePanel');if(!panel)return;
+ const mobile=()=>matchMedia('(max-width:760px)').matches;
+ const scrim=document.createElement('div');scrim.id='queueScrim';scrim.setAttribute('aria-hidden','true');
+ document.body.appendChild(scrim);
+ const sync=()=>{const open=mobile()&&panel.classList.contains('show');scrim.classList.toggle('show',open);document.body.classList.toggle('mobile-queue-open',open);};
+ new MutationObserver(sync).observe(panel,{attributes:true,attributeFilter:['class']});
+ window.addEventListener('resize',sync,{passive:true});
+ scrim.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();if(panel.classList.contains('show'))closeAnimatedLayer(panel);});
+ sync();
+})();
+</script>
+
 </body>
+<script>
+/* Mobil görünümde yakınlaştırmayı engelle; tarayıcı yine de ölçeği değiştirirse başlangıç ölçeğine döndür. */
+(function(){
+ const mobile=()=>window.matchMedia("(max-width:760px)").matches;
+ const meta=document.querySelector('meta[name="viewport"]');
+ if(meta)meta.setAttribute("content","width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover");
+ let resetTimer=0;
+ const restore=()=>{
+  if(!mobile())return;
+  clearTimeout(resetTimer);
+  resetTimer=setTimeout(()=>{
+   const m=document.querySelector('meta[name="viewport"]');
+   if(m)m.setAttribute("content","width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover");
+   if(window.visualViewport&&Math.abs(window.visualViewport.scale-1)>.01){
+    const x=window.scrollX,y=window.scrollY;
+    document.documentElement.style.setProperty("--zoom-restore","1");
+    window.scrollTo(x,y);
+   }
+  },80);
+ };
+ document.addEventListener("gesturestart",e=>{if(mobile())e.preventDefault();},{passive:false});
+ document.addEventListener("gesturechange",e=>{if(mobile())e.preventDefault();},{passive:false});
+ document.addEventListener("gestureend",restore,{passive:true});
+ let lastTouchEnd=0;
+ document.addEventListener("touchend",e=>{
+  if(!mobile())return;
+  const now=Date.now();
+  if(now-lastTouchEnd<300&&e.target.closest("body"))e.preventDefault();
+  lastTouchEnd=now;
+ },{passive:false});
+ document.addEventListener("touchmove",e=>{if(mobile()&&e.touches.length>1)e.preventDefault();},{passive:false});
+ window.visualViewport?.addEventListener("resize",()=>{if(mobile()&&window.visualViewport.scale>1.01)restore();},{passive:true});
+})();
+</script>
+
 </html>
 
