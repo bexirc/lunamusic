@@ -2127,7 +2127,7 @@ body.sub #backBtn.is-done:disabled{opacity:1}
  <div class="player-right">
  <button class="icon-btn" id="queueBtn" title="Sıra" aria-label="Çalma sırasını aç" data-icon="list" type="button"></button>
  <span class="vol-ico" data-icon="volume"></span>
- <input class="volume" id="volume" type="range" min="0" max="1" step=".01" value=".8" aria-label="Ses düzeyi">
+ <input class="volume" id="volume" type="range" min="0" max="1" step=".01" value="1" aria-label="Ses düzeyi">
  </div>
  </footer>
  <nav class="mobile-nav" aria-label="Sekmeler">
@@ -2222,7 +2222,7 @@ body.sub #backBtn.is-done:disabled{opacity:1}
     <button class="fp-play" id="fpPlay" aria-label="Oynat veya duraklat" type="button"></button>
     <button id="fpNext" aria-label="Sonraki şarkı" type="button"></button>
    </div>
-   <div class="fp-vol"><span id="fpVolLo"></span><input id="fpVol" type="range" min="0" max="1" step=".01" value=".8" aria-label="Ses düzeyi"><span id="fpVolHi"></span></div>
+   <div class="fp-vol"><span id="fpVolLo"></span><input id="fpVol" type="range" min="0" max="1" step=".01" value="1" aria-label="Ses düzeyi"><span id="fpVolHi"></span></div>
    <div class="fp-bottom">
     <button class="js-shuffle" aria-label="Karışık çal" aria-pressed="false" id="fpShuffle" type="button"></button>
     <button class="js-repeat" aria-label="Tekrar modunu değiştir" aria-pressed="false" id="fpRepeat" type="button"></button>
@@ -2258,7 +2258,7 @@ const state = {
  detail: null
 };
 const audio = new Audio();
-audio.volume = .8;
+audio.volume = 1;
 
 const IS_IOS_AUDIO = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -2340,7 +2340,15 @@ function openDB() {
 }
 async function dbAction(mode,action,data) {
  const db=await openDB();
- if(action==="put"&&data&&"cover" in data){data={...data};delete data.cover;}
+ if(action==="put"&&data){
+  data={...data};delete data.cover;
+  const ab=data.audioBlob||data.blob||data.fileBlob;
+  if(!data.audioData&&ab instanceof Blob){
+   data.audioData=await ab.arrayBuffer();
+   if(data.coverBlob instanceof Blob){data.coverData=await data.coverBlob.arrayBuffer();data.coverType=data.coverBlob.type;}
+  }
+  delete data.blob;delete data.audioBlob;delete data.fileBlob;delete data.coverBlob;
+ }
  return new Promise((resolve,reject)=>{
   let out;
   try{
@@ -2400,7 +2408,7 @@ let __sesT=0;
 function saveSession(force){
  const now=Date.now();if(!force&&now-__sesT<1500)return;__sesT=now;
  try{localStorage.setItem("music-session",JSON.stringify({
-  vol:audio.volume,shuffle:!!state.shuffle,repeat:state.repeat,
+  shuffle:!!state.shuffle,repeat:state.repeat,
   queue:state.queue.map(t=>t.id),cur:state.current?state.current.id:null,
   time:audio.currentTime||0
  }));}catch(_){}
@@ -2409,7 +2417,7 @@ function restoreSession(){
  let s;try{s=JSON.parse(localStorage.getItem("music-session")||"null");}catch(_){}
  if(!s)return;
  try{
-  if(typeof s.vol==="number"){audio.volume=s.vol;$("volume").value=s.vol;paint($("volume"));}
+  
   state.shuffle=!!s.shuffle;state.repeat=s.repeat===true?true:s.repeat==="one"?"one":false;syncModes();
   const by=id=>state.tracks.find(t=>t.id===id);
   const q=(s.queue||[]).map(by).filter(Boolean);
@@ -2452,7 +2460,6 @@ async function storedSize(id) {
 async function saveTrack(track,buf,coverBuf) {
  const base={...track};["blob","audioBlob","fileBlob","coverBlob","cover"].forEach(k=>delete base[k]);
  const attempts=[
-  {...base,audioBlob:track.audioBlob,coverBlob:track.coverBlob},
   {...base,audioData:buf,coverData:coverBuf,coverType:track.coverBlob?.type}
  ];
  let last=null;
@@ -2512,6 +2519,15 @@ async function loadLibrary() {
    return {...rest,blob,audioBlob:blob,coverBlob,cover:coverBlob?URL.createObjectURL(coverBlob):null};
   }).filter(t=>t.blob instanceof Blob);
   if(recs.length&&!state.tracks.length)notify("Kayıtlar bulundu ancak ses dosyaları okunamadı. Yeniden içe aktarman gerekebilir.");
+  recs.filter(r=>!r.audioData&&(r.audioBlob||r.blob)).forEach(async r=>{
+   try{
+    const b=r.audioBlob||r.blob,rec={...r};
+    rec.audioData=await b.arrayBuffer();
+    if(r.coverBlob instanceof Blob){rec.coverData=await r.coverBlob.arrayBuffer();rec.coverType=r.coverBlob.type;}
+    delete rec.blob;delete rec.audioBlob;delete rec.fileBlob;delete rec.coverBlob;
+    await dbAction("readwrite","put",rec);
+   }catch(_){}
+  });
  }catch(e){
   console.error("Müzik kitaplığı yüklenemedi:",e);
   state.tracks=[];
@@ -3706,6 +3722,8 @@ $("progress").addEventListener("input",e=>{
  paint(e.target);
 });
 $("volume").addEventListener("input",e=>{audio.volume=Number(e.target.value);paint(e.target);});
+audio.volume=1;$("volume").value=1;paint($("volume"));
+if(IS_IOS_AUDIO){$("volume").style.display="none";const fv=document.querySelector(".fp-vol");if(fv)fv.style.display="none";}
 $("queueBtn").addEventListener("click",()=>$("queuePanel").classList.add("show"));
 $("closeQueue").addEventListener("click",()=>closeAnimatedLayer($("queuePanel")));
 $("themeBtn").addEventListener("click",toggleTheme);
