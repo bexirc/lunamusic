@@ -11,6 +11,9 @@
 <link rel="manifest" href="manifest.webmanifest">
 <title>Music</title>
 <meta name="color-scheme" content="light dark">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="Kişisel müzik arşivini keşfet, düzenle ve dinle.">
 <style>
 :root {
  --bg:#f5f5f7;
@@ -278,7 +281,6 @@ input[type=range]{accent-color:var(--accent);cursor:pointer}
  display:flex;flex-direction:column;gap:4px;align-items:center;font-size:11px}
  .mobile-nav button span:first-child{font-size:20px}
  .mobile-nav button.active{color:var(--accent)}
- .queue-panel{top:env(safe-area-inset-top);bottom:calc(140px + env(safe-area-inset-bottom));width:min(320px,90vw)}
  .hero{min-height:195px;padding:23px}
  .hero h2{font-size:30px}
  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 13px}
@@ -288,7 +290,6 @@ input[type=range]{accent-color:var(--accent);cursor:pointer}
  .song{grid-template-columns:38px minmax(0,1fr) 40px 30px 30px;gap:8px}
 }
 
-/* Masaüstü üst çubuğu: arama alanı içerik merkezinde, gezinme okları gizli */
 @media (min-width:761px){
  .topbar{position:relative;justify-content:flex-end;min-height:42px}
  .top-left{display:none!important}
@@ -301,7 +302,6 @@ input[type=range]{accent-color:var(--accent);cursor:pointer}
  .sidebar .nav-title .nav-icon .ic{width:16px;height:16px}
 }
 
-/* Apple-inspired refinement: quieter surfaces, clearer states, comfortable controls */
 :root{--radius-card:14px;--ease-apple:cubic-bezier(.2,.8,.2,1)}
 html{scroll-behavior:smooth}
 .nav-item{border-radius:11px;transition:background .18s var(--ease-apple),color .18s var(--ease-apple),transform .18s var(--ease-apple)}
@@ -319,7 +319,6 @@ html{scroll-behavior:smooth}
 .modal{border:1px solid var(--line);border-radius:20px}
 .queue-panel{border-radius:18px 0 0 18px}
 
-/* ===== Liquid Glass katmanı: yalnızca gezinme/kontrol yüzeyleri cam; içerik (kart, liste, hero) cam değil ===== */
 :root{
  --glass:rgba(255,255,255,.55);--glass-strong:rgba(255,255,255,.76);
  --glass-edge:rgba(255,255,255,.7);
@@ -346,7 +345,6 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.8px}
 .sidebar,.player,.mobile-nav,.queue-panel,.modal,.upload-area,.round-btn,.search{-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
 .main,.sidebar,.queue-panel{scrollbar-width:thin}
 
-/* kenar çubuğu: yüzen cam panel */
 .workspace{padding-left:calc(var(--sidebar-w) + var(--gap)*2)}
 .sidebar{
  position:fixed;left:var(--gap);top:var(--gap);bottom:calc(var(--player-h) + var(--gap)*2);
@@ -364,7 +362,6 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.8px}
 .nav-icon{display:grid;place-items:center;width:22px;height:22px;color:var(--accent)}
 .main{padding:24px 32px calc(var(--player-h) + 56px)}
 
-/* üst çubuk */
 .top-actions{flex:1;min-width:0;justify-content:flex-end}
 .search-wrap{flex:1;min-width:0;max-width:340px}
 .search-ico{z-index:1;position:absolute;left:14px;top:50%;transform:translateY(-50%);display:grid;color:var(--muted);pointer-events:none}
@@ -383,7 +380,6 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.8px}
 .round-btn:disabled{opacity:.35;cursor:default;transform:none}
 .profile{width:40px;height:40px}
 
-/* içerik */
 .hero{border-radius:24px;min-height:260px}
 .hero:after{content:"";font-size:0;color:transparent;right:-60px;top:-90px;width:360px;height:360px;border-radius:50%;
  background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.3),rgba(255,255,255,0) 66%);transform:none}
@@ -412,7 +408,6 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.8px}
 .settings-group{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:4px 8px}
 .settings-group .setting-row+.setting-row{border-top:1px solid var(--line);border-radius:0}
 
-/* oynatıcı: yüzen cam kapsül */
 .player{
  position:fixed;left:var(--gap);right:var(--gap);bottom:var(--gap);height:var(--player-h);min-height:var(--player-h);
  padding:0 18px;gap:24px;border:0;border-radius:var(--r-panel);background:var(--glass-strong);z-index:5;
@@ -441,7 +436,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
 input[type=range]::-moz-range-thumb{width:12px;height:12px;border:0;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.35)}
 .progress{height:20px}
 
-/* sıra paneli, pencere, bildirim */
 .queue-panel{
  right:var(--gap);top:var(--gap);bottom:calc(var(--player-h) + var(--gap)*2);width:340px;border:0;border-radius:var(--r-panel);
  background:var(--glass-strong);
@@ -467,7 +461,6 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:0;border-radiu
 .modal input:focus{outline:none;border-color:var(--accent)}
 .toast{bottom:calc(var(--player-h) + 32px)}
 
-/* erişilebilirlik */
 @media(prefers-reduced-transparency:reduce){
  :root,body.dark{--glass:var(--panel);--glass-strong:var(--panel)}
  .sidebar,.player,.mobile-nav,.queue-panel,.modal,.modal-backdrop,.upload-area,.round-btn,.search{-webkit-backdrop-filter:none;backdrop-filter:none}
@@ -480,7 +473,6 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border:0;border-radiu
  :root,body.dark{--glass:var(--panel);--glass-strong:var(--panel)}
 }
 
-/* profil, şarkıları yönet, düzenleme */
 .nav-item{min-height:38px;padding:9px 12px}
 .sidebar-bottom{margin-top:12px}
 .profile{border:0;padding:0;overflow:hidden;cursor:pointer;color:#fff;font-size:15px;font-weight:600;
@@ -526,7 +518,7 @@ body.dark .song-more.danger{color:#ff6b61}
 .field span{display:block;margin-bottom:6px;font-size:12px;font-weight:600;color:var(--muted)}
 .nav-pill{display:none}
 #settingsBtn{display:none}
-/* mobil: yüzen cam gezinme + mini oynatıcı */
+
 @media(max-width:760px){
  .workspace{padding-left:0}
  .sidebar{display:none}
@@ -567,11 +559,10 @@ body.dark .song-more.danger{color:#ff6b61}
  #settingsBtn{display:grid}
  .search-wrap{display:none}
  body[data-page="search"] .search-wrap{display:block}
- .queue-panel{top:calc(var(--gap) + env(safe-area-inset-top));bottom:calc(152px + env(safe-area-inset-bottom));width:min(360px,calc(100vw - 24px))}
  .song{grid-template-columns:38px minmax(0,1fr) 40px 36px 36px;gap:8px}
  .toast{bottom:calc(160px + env(safe-area-inset-bottom))}
 }
-/* ===== iOS mobil: İçerik katmanı katı, işlev katmanı (sekme çubuğu + mini oynatıcı) cam ===== */
+
 @media(max-width:760px){
  :root{--accent:#ff2d55;--accent-fill:#ff2d55;--bg:Canvas;--text:CanvasText;--muted:GrayText;--panel:color-mix(in srgb,CanvasText 5%,Canvas);--line:color-mix(in srgb,CanvasText 14%,transparent);--hover:color-mix(in srgb,CanvasText 8%,transparent);--glass-strong:color-mix(in srgb,Canvas 62%,transparent);--spring:linear(0,.5 12%,.95 28%,1.04 40%,1 60%,1);--tab-h:62px}
  body{color-scheme:light;background:var(--bg);color:var(--text);font-family:-apple-system,"SF Pro Text",system-ui,sans-serif}
@@ -600,7 +591,7 @@ body.dark .song-more.danger{color:#ff6b61}
  .song-duration{display:none}
  .song-more{min-width:44px;min-height:44px}
  .song.active .song-name{color:var(--accent);font-weight:600}
- /* işlev katmanı: tek cam yüzey (sekme çubuğu); mini oynatıcı katı → cam üstüne cam yok */
+
  .mobile-nav{left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:calc(8px + env(safe-area-inset-bottom));height:var(--tab-h);border-radius:999px;border:0;padding:0 6px;background:var(--glass-strong);box-shadow:inset 0 0 0 .5px var(--line),0 8px 28px color-mix(in srgb,CanvasText 14%,transparent);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
  .mobile-nav button{height:54px;min-width:44px;border-radius:999px;font-size:.625rem;font-weight:500;gap:2px;transition:color .3s var(--spring)}
  .mobile-nav button.active{color:var(--accent);font-weight:700;background:var(--hover)}
@@ -610,7 +601,6 @@ body.dark .song-more.danger{color:#ff6b61}
  .now-artist{font-size:.8125rem}
  #favoriteCurrent{display:none}
  .play-btn,#nextBtn{background:transparent;color:var(--text);width:44px;height:44px;font-size:1.375rem}
- .queue-panel{border-radius:20px 20px 0 0}
  .toast{bottom:calc(150px + env(safe-area-inset-bottom))}
  .modal{border-radius:24px}
  :is(.mobile-nav button,.play-btn,.round-btn,.card,.song):active{transform:scale(.96);transition:transform .35s var(--spring)}
@@ -624,7 +614,7 @@ body.dark .song-more.danger{color:#ff6b61}
 @media(max-width:760px) and (prefers-reduced-motion:reduce){
  :is(.mobile-nav button,.play-btn,.round-btn,.card,.song):active{transform:none}
 }
-/* ===== Hesap ekranı (Apple Account düzeni) ===== */
+
 .acct-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .acct-top h1{margin:0}
 .acct-card,.acct-group{background:var(--panel);border-radius:14px}
@@ -646,7 +636,7 @@ button.acct-row{cursor:pointer}
  #settingsBtn{display:none!important}
  body[data-page="settings"] .topbar{display:none}
 }
-/* ===== Mobil hizalama düzeltmeleri + Apple Music geçiş animasyonları ===== */
+
 :root{--ios:cubic-bezier(.32,.72,0,1)}
 @keyframes pageIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
 @keyframes pageFade{from{opacity:0}to{opacity:1}}
@@ -664,7 +654,7 @@ button{transition:transform .35s var(--ios),background-color .25s ease,color .25
 .toast.show{transform:translate(-50%,0)}
 .modal-backdrop.show{animation:fadeIn .25s ease-out}
 .modal-backdrop.show .modal{animation:sheetUp .5s var(--ios)}
-/* tam ekran oynatıcı */
+
 .fp{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;background:#111;color:#fff;overflow:hidden;border-radius:12px 12px 0 0;transform:translateY(100%);visibility:hidden;transition:transform .55s var(--ios),visibility 0s .55s;--accent:#fff;--track:rgba(255,255,255,.28)}
 .fp.open{transform:none;visibility:visible;transition:transform .55s var(--ios)}
 .fp-bg{position:absolute;inset:-60px;background:linear-gradient(160deg,#5b3a7a,#c2466a) center/cover;filter:blur(70px) saturate(1.7) brightness(.65);transform:scale(1.2)}
@@ -698,14 +688,14 @@ button{transition:transform .35s var(--ios),background-color .25s ease,color .25
 .fp-vol .ic{width:18px;height:18px;opacity:.7}
 .fp-bottom{display:flex;justify-content:space-around}
 .fp-bottom button[aria-pressed=true]{background:rgba(255,255,255,.22)}
-/* Masaüstü: kapak ve denetimler solda, sıradaki parçalar sağda */
+
 @media(min-width:761px){
  .fp{border-radius:0}
  .fp-bg{inset:-100px;filter:blur(100px) saturate(1.55) brightness(.58)}
- .fp-wrap{width:min(1320px,calc(100% - 112px));max-width:none;margin:auto;display:grid;
-  grid-template-columns:minmax(420px, min(54vw,660px)) minmax(280px,360px);
+ .fp-wrap{width:min(1440px,calc(100% - 64px));max-width:none;margin:auto;display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(280px,min(35vw,430px));
   grid-template-rows:52px minmax(0,1fr);align-content:center;align-items:stretch;
-  justify-content:center;column-gap:clamp(48px,7vw,112px);row-gap:8px;
+  justify-content:center;column-gap:clamp(24px,3.4vw,58px);row-gap:8px;
   padding:28px 0;box-sizing:border-box}
  .fp-grab{grid-column:1/-1;grid-row:1;justify-self:end;align-self:start;width:44px;height:44px;
   border-radius:50%;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);
@@ -732,16 +722,23 @@ button{transition:transform .35s var(--ios),background-color .25s ease,color .25
  .fp-vol{width:min(100%,360px);margin:0;justify-content:flex-start}
  .fp-bottom{width:min(100%,280px);justify-content:flex-start;gap:24px}
  .fp :is(.fp-ic,.fp-ctrl button,.fp-bottom button){cursor:pointer}
- .fp-queue{grid-column:2;grid-row:2;min-width:0;min-height:0;align-self:stretch;
-  display:flex;flex-direction:column;border-radius:22px;padding:20px 18px;
-  background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.15);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.12);-webkit-backdrop-filter:blur(22px) saturate(140%);backdrop-filter:blur(22px) saturate(140%)}
- .fp-queue-head{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 16px;
-  border-bottom:1px solid rgba(255,255,255,.14);flex:none}
- .fp-queue-head>div{display:flex;flex-direction:column;gap:4px}
- .fp-queue-head strong{font-size:1.125rem}
- .fp-queue-head span{font-size:.78rem;color:rgba(255,255,255,.62)}
- .fp-queue-list{overflow:auto;min-height:0;padding-top:8px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.24) transparent}
+ .fp-queue.fp-companion-panel{grid-column:2;grid-row:2;min-width:0;min-height:0;align-self:stretch;
+  display:flex;flex-direction:column;gap:0;border-radius:26px;padding:18px;
+  background:linear-gradient(155deg,rgba(255,255,255,.105),rgba(255,255,255,.045));
+  border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 24px 70px rgba(0,0,0,.2);
+  -webkit-backdrop-filter:blur(28px) saturate(145%);backdrop-filter:blur(28px) saturate(145%);overflow:hidden}
+ .fp-queue.fp-companion-panel>.fp-queue-switch{display:flex;align-items:center;gap:4px;flex:none;margin:0 0 18px;padding:5px;border:1px solid rgba(255,255,255,.1);border-radius:15px;background:rgba(0,0,0,.2)}
+ .fp-queue.fp-companion-panel>.fp-queue-switch button{display:flex;flex:1;min-width:0;min-height:42px;align-items:center;justify-content:center;gap:8px;padding:0 10px;border:0;border-radius:11px;background:transparent;color:rgba(255,255,255,.66);font:600 12px/1.2 -apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif;white-space:nowrap;cursor:pointer;transition:background .22s ease,color .22s ease,box-shadow .22s ease}
+ .fp-queue.fp-companion-panel>.fp-queue-switch button .ic{width:16px;height:16px;flex:none;opacity:.85}
+ .fp-queue.fp-companion-panel>.fp-queue-switch button.active,.fp-queue.fp-companion-panel>.fp-queue-switch button[aria-selected=true]{color:#fff;background:rgba(255,255,255,.17);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 2px 8px rgba(0,0,0,.14)}
+ .fp-queue-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 3px 13px;border-bottom:1px solid rgba(255,255,255,.12);flex:none}
+ .fp-queue-head>div{display:flex;flex-direction:column;gap:5px;min-width:0}
+ .fp-queue-head strong{font-size:1.05rem;font-weight:700;letter-spacing:-.02em}
+ .fp-queue-head span{font-size:.76rem;color:rgba(255,255,255,.58)}
+ .fp-queue-list{flex:1;min-height:0;overflow:auto;padding-top:9px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.24) transparent}
+ .fp-queue.fp-companion-panel>.fp-lyrics-panel{flex:1;min-height:0;overflow:auto;padding:22px 14px 14px;text-align:left;white-space:pre-wrap;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.24) transparent;color:rgba(255,255,255,.92);font-size:clamp(15px,1.15vw,18px);line-height:1.95;font-weight:520;letter-spacing:-.01em}
+ .fp-queue.fp-companion-panel>.fp-lyrics-panel .lyrics-empty{padding:40px 14px;text-align:center;color:rgba(255,255,255,.58);font-size:14px;line-height:1.7}
+ .fp .fp-queue-head .lyrics-close-btn{display:none!important}
  .fp-queue-list .queue-track{display:flex;align-items:center;gap:12px;padding:9px 7px;border-radius:12px;cursor:pointer}
  .fp-queue-list .queue-track:hover{background:rgba(255,255,255,.09)}
  .fp-queue-list .queue-track.active{background:rgba(255,255,255,.14)}
@@ -751,7 +748,7 @@ button{transition:transform .35s var(--ios),background-color .25s ease,color .25
  .fp-queue-list .queue-track small{font-size:.75rem;color:rgba(255,255,255,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
  .fp-queue-list .empty{color:rgba(255,255,255,.6)}
 }
-/* Masaüstü ince ayarlar: merkezlenmiş denetimler, üst ses kontrolü, marka ve sürüklenebilir sıra */
+
 @media(min-width:761px){
  .fp-wrap{position:relative}
  .fp-brand{position:absolute;left:0;top:7px;display:flex;align-items:center;gap:10px;
@@ -781,10 +778,10 @@ button{transition:transform .35s var(--ios),background-color .25s ease,color .25
 .fp-brand{display:none}
 @media(min-width:761px){.fp-brand{display:flex}}
 @media(min-width:761px){
- /* Marka, kapatma düğmesiyle aynı üst hizaya iner. */
+
  .fp-brand{top:20px}
- /* Sıra kartı iki yanda eşit iç boşlukla hizalanır; aktif çerçeve kesilmez. */
- .fp-queue{box-sizing:border-box;padding-left:18px;padding-right:18px;overflow:hidden}
+
+ .fp-queue.fp-companion-panel{box-sizing:border-box;overflow:hidden}
  .fp-queue-list{display:flex;flex-direction:column;align-items:stretch;width:100%;
   min-width:0;box-sizing:border-box;padding:8px 0 10px;overflow-x:hidden}
  .fp-queue-list .queue-track{display:flex;flex:0 0 auto;width:100%;min-width:0;
@@ -802,12 +799,10 @@ button{transition:transform .35s var(--ios),background-color .25s ease,color .25
  .manage-row{grid-template-columns:44px minmax(0,1fr) repeat(3,44px);gap:4px;padding:8px 0}
  .manage-row .song-more{width:44px;min-width:44px;height:44px}
  .mobile-nav button.active .ic{animation:tabBounce .45s var(--ios)}
- .queue-panel{left:0;right:0;top:12dvh;bottom:0;width:auto;border-radius:20px 20px 0 0;z-index:12;padding-bottom:calc(22px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .5s var(--ios)}
- .queue-panel.show{transform:none}
  .modal-backdrop{align-items:flex-end;padding:0}
  .modal{width:100%;border-radius:24px 24px 0 0;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
 }
-/* ===== Mobil: üst çubuk, arama, sekmeler ===== */
+
 @media(max-width:760px){
  body:not([data-page="home"]):not([data-page="library"]) .top-actions .profile{display:none!important}
  body:not([data-page="home"]):not([data-page="library"]):not([data-page="search"]):not(.sub) .topbar{display:none}
@@ -822,7 +817,7 @@ button{transition:transform .35s var(--ios),background-color .25s ease,color .25
  body[data-page="search"] .search-ico{left:16px}
  .mobile-nav button{min-width:0}
 }
-/* ===== Vurgu rengi: iOS parlak kırmızı-pembe ===== */
+
 body.dark{--accent:#ff375f;--accent-fill:#ff375f}
 @media(max-width:760px){
  .main{position:relative}
@@ -833,7 +828,7 @@ body.dark{--accent:#ff375f;--accent-fill:#ff375f}
  body[data-page="search"] .top-actions{gap:0;width:100%;flex:1;min-width:0}
  body[data-page="search"] .search-wrap{margin:0 auto;width:100%;max-width:none}
 }
-/* ===== Kapaksız görsel: düz dolgu + vurgu renkli büyük nota ===== */
+
 :root{--ph:#e5e5ea}
 body.dark{--ph:#2c2c2e}
 .cover,.song-cover,.now-cover,.detail-cover,.fp-art{background:var(--ph)}
@@ -842,7 +837,7 @@ body.dark{--ph:#2c2c2e}
 .now-cover .ic{width:92%;height:92%}
 .song-cover .ic{width:100%;height:100%}
 .fp-art .ic{width:60%;height:60%}
-/* ===== iOS anahtar, tema seçici, müzik ekle, hero mozaik ===== */
+
 :root{--thumb:#fff}
 body.dark{--thumb:#636366}
 .ios-switch{position:relative;display:inline-block;width:51px;height:31px;flex-shrink:0}
@@ -881,7 +876,7 @@ body:not([data-page="home"]) #addMusicBtn{display:none}
  body[data-page="home"] .top-actions{gap:8px}
 }
 :root{--note-mask:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAO60lEQVR42u2dWYwc1RWGv6oeY8zYJjABBxuvYLCNbbwNIAgKAkVJEERCCN6yCESeUKTkgYhESaQkUh54yKpE4iGrghCILAQSKSsBImxmzBoMOGAImAQTE4wxBme6uvNwz01fl6t7lu7pruX/pNL0zPTUVFWf/9xzzj23KkKI/hCltiaQZLxvPrAa2AhcCJwDjABvANuBW4FngFqbv5/2QQkxG8YOENvrhm1pjgeWAucCG4BR4CxgOTDUZt9vAjeZEOI2+5UARN8NPp7Es0fASmANsA3YAqwHVpg3T9OwfYUjRjN47xXAvd2KQAIQMw1lYvu+3uZ9pwFrzdA327YMGG5j7I2MfWdRt9Hhcdt3037elADEbBq798BZ3nYEWGce/Xx7vQZYkPHeJOXZoxnYoT+GDwAPdpMPDOkzFm2S1EYQhoRGf5KFLVvNq2+xpHUkY58+HAr3W+vBsTbMdi82AczYkUsAMva0sYfMA86wBHWrbauBJZMYe5gAz6aNva/bHUgA1SDm2PJj2tjnAKssdDkPV4bcCCxuYydhKNMPY2+XZ8w4/pcAqhG3Z5Ugh8x4zjUjP88Mf5UJYbK4Pe5RKNPNOYKbM5AAKm7scfA6aZOsLsbV17dazL4BONNCnMkqMtGAjX1WkQCKG7cnZNfcRyxO3wJsMqNfAZw8RWOP6VyGlABE3429Xdy+wEKXdbjy43p7PdLG2P3oEFfR2CWAYiSp7Soyw7iJpE3m3beY8S9us896at+xLrMEkAfPHhql9+xZSeoKXCPYFlzrwBpcK0E0SZI6qIqMBCAmTVLrgcGGrLAkdRRXldkMnD6FJNXvu6ZLLQHkJW4Py49ZSeqpFqtvwJUf1+Mmm4Yn8exhzK5wRgLIVZLarm1gBFdu3GRhzEbgbODEDp49DJHk2SWAXBt7yEKL0TfjJphGzbNnTddn9cjIs0sAuYrbO5Uf5+Jq7WtptQ2sx82uRhnG3lCSKgEUxfCTVNx+HK75yyenfiHHUqbeI6NQRgLINX5VUYJr991mxj5qXn61CWEyY0fGLgEU1fiXATcDVwGLOiSpleiRkQCqZfwXAXfSaq+tfI+MBFCNmL9p3v4OM/4JuyYy9gp5wKpSMwHciOunmcD1wmudtARQCe+fmAiupNUhKSSAytDEtR8sQd2SEkAFRwBwfTkLZAYSQFVZSHZ9X0gAlQmDhAQghAQghAQghAQghAQghAQghAQghAQghAQghAQgRGnQkkgxCJrBBjN/VpgEIApj8OGtYWrkZOGRBCBmy7s3AhtL30DgCPAq8AJwALcmYzT4+0gCEEULZdLePcwv9wG7gJ3AduApM/4jwXuuBm4j+xFNEoDInXdvF8ocAl4Exs3gx4DngNcz9hfG/ncBvwSupfUwbAlA5CaU8XfKSHv3V4AngEeAh4CngT0Z+4sDsaRHjjn29QETgEYAkZtENTT2N82bj5l332nfv5WxP//3WXfNbve/DwQjgwQg+u7dw0S1DuwFHrVtO/AM8HIb7x6n9ptM83gA3pUAxKC8++vAsxa7j5nR7wHeyYjb4wzv3ujBcR7u94WRAMqfqGbdofpd4CULYR4FdgC7caXJXnv36VDXCCCmS/j408nKkOPAw5a07gkMrh/ePZdIAMX27jWO7efyZcixwLs/T3YZ0oul0zPNSo0EkH9jb2Z459Do9wJ/M+++g9YkU1YoE6W8e1L1iywB5D9RDTlgocvDuLr7mH1/sIN3n0oZUgIQAw1lvFcPE9UEV3J8zJLVHbhJpr0DTlQlANEz7x6GMvuBv5t3HzcP/yLHlgYrl6hKAMX27lllyCPAP8zIH6FzGTJMVOXdJYDcMZUy5Ku4WVTv3R8z7z4xBe8uY5cAcunlE1qPUwp5G1eFGadVhmzXDVn5MqQEUEzjDx907cuQY7Y9aeFNMyNRVRlSAiiF8e8DfgD83Lz7gQ7eXWVICaA0sX5k4c2lFsOH3j0sQ8q7SwCl9P4x8G0z/rmWxKoMKQFUgpp59T+ZECZk9MVHN8aaevgD8JoluA30eCUJoIIc4tjavZAAKsNhjr6Vh5AAKpMAY95f1R0JQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQAgJQEgAQkgAQkgAQkgAQkgAQkgAQkgAQkgAQvSJ4+xrUwIQVWS+RgBRRSL7OqwRQFRZBCslAFFFGmb0W1MjggQgKuH5m8B7AgHEEoCoCkMmgE8ApwCJRgBRJeOfAE4FPmtCiPp9AEL0kzgw8jpwIvALYJnlAnG/D0aI6cTr4RZnbLVgG7LNfx+ZkSe2fRi4D7hwEMavEUBM1dAxA22k3jeTcuUK4BLgKuCjwb4H4owlAEHgzaPA0NsZ9xxgLm7S6gSzoTm4Ngb/u+Ntm2shzipgNbAcOIfWjG/TtoFFIhKAjJ4gJPF4o10GnAWcCSwGTgZOsq/DZj/pEGgq+P9V63fSKwEIb/ih0S8E3m+x+AXA2cDpXfyPZmojMHSfJ+QCCaBa1ALDnwt8BLgG+ACwJMOIG8HrKJUfTCV/yD0SQLWS2gRYANwAXGfxOKkkN6zw1Mp+YSSA8hMHSe3HgS9aTE/w8+nG8BKAKFTIcyrwXQt3fBIaoXkgCaACxr8W+BWuDOkNv6bLIwGUPexJcCXM3+EqOhO4Or1IXaiqJoXgJm+ikp7bfOBOM/66jF8CyCJcgheV6DNtALcAG834NdJLAJmEU/JlivtHcaXORPG+BNAuTIhwM55wbJNXUfFC/lxg+JHMXALIMpQmsK1ERuIb2VbiZnibaISXANoYShNXG7+kRNfBe/yLcF2aDXl/CSCLITOOT5kIkpIZyvkc3YQmJID/MwdXDz8b+AwDXIgxCyR2LqMUqBlNAujPOQ6ZQUwAa4C7cT3tZYr/m7he/VUVz+8qKYB0B6Nfi4p5+br97jrgAdwMaaNk5w8wD9ftKaYRD+ftQ+zUT97M+D6Md7Pi3g3AZcDHgC2BKMroIefh+vzLMrKVWgBZ61DpInlbYGHNcly771lm+JtSo0GZuyBPlOHnWwCd1qFGwIgZ8CJcm8KC1LaQ1mJs7+384uv34lY1zWmTIFah/bcqlR9/nkeKIgDfglsPjH4+sBm3BnWzeepFlshFXV6ccKFHldp/D1CuvqbJ+GeQyzbyKgDfn+I7Ej8IXAtcHFQssjx2c5JcoV0iXMV+d3+t3jIRnFRyIfjzeibPI0BsH0JiH8j1wCc5eh1qMxgRwlvmqYFr+gKIgP3A87gWj0aJr2NaAM28CaAWGPaNwE3A0iARbQYxuVp1e+dwEjOKbSXOB3xo+x/g8cCmZnzRZsv41wB/AL5jxl+nVX6soYma2fKK4yU/T2/s24HXgkgjFyOAN/7LgR/h7vdepzU5JWY/D/gjrUUwZc4Dft9tAjwbnh/gavsAmsHXom/+PMamkIwPehSIgB20ZsCbJdp8+DwBrOtFFBP30PgTXHvxbYEqlcz23wk1gR+W1PP76uCfgV298P69EICPwRYBP8EtNC9rq0ERDCQC7gD25Sk86PEI971ejcJxjw7KL8JeGsT8YrAVkltodYmWRdwxsBO4h9atHnMR919Aa7KrUbK4s0g5gD+uGNcy8myJcjF/DlekbG/gIwC4xSVxzg2jSqNABLyNuzNEp07ZInn/Gu5ZYvdw9DzTQD0NuIcovJXK0jUC5Kcq95WgclLEa+8T338Dp9Hjpsa4B397Ka6xrWxra4tOAzcX8CXgZ7QeSVq00cw71euBf/U6se+Fki5Bi7DzajzeKV0P/JbWmuhmgYx/yELsu+11koeDC1dvPUS5Jr3KEgKlS4dzgR8HhpXkPOzxx/fVXia9vRbAsA1LZY7/iy6A9LF+OTifiRx+bmGu8uk8Gn94QRcBhySAwojAh7wXA4+mzi/JwTX2x7AX9xxhb/y5u9b+Qp4BvCMBFArvTU8AbsatqgpDj37O5TQy/t/ttB7Yl9sJVS+AlRUTwP0FN34yDGsE+DxuIU06Dp8IDLTRI4P3Rp/OGe8PvH6ujT80gFOAgxUSwF1F+HCm8RmG5zEMXAn8FNdn3+46TAQGHG5Jagt/N9GmSHIQN7F1ecq59s3BdNujfwT4b0VKiuAazMpYJo1xM8e/tm0RsBV3o90LcfdWGumB8BPchNZDwL24nv6XUjlKX8uc3QrgXeB1uzhVuBvB3pKEQJ2E4IX+G9vA3XJmFW4mdoXlfstt1PC3pvFb3cR02L4exC3TfAJ4DtiD6xxIe/xkEDX+oS4uWmzefzflu9Vgu5xnZ2pEoIRCCL2xN8z9tnVijm0Jk9+vxz+TOLwh2kA/2G7+dlcFwh/fYuwF0KjAOSdB3O7zBb+01b8O4/UJ8/pHUjlGeK/W8E6A9Txcx6EuLxLAkyUMC9Jxaw24z7xgXAEBdBodOhVFpvM3uRrauxHATguFaiUNDXwrwe09uGZlFkh6qwQ+VhynnP1AiXn73Zbg6cETJU3uZkrNDOSuEnu2CPgWruJV1lFOdCmgZbiSV69mDPO0EOMpXKmvrxM0ojj4yZFbKfbKo/SUvT+PD6XOU4hjRoEIN0FyKIibiywAb/zflPGL6YwCN5VgFPDH/qAlvrlsxxX5rAbFwF8KLAJ/zE/j+mGQ8YvphkKnAy9SvLKoN/5dtB7codBHzCgUOhfX9VeEkSCc8n8Q1/Al4xddi2AjbgIpr2tPGylxfh93excZv+iZCJbgWmqbORJC2vBfAK5JhXJC9EwE4B6TtD8lhKTPRp9ehvcG8DXcWgZU7RGzVR3yRrUC+AatJZShGHp9VwJ/35uspXgvA1/HLepAIY/o92iwEvgCrou0002R0utMG6ktafPerBDrAG4J3g24p8l7huT15aH7+b/CNZ8xcD5wGW7t6TpcT1EveBW39G4c+CtubmJfSpB+pBASQF/xE2b11M9PBtbaCLEaV4tfbJWZebj72Mwzwz2M6858B7e+9BXc3MMLtu3G3bEu6/92egi3qBj/Awk97sxja+TcAAAAAElFTkSuQmCC")}
-/* ===== Kapaksız şarkı simgesi (kullanıcı nota görseli) + sekme kayma efektleri ===== */
+
 .note-art{display:block;width:var(--na,56%);aspect-ratio:1;background:currentColor;-webkit-mask:var(--note-mask) center/contain no-repeat;mask:var(--note-mask) center/contain no-repeat}
 .cover-placeholder{--na:54%}
 .detail-cover{--na:54%}
@@ -897,7 +892,7 @@ body:not([data-page="home"]) #addMusicBtn{display:none}
  .nav-pill{display:block!important}
  .mobile-nav button.active{background:transparent}
 }
-/* ===== Yükleme çubuğu, seçim kilidi, çapraz geçiş, Arşiv ===== */
+
 .import-bar{display:none;flex-direction:column;justify-content:center;gap:7px;min-height:44px;margin:0 0 14px}
 body.importing .import-bar{display:flex}
 body.importing #page>h1{display:none}
@@ -934,10 +929,8 @@ body.importing #page>h1{display:none}
  .lib-capsule button{width:42px;height:44px;border:0;background:none;color:var(--text);display:grid;place-items:center;padding:0}
  .lib-capsule .ic{width:22px;height:22px}
  body[data-page="library"]:not(.sub) .topbar{display:flex}
- .queue-panel{transition:transform .5s var(--ios),visibility 0s linear .5s}
- .queue-panel.show{transition:transform .5s var(--ios),visibility 0s}
 }
-/* ===== Arşiv düzenleme, Göz At sanatçı dairesi, menü, liste görseli ===== */
+
 [data-kind="artist"] .cover{border-radius:50%}
 .artist-strip{display:flex;gap:16px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:none}
 .artist-strip::-webkit-scrollbar{display:none}
@@ -974,12 +967,11 @@ body.lib-edit .lib-fav-tile.picked .lib-star{box-shadow:0 0 0 3px var(--accent-f
 .pl-cover{width:120px;height:120px;aspect-ratio:1;border-radius:14px;border:0;background:var(--ph);color:var(--accent);font-weight:600;overflow:hidden;padding:0;display:grid;place-items:center}
 .pl-cover img{width:100%;height:100%;object-fit:cover}
 @media(max-width:760px){
- .queue-panel{z-index:70}
  body.lib-edit .main{padding-bottom:40px}
  body.lib-edit .lib-capsule,body.lib-edit .top-actions .profile{display:none!important}
  body.lib-edit .lib-done{display:grid;place-items:center;color:var(--accent);font-weight:700;font-size:1.0625rem;height:44px;min-height:44px;min-width:68px;padding:0 18px;border:0;border-radius:999px;background:var(--hover);line-height:1;white-space:nowrap}
 }
-/* ===== Arşiv alt sayfaları, düzenleme geçişi, yuvarlak seçim, erişilebilirlik ===== */
+
 *{-webkit-tap-highlight-color:transparent}
 .sub-capsule{display:none}
 .lib-row.edit.enter{animation:editIn .5s var(--ios) backwards;animation-delay:calc(var(--i,0)*45ms)}
@@ -1003,7 +995,7 @@ body.lib-edit .lib-fav-tile.picked .lib-star{box-shadow:0 0 0 3px var(--accent-f
  .song:focus:not(:focus-visible){outline:none}
  .card{border-radius:14px}
 }
-/* ===== Mobil alt bar ve mini oynatıcı ölçüleri ===== */
+
 @media(max-width:760px){
  :root{--bar-x:30px;--tab-h:64px}
  .mobile-nav{left:max(var(--bar-x),env(safe-area-inset-left));right:max(var(--bar-x),env(safe-area-inset-right))}
@@ -1014,7 +1006,7 @@ body.lib-edit .lib-fav-tile.picked .lib-star{box-shadow:0 0 0 3px var(--accent-f
  .now-cover{width:38px;height:38px}
  .player .play-btn .ic,.player #nextBtn .ic{width:26px;height:26px}
 }
-/* ===== iOS geri tuşu, Parçalar nota simgesi ===== */
+
 .lib-row>.lib-ico{flex:none;width:24px;height:24px;display:grid;place-items:center;color:var(--accent)}
 .lib-ico .note-art{--na:78%}
 @media(max-width:760px){
@@ -1024,7 +1016,7 @@ body.lib-edit .lib-fav-tile.picked .lib-star{box-shadow:0 0 0 3px var(--accent-f
  body.sub #backBtn:active{opacity:.5}
  body.sub #backBtn:disabled{opacity:1}
 }
-/* ===== apple-design-super denetimi ===== */
+
 .progress-row,.progress-row *{font-size:.75rem}
 .js-repeat[data-one="1"]{position:relative}
 .js-repeat[data-one="1"]::after{content:"1";position:absolute;right:5px;bottom:5px;
@@ -1045,7 +1037,7 @@ body.lib-edit .lib-fav-tile.picked .lib-star{box-shadow:0 0 0 3px var(--accent-f
  body::after{bottom:0;height:calc(var(--tab-h) + env(safe-area-inset-bottom) + 70px);background:linear-gradient(transparent,color-mix(in srgb,var(--bg) 88%,transparent))}
  body.lib-edit::after{opacity:0}
 }
-/* ===== apple-design-super 2. tur: sayfalar, basış durumları, metin boyutu ===== */
+
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .search{-webkit-appearance:none;appearance:none}
 @media(max-width:760px){
@@ -1057,7 +1049,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .mobile-nav button{height:auto;min-height:54px;padding:4px 0}
  .player{height:auto;min-height:52px}
 }
-/* ===== Eylem sayfası (action sheet) ===== */
+
 .as-back{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.4);display:flex;align-items:flex-end;justify-content:center;padding:0 max(10px,env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom));animation:fadeIn .25s ease-out}
 .as-box{width:min(100%,420px);display:grid;gap:8px;animation:sheetUp .5s var(--ios)}
 .as-card{border-radius:14px;overflow:hidden;background:var(--glass-strong);-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%)}
@@ -1067,7 +1059,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .as-card .as-del{color:#ff3b30}
 .as-card .as-cancel{font-weight:600;border-top:0;background:var(--bg)}
 @media(prefers-reduced-transparency:reduce){.as-card{background:Canvas;-webkit-backdrop-filter:none;backdrop-filter:none}}
-/* ===== Arşiv karoları + Favori Parçalar / çalma listesi sayfası (Apple Music) ===== */
+
 .lib-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,112px));justify-content:center;gap:18px 14px}
 .lib-fav-tile{width:100%;max-width:none;gap:8px}
 .lib-star{width:100%;height:auto;aspect-ratio:1;border-radius:8px;background:#e5e5ea;box-shadow:none}
@@ -1087,7 +1079,6 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .pl-btn:active,.pl-add:active{opacity:.55}
 .pl-add{margin-top:6px;min-height:44px;border:0;background:none;color:var(--accent);font-size:1.0625rem;font-weight:600;display:flex;align-items:center;gap:6px}
 
-/* iOS/mobile: disable pinch/double-tap page zoom while retaining normal scrolling and controls */
 @media (max-width: 760px) {
  html, body { touch-action: pan-x pan-y; }
  body { -webkit-text-size-adjust: 100%; }
@@ -1095,8 +1086,6 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  input[type="range"] { touch-action: pan-x; }
 }
 
-
-/* ===== iOS Liquid Glass finishing: dark-mode edge treatment and unified controls ===== */
 @media(max-width:760px){
  :root{--mini-control-color:var(--text)}
  .mobile-nav button,
@@ -1114,7 +1103,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
    inset 0 1px 0 rgba(255,255,255,.20),
    inset 0 0 0 1px rgba(255,255,255,.055);
  }
- /* No ambient glow beneath either floating control in dark appearance. */
+
  body.dark .mobile-nav,
  body.dark .player{
   filter:none;
@@ -1124,8 +1113,6 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  body.dark .player{background:rgba(31,31,35,.96)}
 }
 
-
-/* ===== Sekme vurgusu + nötr Liquid Glass kayan kapsül ===== */
 :root{--nav-pill-surface:#e7e7eb;--nav-pill-edge:rgba(255,255,255,.72)}
 body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
 @media(max-width:760px){
@@ -1138,7 +1125,6 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  }
 }
 
-/* ===== Görünüm seçici: alt gezinme çubuğuyla birebir aynı Liquid Glass kapsül ===== */
 @media(max-width:760px){
  .acct-row.seg-row{display:block;padding:10px 12px!important;background:transparent}
  .theme-seg{
@@ -1182,7 +1168,6 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .theme-seg .seg-thumb{background:var(--hover);box-shadow:inset 0 0 0 1px var(--line)}
 }
 
-/* Mini oynatıcı ve gezinme çubuğu aynı arka plan dolgusunu paylaşır. */
 @media(max-width:760px){
  .mobile-nav{background:var(--glass-strong)!important}
  .player{background:var(--glass-strong)!important}
@@ -1192,7 +1177,7 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
 @media(max-width:760px) and (prefers-reduced-transparency:reduce),(max-width:760px) and (prefers-contrast:more){
  .mobile-nav,.player{background:Canvas!important}
 }
-/* Masaüstü mini oynatıcı: daha ferah yükseklik ve belirgin taşıma kontrolleri */
+
 @media(min-width:761px){
  .player{height:99px;min-height:99px;padding-top:3px;padding-bottom:3px}
  .control-buttons{gap:25px}
@@ -1203,7 +1188,6 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .control-buttons .skip{width:40px;height:40px;display:grid;place-items:center}
 }
 
-/* Masaüstü kenar çubuğu: daha kısa menü ritmi ve oynatıcıdan net ayrım */
 @media(min-width:761px){
  .sidebar{padding-top:20px;padding-bottom:24px}
  .brand{margin-bottom:22px}
@@ -1214,7 +1198,6 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .player{margin-top:0}
 }
 
-/* Masaüstü mini oynatıcı: ekranın ortasında yüzen, kenarlardan ayrılmış yüzey */
 @media(min-width:761px){
  .player{
   width:min(820px,calc(100% - 48px));max-width:820px;min-width:0;align-self:center;
@@ -1231,7 +1214,6 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .player .volume{width:76px}
 }
 
-/* Masaüstü mini oynatıcıyı sol kenar ile kenar çubuğunun sağ sınırı arasındaki içerik alanına göre ortala */
 @media(min-width:761px){
  .player{
   left:calc(226px + 24px + (100vw - 226px - 24px)/2);
@@ -1243,7 +1225,6 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  }
 }
 
-/* Masaüstü: kompakt kenar çubuğu, tek aktif sekme ve yüzen mini oynatıcıyla uyum */
 @media(min-width:761px){
  .sidebar{width:226px;padding:16px 13px 14px;display:flex;flex-direction:column;gap:0}
  .brand{font-size:22px;margin:0 10px 14px;min-height:30px}
@@ -1257,7 +1238,6 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  body[data-page="manage"] #backBtn{display:none!important}
 }
 
-/* Masaüstü düzenleme penceresi ve dar ekran kenar çubuğu ince ayarı */
 @media(min-width:761px){
  .sidebar{padding-top:12px;padding-bottom:12px}
  .brand{margin-bottom:10px}
@@ -1283,13 +1263,12 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .modal-actions button{min-height:42px;padding:0 20px;border-radius:14px}
 }
 
-/* Masaüstü: şarkı satırına hafif basma, büyütülmüş kenar menüsü ve söz alanı */
 @media(min-width:761px){
- /* Şarkı satırları sayfa açılışında yukarı yükselmesin; tıklamada hafifçe basılsın. */
+
  #page.page-in .song,#page.page-fade .song{animation:none!important}
  .song{transition:background .16s ease,transform .16s ease,box-shadow .16s ease;transform-origin:center}
  .song:active{transform:scale(.985)!important;background:var(--hover);box-shadow:inset 0 1px 2px rgba(0,0,0,.06)}
- /* Menü satırları ve simgeler 1.35 kat büyütüldü; dikey boşluklar dengelendi. */
+
  .sidebar{height:90%;max-height:90%;align-self:flex-start;overflow-y:auto;padding-top:10px;padding-bottom:10px}
  .brand{font-size:23px;margin-bottom:9px}
  .nav-title{font-size:11px;margin:8px 10px 3px}
@@ -1306,14 +1285,13 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .modal .lyrics-field{margin-top:5px}
 }
 
-/* ===== Masaüstü sidebar, Şarkıları Yönet simgesi, Parçalar ayırıcı ===== */
 .acct-lead{display:flex;align-items:center;gap:14px;min-width:0}
 .acct-lead>.ic{width:24px;height:24px;color:var(--accent);flex:none}
 @media(min-width:761px){
  body[data-page="songs"] .song-list .song{border-radius:0;border-bottom:1px solid color-mix(in srgb,CanvasText 9%,transparent)}
  body[data-page="songs"] .song-list .song:last-child{border-bottom:0}
 }
-/* ===== Masaüstü: oynatıcı markası, yan çubuk boşluğu, Favori kapağı ===== */
+
 .lib-star,.pl-star{background:var(--ph)}
 @media(min-width:761px){
  .sidebar{height:auto!important;max-height:none!important;bottom:calc(var(--player-real,99px) + var(--gap) + 20px);overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
@@ -1326,7 +1304,7 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .nav-title{margin-top:6px}
  .nav-item{min-height:26px}
 }
-/* ===== Tam ekran: logo konumu, yumuşak şarkı geçişi, dönen kapak gradyanı ===== */
+
 @property --fp-c1{syntax:"<color>";inherits:true;initial-value:#5b3a7a}
 @property --fp-c2{syntax:"<color>";inherits:true;initial-value:#c2466a}
 @property --fp-c3{syntax:"<color>";inherits:true;initial-value:#2a2a3a}
@@ -1351,11 +1329,9 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
 @keyframes fpTxtOut{to{opacity:0;transform:translateY(-10px)}}
 @media(prefers-reduced-motion:reduce){.fp-bg::before,.fp-bg::after{animation:none}}
 @media(min-width:761px){.fp-brand{top:34px;left:6px;height:auto}}
-/* Masaüstü tam ekran: kapak ile şarkı adı arasında ferah boşluk */
+
 @media(min-width:761px){.fp-meta{margin-top:30px}}
 
-
-/* macOS tarzı tam ekran oynatıcı sıra menüsü */
 @media(min-width:761px){
  .fp-queue-list .fp-queue-track{position:relative;padding:8px 42px 8px 8px;min-height:62px;gap:12px;transition:background .16s ease,transform .16s ease}
  .fp-queue-list .fp-queue-track:hover{background:rgba(255,255,255,.085)}
@@ -1398,8 +1374,6 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .fp-queue.view-lyrics #fpQueueCount{display:none}
 }
 
-
-/* Oynatıcı panel geçişleri ve mobil araç çubuğu */
 .fp-mobile-tools{display:none}
 .fp-queue-list,.fp-lyrics-panel{transition:opacity .28s ease,transform .32s cubic-bezier(.22,.68,0,1)}
 .fp-queue.view-lyrics .fp-lyrics-panel{animation:fpPanelIn .32s cubic-bezier(.22,.68,0,1)}
@@ -1410,14 +1384,14 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  #fpRepeat{margin-left:auto}
 }
 @media(max-width:760px){
- .fp-mobile-tools{display:flex;align-items:center;justify-content:center;position:relative;min-height:42px;margin:2px 0 4px}
- .fp-mobile-tools [data-fp-view="lyrics"]{display:flex;align-items:center;justify-content:center;gap:0;min-height:40px;height:40px;padding:0 17px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.12);color:#fff;font-size:14px;font-weight:600;letter-spacing:-.01em;line-height:1;text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.13);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);-webkit-tap-highlight-color:transparent;white-space:nowrap}
+ .fp-mobile-tools{display:flex;align-items:center;justify-content:center;position:relative;min-height:36px;margin:1px 0 3px}
+ .fp-mobile-tools [data-fp-view="lyrics"]{display:flex;align-items:center;justify-content:center;gap:0;min-height:36px;height:36px;padding:0 14px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.12);color:#fff;font-size:13px;font-weight:600;letter-spacing:-.01em;line-height:1;text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.13);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);-webkit-tap-highlight-color:transparent;white-space:nowrap}
  .fp-mobile-tools [data-fp-view="lyrics"] .ic{display:none}
- .fp-mobile-tools #fpMobileMore{position:absolute;right:-2px;top:-2px;width:44px;height:44px;min-height:44px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:transparent;box-shadow:none;color:#fff;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer}
- .fp-mobile-tools #fpMobileMore .ic{width:22px;height:22px;fill:currentColor;stroke:none}
+ .fp-mobile-tools #fpMobileMore{position:absolute;right:0;top:0;width:36px;height:36px;min-height:36px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:transparent;box-shadow:none;color:#fff;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer}
+ .fp-mobile-tools #fpMobileMore .ic{width:19px;height:19px;fill:currentColor;stroke:none}
  .fp-mobile-tools #fpMobileMore:focus-visible{outline:2px solid rgba(255,255,255,.78);outline-offset:2px}
- .fp-queue-menu{position:fixed;z-index:200;width:min(240px,calc(100vw - 24px));min-width:0;padding:6px;border-radius:13px;color:#f5f5f7;background:rgba(39,39,43,.96);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);box-shadow:0 18px 55px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.12);animation:fpMenuIn .16s cubic-bezier(.2,.8,.2,1);font-size:15px;isolation:isolate;pointer-events:auto;touch-action:manipulation}
- .fp-queue-menu button{width:100%;min-height:44px;padding:0 9px;display:flex;align-items:center;gap:10px;border:0;border-radius:8px;background:transparent;color:inherit;text-align:left;font-size:15px;font-weight:500;white-space:nowrap;touch-action:manipulation}
+ .fp-queue-menu{position:fixed;z-index:200;width:min(216px,calc(100vw - 24px));min-width:0;padding:6px;border-radius:22px;color:#f5f5f7;background:rgba(39,39,43,.97);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);box-shadow:0 18px 55px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.12);animation:fpMenuIn .16s cubic-bezier(.2,.8,.2,1);font-size:15px;isolation:isolate;pointer-events:auto;touch-action:manipulation}
+ .fp-queue-menu button{width:100%;min-height:38px;padding:0 10px;display:flex;align-items:center;gap:9px;border:0;border-radius:8px;background:transparent;color:inherit;text-align:left;font-size:14px;font-weight:550;white-space:nowrap;touch-action:manipulation}
  .fp-queue-menu button:active{background:rgba(255,255,255,.14)}
  .fp-queue-menu button>span:first-child{width:20px;height:20px;display:grid;place-items:center;color:rgba(255,255,255,.72)}
  .fp-queue-menu .ic{width:18px;height:18px}
@@ -1432,6 +1406,8 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .fp-mobile-tools{position:relative;z-index:4;isolation:isolate}
  .fp.fp-sheet-open .fp-mobile-tools{z-index:4;pointer-events:none}
  .fp-queue.view-lyrics{display:flex;flex-direction:column;position:absolute;z-index:8;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 44px);bottom:calc(env(safe-area-inset-bottom) + 12px);width:auto;max-width:none;margin:0;padding:16px 18px 18px;border-radius:24px 24px 20px 20px;background:rgba(25,25,28,.96);border:1px solid rgba(255,255,255,.18);-webkit-backdrop-filter:blur(28px) saturate(145%);backdrop-filter:blur(28px) saturate(145%);box-shadow:0 16px 48px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.12);transform:translateY(0);opacity:1;transition:transform .55s var(--ios),opacity .55s var(--ios);will-change:transform,opacity}
+ .fp-queue.view-lyrics:not(.lyrics-closing){animation:fpLyricsSheetIn .48s var(--ios) backwards}
+ @keyframes fpLyricsSheetIn{from{transform:translate3d(0,calc(100% + 28px),0);opacity:.72}to{transform:translate3d(0,0,0);opacity:1}}
  .fp-queue.view-lyrics.lyrics-closing{transform:translateY(calc(100% + 28px));opacity:0;pointer-events:none}
  .fp-queue.view-lyrics .fp-queue-head{display:flex;position:relative;align-items:center;padding:15px 4px 16px;border-bottom:1px solid rgba(255,255,255,.13)}
  .fp-queue.view-lyrics .fp-queue-head>div{padding-right:48px}
@@ -1447,15 +1423,13 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .fp-queue.view-lyrics .lyrics-empty{padding:48px 12px;text-align:center;font-size:1rem;line-height:1.65;color:rgba(255,255,255,.62)}
 }
 
-
-/* Apple HIG refinement: persistent sheet layering, readable menus, and predictable touch behavior */
 @media(max-width:760px){
  .fp .fp-mobile-tools{z-index:4;transition:opacity .2s ease}
  .fp.fp-sheet-open .fp-mobile-tools{pointer-events:none;opacity:.0}
  .fp .fp-queue.view-lyrics{z-index:12;isolation:isolate;pointer-events:auto}
  .fp .fp-queue.view-lyrics #fpLyricsPanel{overscroll-behavior-y:contain;touch-action:pan-y}
- .fp .fp-queue-menu{z-index:200;max-height:min(72dvh,560px);overflow-y:auto;overscroll-behavior:contain;border-radius:14px;padding:7px;font-size:15px}
- .fp .fp-queue-menu button{min-height:44px;border-radius:9px;font-size:15px;font-weight:550}
+ .fp .fp-queue-menu{z-index:200;max-height:min(68dvh,520px);overflow-y:auto;overscroll-behavior:contain;border-radius:22px;padding:6px;font-size:14px}
+ .fp .fp-queue-menu button{min-height:38px;border-radius:15px;font-size:14px;font-weight:550}
  .fp .fpq-separator{margin:6px 8px}
  .fp .fpq-submenu{max-height:min(42dvh,300px);overscroll-behavior:contain}
 }
@@ -1468,8 +1442,6 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .fp .fp-queue.view-lyrics,.fp .fp-queue-menu,.fp .fp-mobile-tools{animation:none!important;transition:none!important}
 }
 
-
-/* Mobil modal: klavye açılınca içerik görünür alanda kayar, form yatayda daralmaz. */
 .modal-backdrop{overscroll-behavior:contain}
 .modal{max-height:calc(100dvh - 40px);overflow-y:auto;overscroll-behavior:contain}
 .modal input,.modal textarea{max-width:100%;min-width:0}
@@ -1506,8 +1478,6 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  .modal .lyrics-field textarea{width:100%;min-width:100%;max-width:100%;padding:12px}
 }
 
-
-/* Mobil son düzenleme: eşit görsel kartları, yumuşak form alanı ve net modal başlığı. */
 @media(max-width:760px){
  #editModal .modal,
  #modal .modal{
@@ -1583,7 +1553,6 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  }
 }
 
-
 @media(max-width:760px){
  #editModal .edit-artwork-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;padding:0 2px}
  #editModal .edit-artwork-card{width:100%;min-width:0;align-items:stretch;padding:12px 9px}
@@ -1607,10 +1576,7 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
 .modal-backdrop.is-closing{animation:fadeOut .28s ease both!important}
 @keyframes sheetDown{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(28px) scale(.98)}}
 @keyframes fadeOut{from{opacity:1}to{opacity:0}}
-.queue-panel.is-closing{transform:translateX(105%)!important;opacity:0!important;transition:transform .32s var(--ios),opacity .25s ease!important}
 
-
-/* Mobile song editor: artwork columns stay side by side, actions directly underneath each image. */
 @media(max-width:760px){
  #editModal .edit-artwork-grid{
   display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
@@ -1640,7 +1606,7 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
   padding:0 6px!important;border-radius:999px!important;
   font-size:11px;white-space:nowrap;
  }
- /* Playlist input stays in the modal's scroll flow when the keyboard appears. */
+
  #modal.modal-backdrop{position:fixed!important;inset:0!important;overflow:hidden!important}
  #modal .modal{
   position:relative!important;display:block!important;flex:none!important;
@@ -1658,20 +1624,13 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  }
 
 }
-/* Reverse the entrance motion when overlays close. */
+
 .modal-backdrop.is-closing{display:flex!important;pointer-events:none}
 .modal-backdrop.is-closing .modal{animation:sheetDown .32s var(--ios) both!important}
 .modal-backdrop.is-closing{animation:fadeOut .28s ease both!important}
-.queue-panel.is-closing{transform:translateX(105%)!important;opacity:0!important}
 @media(prefers-reduced-motion:reduce){
  .modal-backdrop.is-closing,.modal-backdrop.is-closing .modal{animation-duration:.01ms!important}
- .queue-panel.is-closing{transition-duration:.01ms!important}
 }
-
-</style>
-
-<style>
-/* Şarkı düzenleme: mobilde kusursuz daire, masaüstünde macOS kapatma noktası. */
 @media(max-width:760px){
  #editModal .edit-modal-close{width:36px!important;height:36px!important;min-width:36px;min-height:36px;aspect-ratio:1/1;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important;border-radius:50%!important;font-family:Arial,sans-serif;font-size:23px!important;font-weight:400!important;line-height:36px!important;text-align:center;text-indent:0;transform:translateY(-50%)}
  #editModal .edit-macos-close{display:none!important}
@@ -1685,6 +1644,416 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  #editModal .modal{position:relative}
  #editModal .edit-modal-heading{margin-top:30px!important}
 }
+@media(max-width:760px){
+
+
+ .fp.playing .fp-art{transform:scale(.9)!important}
+
+ .fp-mobile-tools [data-fp-view="lyrics"]{min-height:34px!important;height:34px!important;padding:0 13px!important;font-size:12px!important;border-radius:999px!important}
+
+}
+@media(max-width:760px){
+
+
+ #editModal{align-items:flex-start!important;overflow:hidden!important}
+ #editModal .modal{
+  display:block!important;max-height:calc(var(--app-visual-height,100dvh) - 20px - env(safe-area-inset-top))!important;
+  height:auto!important;overflow-x:hidden!important;overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;
+  touch-action:pan-y!important;transform:translateZ(0);
+  padding-bottom:calc(28px + env(safe-area-inset-bottom))!important;
+ }
+
+ #modal.modal-backdrop{align-items:flex-start!important;justify-content:center!important;
+  padding:calc(10px + env(safe-area-inset-top)) 12px 12px!important;
+  height:var(--app-visual-height,100dvh)!important;overflow:hidden!important;
+ }
+ #modal .modal{
+  display:block!important;position:relative!important;flex:none!important;
+  width:min(100%,520px)!important;
+  max-height:calc(var(--app-visual-height,100dvh) - 22px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
+  height:auto!important;overflow-x:hidden!important;overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;
+  touch-action:pan-y!important;transform:none!important;
+ }
+
+}
+@media(max-width:760px){
+ .modal-backdrop{height:var(--app-visual-height,100dvh)!important}
+ .modal-backdrop .modal{
+  max-height:calc(var(--app-visual-height,100dvh) - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
+  scroll-behavior:smooth;
+  overscroll-behavior:contain;
+ }
+ .modal input:not([type=file]),.modal textarea{font-size:16px!important;scroll-margin-block:40vh}
+}
+@media(max-width:760px){
+
+ .modal-backdrop.show{
+  position:fixed!important;
+  top:var(--app-visual-top,0px)!important;
+  left:0!important;right:0!important;
+  height:var(--app-visual-height,100dvh)!important;
+  min-height:0!important;
+  max-height:var(--app-visual-height,100dvh)!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:12px 12px max(12px,env(safe-area-inset-bottom))!important;
+  overflow:hidden!important;
+ }
+ .modal-backdrop.show>.modal{
+  width:min(100%,520px)!important;
+  max-height:calc(var(--app-visual-height,100dvh) - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
+  min-height:0!important;
+  margin:auto!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior:contain!important;
+  scroll-behavior:smooth;
+ }
+ .modal-backdrop.show .modal input:not([type=file]),
+ .modal-backdrop.show .modal textarea,
+ .modal-backdrop.show .modal select{
+  font-size:16px!important;
+  scroll-margin-block:45vh!important;
+ }
+
+
+ .player,.mobile-nav{transform:translateZ(0);backface-visibility:hidden}
+}
+:root{--ios:cubic-bezier(.22,.68,0,1);--ios-exit:cubic-bezier(.4,0,1,1)}
+@media(max-width:760px){
+ html{scroll-behavior:auto!important}
+ body{overscroll-behavior-y:none}
+ .fp,.fp-queue,.queue-panel,.modal-backdrop,.modal,.player,.mobile-nav{
+  -webkit-backface-visibility:hidden;backface-visibility:hidden;
+ }
+ .fp{transition:transform .42s var(--ios),visibility 0s .42s!important}
+ .fp.open{transition:transform .42s var(--ios),visibility 0s!important}
+ .fp-art,.fp-bg,.modal{transform:translateZ(0);will-change:transform}
+ .fp-bg{filter:blur(38px) saturate(1.25) brightness(.72)!important}
+ .song,.card,.queue-track{contain:layout paint}
+ .song img,.card img,.queue-track img{content-visibility:auto}
+ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+:root{--spring-open:cubic-bezier(.32,.72,0,1)}
+@supports (transition-timing-function:linear(0,1)){
+ :root{--spring-open:linear(0,.18 4%,.5 9%,.8 15%,.98 23%,1.04 31%,1.05 38%,1.02 48%,.995 60%,1)}
+}
+@keyframes sheetSpring{from{transform:translateY(calc(100% + 28px))}to{transform:translateY(0)}}
+@media(max-width:760px){
+
+
+
+}
+
+.ios-menu{min-width:250px;padding:8px;border-radius:26px;background:color-mix(in srgb,Canvas 58%,transparent);-webkit-backdrop-filter:blur(40px) saturate(200%);backdrop-filter:blur(40px) saturate(200%);box-shadow:0 18px 50px rgba(0,0,0,.28),inset 0 0 0 .5px rgba(255,255,255,.2),inset 0 1px 0 rgba(255,255,255,.22);animation:menuSpring .55s var(--spring-open)}
+@keyframes menuSpring{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
+.ios-menu button{min-height:48px;padding:0 16px;border-radius:18px;font-size:1.0625rem;font-weight:500;gap:14px;justify-content:space-between}
+.ios-menu button .chk{width:22px;flex:none;display:grid;place-items:center;color:var(--text)}
+.ios-menu button .chk .ic{width:18px;height:18px;stroke-width:2.6}
+.ios-menu button:has(.chk){justify-content:flex-start}
+.ios-menu button+button{margin-top:2px}
+@media(prefers-reduced-transparency:reduce){.ios-menu{background:Canvas;-webkit-backdrop-filter:none;backdrop-filter:none}}
+.dl-chk{width:22px;height:22px;display:grid;place-items:center;flex:none}
+.dl-chk .ic{width:20px;height:20px;color:var(--accent);stroke-width:2.6}
+
+/* =====================================================================
+   SHEETS - canonical rules for the queue panel, lyrics sheet and scrim.
+   Replaces the stacked v2/v3/v4/v5 !important overrides.
+   Specificity (#queuePanel / .fp ...) wins over the base rules, so no
+   !important is needed. Reduced-motion/transparency live at the end.
+   ===================================================================== */
+:root{
+ --sheet-fill:rgba(250,250,252,.96);--sheet-head:rgba(250,250,252,.96);
+ --sheet-edge:rgba(0,0,0,.10);--sheet-grabber:rgba(0,0,0,.22);
+ --sheet-shadow:0 12px 34px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.7);
+}
+body.dark{
+ --sheet-fill:rgba(35,35,39,.96);--sheet-head:rgba(35,35,39,.88);
+ --sheet-edge:rgba(255,255,255,.13);--sheet-grabber:rgba(255,255,255,.34);
+ --sheet-shadow:0 12px 34px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.09);
+}
+#queueScrim{position:fixed;inset:0;z-index:11;background:rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:opacity .18s ease;-webkit-tap-highlight-color:transparent}
+#queueScrim.show{opacity:1;pointer-events:auto}
+@media(min-width:761px){
+ #queueScrim{display:none}
+ /* desktop side panel slides out to the right while closing */
+ .queue-panel.is-closing{transform:translateX(105%);opacity:0;transition:transform .32s var(--ios),opacity .25s ease}
+}
+@media(max-width:760px){
+ #queueScrim{z-index:119;background:rgba(0,0,0,.36);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+ /* Queue: bottom sheet */
+ #queuePanel.queue-panel{
+  position:fixed;z-index:120;left:8px;right:8px;top:auto;
+  bottom:max(10px,env(safe-area-inset-bottom));
+  width:auto;max-width:none;height:min(72dvh,620px);
+  max-height:calc(var(--app-visual-height,100dvh) - 28px - env(safe-area-inset-top));
+  box-sizing:border-box;padding:18px 18px calc(16px + env(safe-area-inset-bottom));
+  border:1px solid var(--sheet-edge);border-radius:26px;
+  background:var(--sheet-fill);
+  -webkit-backdrop-filter:blur(16px) saturate(145%);backdrop-filter:blur(16px) saturate(145%);
+  box-shadow:var(--sheet-shadow);
+  overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;isolation:isolate;
+  transform:translate3d(0,calc(100% + 24px),0);opacity:0;visibility:hidden;
+  transition:transform .42s var(--ios),opacity .24s ease,visibility 0s .42s;
+  will-change:transform,opacity;
+ }
+ #queuePanel.queue-panel::before{content:"";display:block;width:38px;height:5px;border-radius:99px;background:var(--sheet-grabber);margin:0 auto 16px}
+ #queuePanel.queue-panel.show{
+  transform:translate3d(0,0,0);opacity:1;visibility:visible;
+  transition:transform .42s var(--ios),opacity .24s ease,visibility 0s;
+ }
+ #queuePanel.queue-panel.is-closing{
+  transform:translate3d(0,calc(100% + 24px),0);opacity:1;visibility:visible;pointer-events:none;
+  transition:transform .42s var(--ios);
+ }
+ #queuePanel .queue-head{position:static;padding:2px 0 12px;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;border:0;border-radius:0}
+ #queuePanel .queue-track{min-height:58px;border-radius:12px;padding:9px 8px}
+
+ /* Lyrics: sheet inside the (always dark) full-screen player */
+ .fp .fp-queue.view-lyrics{
+  animation:sheetSpring .62s var(--spring-open) backwards;
+  transition:transform .45s var(--ios);
+  transform:translate3d(0,0,0);transform-origin:bottom center;
+  will-change:transform;contain:layout paint;touch-action:pan-y;
+  -webkit-backdrop-filter:blur(16px) saturate(145%);backdrop-filter:blur(16px) saturate(145%);
+  box-shadow:0 12px 34px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.09);
+ }
+ .fp .fp-queue.view-lyrics.lyrics-closing{
+  animation:none;opacity:1;transform:translate3d(0,calc(100% + 28px),0);
+  transition:transform .45s var(--ios);
+ }
+ .fp .fp-queue.view-lyrics #fpLyricsPanel{overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+}
+
+/* Pinch zoom stays enabled; this only removes the double-tap-to-zoom delay. */
+html{touch-action:manipulation}
+
+/* Accessibility adaptations (kept last so they win) */
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){
+ #queuePanel.queue-panel,.fp .fp-queue.view-lyrics,#queueScrim{-webkit-backdrop-filter:none;backdrop-filter:none}
+ #queuePanel.queue-panel{background:var(--panel)}
+}
+@media(prefers-reduced-motion:reduce){
+ /* .fp / sheets previously defeated the global reduced-motion rule via !important overrides */
+ .fp,.fp.open,.queue-panel,#queuePanel.queue-panel,#queuePanel.queue-panel.show,#queuePanel.queue-panel.is-closing,
+ .fp .fp-queue.view-lyrics,.fp .fp-queue.view-lyrics.lyrics-closing,.modal-backdrop.show>.modal{
+  transition-duration:.01ms!important;transition-delay:0s!important;animation-duration:.01ms!important;animation-delay:0s!important;
+ }
+}
+
+
+/* Mobile dark appearance: true AMOLED black, with restrained raised surfaces. */
+@media(max-width:760px){
+ body.dark{
+  --bg:#000000;--panel:#09090b;--sidebar:#000000;--player:rgba(8,8,8,.96);
+  --glass:rgba(12,12,14,.72);--glass-strong:rgba(10,10,12,.94);
+  --glass-edge:rgba(255,255,255,.12);--line:rgba(255,255,255,.12);
+  --hover:rgba(255,255,255,.085);--shadow:0 8px 30px rgba(0,0,0,.62);
+  color-scheme:dark;
+ }
+ body.dark,.dark .app,.dark .workspace,.dark .main{background:#000000!important}
+ body.dark .mobile-nav{background:rgba(8,8,8,.94)}
+ body.dark .player{background:rgba(8,8,8,.96)}
+}
+/* Album/artist captions: remove inherited paint clipping and diagonal mask artifacts. */
+@media(max-width:760px){
+ .card{contain:layout;overflow:visible;clip-path:none;-webkit-mask-image:none;mask-image:none}
+ .card-title,.card-sub{display:block;position:relative;left:0;right:auto;transform:none;text-indent:0;
+  clip-path:none;-webkit-mask-image:none;mask-image:none;padding-left:2px;margin-left:0}
+ .card-sub{width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+}
+
+</style>
+<style id="ios-native-focused-fixes">
+
+/* iOS Native Engineer · focused macOS / player / artist refinements */
+@media (min-width:761px){
+  .fp .lyrics-close-btn{display:none!important}
+  .fp-queue{min-width:0}
+  .fp-queue-head{gap:12px}
+  .fp-queue-list{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
+  .fp-queue-list .queue-track{min-width:0}
+  .fp-queue-list .fp-queue-meta{overflow:hidden}
+  .fp-queue-list .fp-queue-track strong,.fp-queue-list .fp-queue-track small{max-width:100%}
+  .fp-queue-list .fp-queue-track.active{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.2)}
+  .fp-grab{display:grid}
+  .fp-grab::after{content:"×";font:400 28px/1 system-ui;color:#fff}
+  .fp-grab span{display:none}
+}
+.detail-cover.artist-detail-cover{border-radius:50%;overflow:hidden}
+.detail-cover.artist-detail-cover img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.queue-head{gap:12px}
+.queue-actions{display:flex;align-items:center;gap:8px;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+.queue-actions .icon-btn{width:36px;height:36px;min-width:36px;min-height:36px;border:0!important;border-radius:50%!important;background:transparent!important;box-shadow:none!important}
+.queue-actions .icon-btn:hover{background:var(--hover)!important}
+.queue-head h2{min-width:0}
+@media(max-width:760px){
+  .queue-actions{gap:4px}
+  .queue-actions .icon-btn{width:40px;height:40px;min-width:40px;min-height:40px}
+  .fp .lyrics-close-btn{display:none!important}
+  .fp .fp-queue.view-lyrics .lyrics-close-btn{display:grid!important}
+  .fp-queue.view-lyrics #fpLyricsPanel{display:block!important;visibility:visible!important;opacity:1!important;flex:1 1 0%;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .fp.fp-sheet-open .fp-queue.view-lyrics{display:flex!important}
+  .fp .fp-queue.view-lyrics{pointer-events:auto}
+  .fp .fp-queue.view-lyrics .fp-queue-head{flex:none}
+  .fp .fp-queue.view-lyrics .fp-queue-head .lyrics-close-btn{display:grid!important;width:38px;height:38px;min-height:38px;border:0;background:rgba(255,255,255,.12);box-shadow:none}
+  #page.page-in,#page.page-fade{animation:pageIn .42s var(--ios) both}
+  #page.slide-fwd{animation:slideFwd .42s var(--ios) both}
+  #page.slide-back{animation:slideBack .42s var(--ios) both}
+}
+@media(prefers-reduced-motion:reduce){#page.page-in,#page.page-fade,#page.slide-fwd,#page.slide-back{animation:none!important}}
+
+
+/* macOS Appearance cards: native-inspired, content-first settings control */
+@media (min-width:761px){
+ .acct-row.mac-appearance-row{display:block;padding:18px!important;background:transparent}
+ #themeSeg.mac-theme-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;width:100%;padding:0;background:transparent;border:0;box-shadow:none;isolation:auto}
+ #themeSeg.mac-theme-picker>.seg-thumb{display:none}
+ #themeSeg .mac-theme-option{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:13px;min-width:0;min-height:190px;padding:12px;border:1px solid var(--line);border-radius:17px;background:var(--panel);color:var(--text);text-align:left;box-shadow:0 1px 2px rgba(0,0,0,.025),0 8px 22px rgba(0,0,0,.035);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+ #themeSeg .mac-theme-option:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--text) 25%,var(--line));box-shadow:0 8px 22px rgba(0,0,0,.08)}
+ #themeSeg .mac-theme-option[aria-checked=true]{border:2px solid var(--accent);padding:11px;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 11%,transparent),0 9px 24px rgba(0,0,0,.07)}
+ #themeSeg .mac-theme-preview{height:104px;display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(0,0,0,.12);border-radius:11px;background:#f5f5f7;box-shadow:0 2px 7px rgba(0,0,0,.08)}
+ #themeSeg .mac-preview-titlebar{height:19px;display:flex;align-items:center;gap:4px;padding:0 7px;background:#e9e9ed;border-bottom:1px solid rgba(0,0,0,.08)}
+ #themeSeg .mac-preview-titlebar i{width:6px;height:6px;border-radius:50%;background:#b7b7bd}
+ #themeSeg .mac-preview-titlebar i:first-child{background:#ff6058}#themeSeg .mac-preview-titlebar i:nth-child(2){background:#ffbd2e}#themeSeg .mac-preview-titlebar i:nth-child(3){background:#28c840}
+ #themeSeg .mac-preview-body{display:grid;grid-template-columns:28% 1fr;flex:1;min-height:0}
+ #themeSeg .mac-preview-sidebar{display:flex;flex-direction:column;gap:7px;padding:9px 7px;background:#ececf0;border-right:1px solid rgba(0,0,0,.07)}
+ #themeSeg .mac-preview-sidebar i{display:block;height:4px;width:75%;border-radius:5px;background:#c3c3cb}#themeSeg .mac-preview-sidebar i:first-child{width:90%;background:#a8a8b2}
+ #themeSeg .mac-preview-content{display:flex;flex-direction:column;gap:7px;padding:10px 9px;background:#fafafd}
+ #themeSeg .mac-preview-content i{display:block;width:76%;height:5px;border-radius:5px;background:#d5d5dc}#themeSeg .mac-preview-content i.wide{width:94%;height:8px;background:#bfc0ca}#themeSeg .mac-preview-content i.short{width:48%}
+ #themeSeg .mac-preview-dark{background:#29292e;border-color:rgba(255,255,255,.15)}
+ #themeSeg .mac-preview-dark .mac-preview-titlebar{background:#34343a;border-color:rgba(255,255,255,.08)}
+ #themeSeg .mac-preview-dark .mac-preview-sidebar{background:#25252a;border-color:rgba(255,255,255,.08)}
+ #themeSeg .mac-preview-dark .mac-preview-sidebar i{background:#5a5a64}#themeSeg .mac-preview-dark .mac-preview-sidebar i:first-child{background:#858591}
+ #themeSeg .mac-preview-dark .mac-preview-content{background:#303036}#themeSeg .mac-preview-dark .mac-preview-content i{background:#5e5e69}#themeSeg .mac-preview-dark .mac-preview-content i.wide{background:#858591}
+ #themeSeg .mac-preview-system{background:linear-gradient(90deg,#f5f5f8 0 50%,#29292e 50%);border-color:color-mix(in srgb,var(--text) 18%,transparent)}
+ #themeSeg .mac-preview-system .mac-preview-titlebar{background:linear-gradient(90deg,#e9e9ed 0 50%,#34343a 50%)}
+ #themeSeg .mac-preview-system .mac-preview-body{background:linear-gradient(90deg,#f7f7fa 0 50%,#303036 50%)}
+ #themeSeg .mac-preview-system .mac-preview-sidebar{background:linear-gradient(90deg,#ececf0 0 50%,#25252a 50%);border:0}
+ #themeSeg .mac-preview-system .mac-preview-sidebar i{background:linear-gradient(90deg,#c3c3cb 0 50%,#5a5a64 50%)}
+ #themeSeg .mac-preview-system .mac-preview-content{background:transparent}
+ #themeSeg .mac-preview-system .mac-preview-content i{background:linear-gradient(90deg,#d5d5dc 0 50%,#5e5e69 50%)}
+ #themeSeg .mac-preview-system .mac-preview-content i.wide{background:linear-gradient(90deg,#bfc0ca 0 50%,#858591 50%)}
+ #themeSeg .mac-theme-label{display:grid;grid-template-columns:22px 1fr;align-items:center;gap:3px 8px;min-width:0}
+ #themeSeg .mac-theme-label .theme-seg-icon{grid-row:1/3;display:grid;place-items:center;width:22px;height:22px;color:var(--muted)}
+ #themeSeg .mac-theme-label .ic{width:18px;height:18px}
+ #themeSeg .mac-theme-name{font-size:14px;font-weight:650;line-height:1.2}
+ #themeSeg .mac-theme-label small{grid-column:2;color:var(--muted);font-size:11px;line-height:1.3}
+ #themeSeg .mac-theme-selected{position:absolute;top:10px;right:10px;display:none;width:22px;height:22px;place-items:center;border-radius:50%;background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.16)}
+ #themeSeg .mac-theme-selected .ic{width:13px;height:13px;stroke-width:2.6}
+ #themeSeg .mac-theme-option[aria-checked=true] .mac-theme-selected{display:grid}
+ .fp-queue.fp-companion-panel>.fp-queue-switch button:focus-visible{outline:2px solid rgba(255,255,255,.8);outline-offset:2px}
+}
+@media(max-width:760px){
+ #themeSeg .mac-theme-preview,#themeSeg .mac-theme-selected{display:none}
+ #themeSeg .mac-theme-label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+ #themeSeg .mac-theme-label .theme-seg-icon{display:grid;width:26px;height:26px}
+ #themeSeg .mac-theme-label .theme-seg-icon .ic{width:22px;height:22px}
+ #themeSeg .mac-theme-label small{display:none}
+ #themeSeg .mac-theme-name{font-size:.6875rem;line-height:1.15}
+}
+@media(min-width:761px) and (max-height:720px){
+ .fp-wrap{padding-top:16px;padding-bottom:16px;grid-template-rows:42px minmax(0,1fr)}
+ .fp-art{width:min(100%,min(32vh,360px));max-height:32vh}
+ .fp-queue.fp-companion-panel{padding:14px}
+ .fp-queue.fp-companion-panel>.fp-queue-switch{margin-bottom:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ #themeSeg .mac-theme-option,.fp-queue-switch button{transition:none!important}
+}
+
+/* Compact mobile option popovers, anchored above their trigger. */
+@media(max-width:760px){
+ .ios-menu{min-width:188px;padding:5px;border-radius:20px;transform-origin:bottom right;box-shadow:0 12px 34px rgba(0,0,0,.24),inset 0 0 0 .5px var(--line)}
+ .ios-menu button{min-height:36px;padding:0 11px;border-radius:14px;font-size:.9rem;gap:12px}
+ .ios-menu .ic{width:17px;height:17px}
+ .fp-mobile-tools #fpMobileMore{width:36px;height:36px;min-height:36px}
+ .fp-queue-menu{transform-origin:top right}
+}
+@media(prefers-reduced-motion:reduce){.fp-queue.view-lyrics:not(.lyrics-closing){animation:none}}
+</style>
+
+
+<style id="manage-workflow-and-menu-motion-v1">
+@keyframes menuOut{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-7px) scale(.96)}}
+.ios-menu.is-closing{animation:menuOut .16s ease-in forwards;pointer-events:none}
+.fp-queue-menu{transform-origin:top right;transition:opacity .16s ease,transform .16s ease}
+.fp-queue-menu.is-closing{opacity:0;transform:translateY(-7px) scale(.96);pointer-events:none}
+.manage-actions{display:flex;align-items:center;gap:9px;margin:14px 0 18px;flex-wrap:wrap}
+.manage-actions>span{margin-right:auto;color:var(--muted);font-size:.9rem}
+.manage-actions button{min-height:40px}
+.manage-actions button:disabled{opacity:.38;pointer-events:none}
+.manage-row{grid-template-columns:44px minmax(0,1fr);gap:12px;min-height:68px;cursor:default}
+.manage-row.mode-edit{cursor:pointer}
+.manage-row.mode-edit:active,.manage-row.mode-select:active{background:var(--hover)}
+.manage-row .song-info{min-width:0}
+.manage-row .song-name,.manage-row .song-artist{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sub-capsule.is-page-visible{display:flex;align-items:center;gap:2px}
+.sub-capsule button.hidden{display:none!important}
+body[data-page="albums"] .sub-capsule{gap:0}
+body[data-page="manage"] .sub-capsule{display:flex!important}
+@media(max-width:760px){
+ .manage-row{grid-template-columns:44px minmax(0,1fr);padding:10px 8px;gap:12px}
+ .manage-meta{font-size:.72rem;white-space:normal;line-height:1.25}
+ .manage-actions{position:sticky;top:0;z-index:3;padding:8px 0;background:var(--bg)}
+ .manage-actions .import-btn,.manage-actions .secondary-btn{min-height:42px;padding:0 15px}
+ body.manage-mode .mobile-nav,body.manage-mode .player{transform:translateY(180%);opacity:0;pointer-events:none;transition:transform .5s var(--ios),opacity .3s ease}
+ body.manage-mode .main{padding-bottom:calc(28px + env(safe-area-inset-bottom))}
+ body.manage-mode .sub-capsule{display:flex!important}
+ body[data-page="manage"] .topbar{display:flex!important;justify-content:flex-start!important;align-items:center}
+ body[data-page="manage"] .sub-capsule{display:flex!important;align-items:center;justify-content:center;gap:2px;margin-left:auto;margin-right:0;height:44px;min-height:44px;padding:0 4px;border-radius:999px;background:var(--hover);box-shadow:inset 0 0 0 1px var(--line);flex:none}
+ body[data-page="manage"] .sub-capsule button{display:grid;place-items:center;width:42px;min-width:42px;height:44px;min-height:44px;padding:0;border:0;border-radius:999px;background:transparent;color:var(--text)}
+ body[data-page="manage"] .sub-capsule button:active{background:var(--line)}
+ body[data-page="manage"] .sub-capsule .ic{width:21px;height:21px}
+ body[data-page="albums"] .sub-capsule #subFilter{display:none!important}
+}
+body.lib-edit .lib-done{display:grid;place-items:center;color:var(--accent);font-weight:700;font-size:1rem;min-height:40px;padding:0 16px;border:0;border-radius:999px;background:var(--hover)}
+@media(prefers-reduced-motion:reduce){.ios-menu.is-closing,.fp-queue-menu.is-closing{animation:none;transition:none;opacity:0}}
+
+
+/* Şarkıları Yönet: row states */
+.manage-row{cursor:pointer;-webkit-tap-highlight-color:transparent;border-radius:12px;transition:background .18s ease}
+.manage-row+.manage-row{border-top:0}
+.manage-row{position:relative}
+.manage-row+.manage-row::before{content:"";position:absolute;top:0;left:68px;right:8px;border-top:1px solid var(--line);pointer-events:none}
+.manage-row.selected::before,.manage-row.selected+.manage-row::before{opacity:0}
+.manage-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.manage-row.active .song-name{color:var(--accent)}
+.manage-row.mode-select{user-select:none;-webkit-user-select:none}
+.manage-row.mode-select.selected{background:color-mix(in srgb,var(--accent) 24%,transparent)}
+.manage-row.mode-select.selected .song-artist,.manage-row.mode-select.selected .manage-meta{color:color-mix(in srgb,var(--text) 72%,var(--accent))}
+@media(hover:hover){.manage-row:not(.selected):hover{background:var(--hover)}}
+body.sub #backBtn.is-done{padding:0 14px;font-weight:600;gap:0}
+body.sub #backBtn.is-done:disabled{opacity:1}
+
+
+/* Mobile mini player: frosted glass (blurred, translucent fill) */
+@media(max-width:760px){
+ body .player{
+  background:rgba(255,255,255,.58)!important;
+  -webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);
+  box-shadow:inset 0 .5px 0 rgba(255,255,255,.8),inset 0 0 0 .5px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.14);
+ }
+ body.dark .player{
+  background:rgba(44,44,52,.52)!important;
+  box-shadow:inset 0 .5px 0 rgba(255,255,255,.22),inset 0 0 0 .5px rgba(255,255,255,.1),0 8px 28px rgba(0,0,0,.4);
+ }
+}
+@media(max-width:760px) and (prefers-reduced-transparency:reduce),(max-width:760px) and (prefers-contrast:more){
+ body .player{background:var(--panel)!important;-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+ @media(max-width:760px){body .player{background:var(--panel)!important}}
+}
 </style>
 </head>
 <body>
@@ -1693,40 +2062,40 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  <aside class="sidebar">
  <div class="brand"><span class="brand-icon note-art" aria-hidden="true"></span> Music</div>
  <div class="nav-title">Keşfet</div>
- <button class="nav-item active" data-page="home"><span class="nav-icon" data-icon="tabHome"></span>Şimdi Dinle</button>
- <button class="nav-item" data-page="browse"><span class="nav-icon" data-icon="tabGrid"></span>Göz At</button>
- <button class="nav-item" data-page="search"><span class="nav-icon" data-icon="tabSearch"></span>Ara</button>
+ <button class="nav-item active" data-page="home" type="button" aria-label="Şimdi Dinle"><span class="nav-icon" data-icon="tabHome"></span>Şimdi Dinle</button>
+ <button class="nav-item" data-page="browse" type="button" aria-label="Göz At"><span class="nav-icon" data-icon="tabGrid"></span>Göz At</button>
+ <button class="nav-item" data-page="search" type="button" aria-label="Ara"><span class="nav-icon" data-icon="tabSearch"></span>Ara</button>
  <div class="nav-title"><span class="nav-icon" data-icon="tabLibrary" aria-hidden="true"></span>Kitaplığın</div>
- <button class="nav-item" data-page="recent"><span class="nav-icon" data-icon="clock"></span>Son Eklenenler</button>
- <button class="nav-item" data-page="artists"><span class="nav-icon" data-icon="person"></span>Sanatçılar</button>
- <button class="nav-item" data-page="albums"><span class="nav-icon" data-icon="album"></span>Albümler</button>
- <button class="nav-item" data-page="songs"><span class="nav-icon" data-icon="noteSingle"></span>Parçalar</button>
- <button class="nav-item" data-page="favorites"><span class="nav-icon" data-icon="star"></span>Favoriler</button>
+ <button class="nav-item" data-page="recent" type="button" aria-label="Son Eklenenler"><span class="nav-icon" data-icon="clock"></span>Son Eklenenler</button>
+ <button class="nav-item" data-page="artists" type="button" aria-label="Sanatçılar"><span class="nav-icon" data-icon="person"></span>Sanatçılar</button>
+ <button class="nav-item" data-page="albums" type="button" aria-label="Albümler"><span class="nav-icon" data-icon="album"></span>Albümler</button>
+ <button class="nav-item" data-page="songs" type="button"><span class="nav-icon" data-icon="noteSingle"></span>Parçalar</button>
+ <button class="nav-item" data-page="favorites" type="button" aria-label="Favoriler"><span class="nav-icon" data-icon="star"></span>Favoriler</button>
  <div class="nav-title">Çalma listeleri</div>
- <button class="nav-item" data-page="playlists"><span class="nav-icon" data-icon="list"></span>Çalma Listelerim</button>
- <button class="nav-item" id="createPlaylist"><span class="nav-icon" data-icon="plus"></span>Yeni Liste</button>
+ <button class="nav-item" data-page="playlists" type="button"><span class="nav-icon" data-icon="list"></span>Çalma Listelerim</button>
+ <button class="nav-item" id="createPlaylist" type="button"><span class="nav-icon" data-icon="plus"></span>Yeni Liste</button>
  <div class="sidebar-bottom">
- <button class="nav-item" data-page="settings"><span class="nav-icon" data-icon="gear"></span>Hesap</button>
- <button class="nav-item" data-page="manage"><span class="nav-icon" data-icon="download"></span>Şarkıları Yönet</button>
+ <button class="nav-item" data-page="settings" type="button"><span class="nav-icon" data-icon="gear"></span>Hesap</button>
+ <button class="nav-item" data-page="manage" type="button"><span class="nav-icon" data-icon="download"></span>Şarkıları Yönet</button>
  </div>
  </aside>
  <main class="main" id="main">
  <div class="topbar">
  <div class="top-left">
- <button class="round-btn" id="backBtn" aria-label="Geri" title="Geri" data-icon="back" disabled></button>
- <button class="round-btn" id="forwardBtn" aria-label="İleri" title="İleri" data-icon="forward" disabled></button>
+ <button class="round-btn" id="backBtn" aria-label="Geri" title="Geri" data-icon="back" disabled type="button"></button>
+ <button class="round-btn" id="forwardBtn" aria-label="İleri" title="İleri" data-icon="forward" disabled type="button"></button>
  </div>
  <div class="top-actions">
  <div class="search-wrap">
  <span class="search-ico" data-icon="search"></span>
  <input id="searchInput" class="search" placeholder="Müzik, sanatçı, albüm" aria-label="Ara" autocomplete="off">
  </div>
- <button class="round-btn" id="themeBtn" title="Görünümü değiştir" aria-label="Görünümü değiştir" data-icon="moon"></button>
- <button class="round-btn" id="settingsBtn" aria-label="Ayarlar" title="Ayarlar" data-icon="gear"></button>
- <button class="round-btn add-music" id="addMusicBtn" aria-label="Müzik ekle" title="Müzik ekle" data-icon="plus"></button>
- <div class="lib-capsule" id="libCapsule"><button id="libEdit" aria-label="Yeni liste oluştur" data-icon="listPlus"></button><button id="libMore" aria-label="Diğer" data-icon="more"></button></div>
- <button class="lib-done" id="libDone">Bitti</button>
- <button class="profile" id="profileBtn" aria-label="Profil"></button>
+ <button class="round-btn" id="themeBtn" title="Görünümü değiştir" aria-label="Görünümü değiştir" data-icon="moon" type="button"></button>
+ <button class="round-btn" id="settingsBtn" aria-label="Ayarlar" title="Ayarlar" data-icon="gear" type="button"></button>
+ <button class="round-btn add-music" id="addMusicBtn" aria-label="Müzik ekle" title="Müzik ekle" data-icon="plus" type="button"></button>
+ <div class="lib-capsule" id="libCapsule"><button id="libEdit" aria-label="Yeni liste oluştur" data-icon="listPlus" type="button"></button><button id="libMore" aria-label="Arşivi düzenle" title="Düzenle" data-icon="edit" type="button"></button></div>
+ <button class="lib-done" id="libDone" type="button">Bitti</button>
+ <button class="profile" id="profileBtn" aria-label="Profil" type="button"></button>
  </div>
  </div>
  <div id="page"></div>
@@ -1739,15 +2108,15 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  <div class="now-title" id="nowTitle">Bir şarkı seç</div>
  <div class="now-artist" id="nowArtist">Müzik kitaplığın hazır</div>
  </div>
- <button class="icon-btn" id="favoriteCurrent" aria-label="Şarkıyı favorilere ekle" title="Favorilere ekle" data-icon="heart"></button>
+ <button class="icon-btn" id="favoriteCurrent" aria-label="Şarkıyı favorilere ekle" title="Favorilere ekle" data-icon="heart" type="button"></button>
  </div>
  <div class="controls">
  <div class="control-buttons">
- <button class="icon-btn js-shuffle" id="shuffleBtn" title="Karışık çal" aria-label="Karışık çal" aria-pressed="false" data-icon="shuffle"></button>
- <button class="icon-btn skip" id="previousBtn" aria-label="Önceki şarkı" title="Önceki şarkı" data-icon="prev"></button>
- <button class="play-btn" id="playBtn" aria-label="Oynat veya duraklat" title="Oynat veya duraklat" data-icon="play"></button>
- <button class="icon-btn skip" id="nextBtn" aria-label="Sonraki şarkı" title="Sonraki şarkı" data-icon="next"></button>
- <button class="icon-btn js-repeat" id="repeatBtn" title="Tekrar" aria-label="Tekrar modunu değiştir" aria-pressed="false" data-icon="repeat"></button>
+ <button class="icon-btn js-shuffle" id="shuffleBtn" title="Karışık çal" aria-label="Karışık çal" aria-pressed="false" data-icon="shuffle" type="button"></button>
+ <button class="icon-btn skip" id="previousBtn" aria-label="Önceki şarkı" title="Önceki şarkı" data-icon="prev" type="button"></button>
+ <button class="play-btn" id="playBtn" aria-label="Oynat veya duraklat" title="Oynat veya duraklat" data-icon="play" type="button"></button>
+ <button class="icon-btn skip" id="nextBtn" aria-label="Sonraki şarkı" title="Sonraki şarkı" data-icon="next" type="button"></button>
+ <button class="icon-btn js-repeat" id="repeatBtn" title="Tekrar" aria-label="Tekrar modunu değiştir" aria-pressed="false" data-icon="repeat" type="button"></button>
  </div>
  <div class="progress-row">
  <span id="currentTime">0:00</span>
@@ -1756,26 +2125,26 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  </div>
  </div>
  <div class="player-right">
- <button class="icon-btn" id="queueBtn" title="Sıra" aria-label="Çalma sırasını aç" data-icon="list"></button>
+ <button class="icon-btn" id="queueBtn" title="Sıra" aria-label="Çalma sırasını aç" data-icon="list" type="button"></button>
  <span class="vol-ico" data-icon="volume"></span>
  <input class="volume" id="volume" type="range" min="0" max="1" step=".01" value=".8" aria-label="Ses düzeyi">
  </div>
  </footer>
  <nav class="mobile-nav" aria-label="Sekmeler">
  <span class="nav-pill" aria-hidden="true"></span>
- <button class="active" data-page="home"><span data-icon="tabHome"></span><span>Ana Sayfa</span></button>
- <button data-page="browse"><span data-icon="tabGrid"></span><span>Göz At</span></button>
- <button data-page="library"><span data-icon="tabLibrary"></span><span>Arşiv</span></button>
- <button data-page="search"><span data-icon="tabSearch"></span><span>Arayın</span></button>
+ <button class="active" data-page="home" type="button"><span data-icon="tabHome"></span><span>Ana Sayfa</span></button>
+ <button data-page="browse" type="button" aria-label="Göz At"><span data-icon="tabGrid"></span><span>Göz At</span></button>
+ <button data-page="library" type="button"><span data-icon="tabLibrary"></span><span>Arşiv</span></button>
+ <button data-page="search" type="button"><span data-icon="tabSearch"></span><span>Arayın</span></button>
  </nav>
 </div>
-<div class="queue-panel" id="queuePanel">
+<div class="queue-panel" id="queuePanel" role="region" aria-label="Çalma sırası">
  <div class="queue-head">
  <h2>Çalma Sırası</h2>
  <div class="queue-actions">
- <button class="icon-btn js-shuffle queue-tool" id="shuffleBtn2" title="Karışık çal" aria-label="Karışık çal" aria-pressed="false" data-icon="shuffle"></button>
- <button class="icon-btn js-repeat queue-tool" id="repeatBtn2" title="Tekrar" aria-label="Tekrar modunu değiştir" aria-pressed="false" data-icon="repeat"></button>
- <button class="icon-btn" id="closeQueue" aria-label="Kapat" title="Kapat" data-icon="close"></button>
+ <button class="icon-btn js-shuffle queue-tool" id="shuffleBtn2" title="Karışık çal" aria-label="Karışık çal" aria-pressed="false" data-icon="shuffle" type="button"></button>
+ <button class="icon-btn js-repeat queue-tool" id="repeatBtn2" title="Tekrar" aria-label="Tekrar modunu değiştir" aria-pressed="false" data-icon="repeat" type="button"></button>
+ <button class="icon-btn" id="closeQueue" aria-label="Kapat" title="Kapat" data-icon="close" type="button"></button>
  </div>
  </div>
  <p class="subtitle">Şimdi çalınan ve sıradaki parçalar</p>
@@ -1787,8 +2156,8 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  <div class="pl-cover-pick"><button type="button" class="pl-cover" id="plCover" aria-label="Görsel ekle">+ Görsel</button><input type="file" id="plCoverFile" accept="image/*" hidden></div>
  <input id="modalInput" placeholder="Liste adı" aria-label="Liste adı">
  <div class="modal-actions">
- <button class="secondary-btn" id="modalCancel">İptal</button>
- <button class="import-btn" id="modalSave">Oluştur</button>
+ <button class="secondary-btn" id="modalCancel" type="button">İptal</button>
+ <button class="import-btn" id="modalSave" type="button">Oluştur</button>
  </div>
  </div>
 </div>
@@ -1801,8 +2170,8 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
    <div class="edit-cover-row">
     <div class="detail-cover edit-cover" id="editCover"></div>
     <div class="edit-cover-actions">
-     <button class="secondary-btn" id="editCoverChange">Kapak Seç</button>
-     <button class="secondary-btn danger" id="editCoverRemove">Kapağı Sil</button>
+     <button class="secondary-btn" id="editCoverChange" type="button">Kapak Seç</button>
+     <button class="secondary-btn danger" id="editCoverRemove" type="button">Kapağı Sil</button>
     </div>
    </div>
   </section>
@@ -1811,8 +2180,8 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
    <div class="edit-cover-row">
     <div class="detail-cover edit-cover artist-edit-cover" id="editArtistCover"></div>
     <div class="edit-cover-actions">
-     <button class="secondary-btn" id="editArtistImageChange">Görsel Seç</button>
-     <button class="secondary-btn danger hidden" id="editArtistImageRemove">Görseli Sil</button>
+     <button class="secondary-btn" id="editArtistImageChange" type="button">Görsel Seç</button>
+     <button class="secondary-btn danger hidden" id="editArtistImageRemove" type="button">Görseli Sil</button>
     </div>
    </div>
   </section>
@@ -1822,8 +2191,8 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  <label class="field"><span>Albüm</span><input id="editAlbumInput" placeholder="Bilinmeyen Albüm" autocomplete="off"></label>
  <label class="field lyrics-field"><span>Şarkı Sözleri</span><textarea id="editLyricsInput" rows="5" placeholder="Şarkı sözlerini buraya ekle..." class="lyrics-autogrow"></textarea></label>
  <div class="modal-actions">
- <button class="secondary-btn" id="editCancel">İptal</button>
- <button class="import-btn" id="editSave">Kaydet</button>
+ <button class="secondary-btn" id="editCancel" type="button">İptal</button>
+ <button class="import-btn" id="editSave" type="button">Kaydet</button>
  </div>
  </div>
 </div>
@@ -1836,7 +2205,7 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
  <div class="fp-bg" id="fpBg"></div>
  <div class="fp-wrap" id="fpWrap">
   <div class="fp-brand" aria-label="Music"><span class="fp-brand-note"><span class="note-art" aria-hidden="true"></span></span><span>Music</span></div>
-  <button class="fp-grab" id="fpClose" aria-label="Oynatıcıyı kapat"><span></span></button>
+  <button class="fp-grab" id="fpClose" aria-label="Oynatıcıyı kapat" type="button"><span></span></button>
   <div class="fp-main">
    <div class="fp-mobile-tools">
     <button type="button" data-fp-view="lyrics" aria-label="Şarkı sözlerini göster"><span>Şarkı Sözleri</span></button>
@@ -1845,29 +2214,29 @@ body.dark{--nav-pill-surface:#303034;--nav-pill-edge:rgba(255,255,255,.14)}
    <div class="fp-art-box"><div class="fp-art" id="fpArt"></div></div>
    <div class="fp-meta">
     <div class="fp-txt"><div class="fp-title" id="fpTitle"></div><div class="fp-artist" id="fpArtist"></div></div>
-    <button class="fp-ic" id="fpFav" aria-label="Favorilere ekle"></button>
+    <button class="fp-ic" id="fpFav" aria-label="Favorilere ekle" type="button"></button>
    </div>
    <div class="fp-prog"><input id="fpProgress" type="range" min="0" max="1000" value="0" aria-label="Şarkı ilerlemesi"><div class="fp-times"><span id="fpCur">0:00</span><span class="fp-q" id="fpQ"></span><span id="fpRem">-0:00</span></div></div>
    <div class="fp-ctrl">
-    <button id="fpPrev" aria-label="Önceki şarkı"></button>
-    <button class="fp-play" id="fpPlay" aria-label="Oynat veya duraklat"></button>
-    <button id="fpNext" aria-label="Sonraki şarkı"></button>
+    <button id="fpPrev" aria-label="Önceki şarkı" type="button"></button>
+    <button class="fp-play" id="fpPlay" aria-label="Oynat veya duraklat" type="button"></button>
+    <button id="fpNext" aria-label="Sonraki şarkı" type="button"></button>
    </div>
    <div class="fp-vol"><span id="fpVolLo"></span><input id="fpVol" type="range" min="0" max="1" step=".01" value=".8" aria-label="Ses düzeyi"><span id="fpVolHi"></span></div>
    <div class="fp-bottom">
-    <button class="js-shuffle" aria-label="Karışık çal" aria-pressed="false" id="fpShuffle"></button>
-    <button class="js-repeat" aria-label="Tekrar modunu değiştir" aria-pressed="false" id="fpRepeat"></button>
-    <button id="fpQueue" aria-label="Çalma sırasını aç"></button>
+    <button class="js-shuffle" aria-label="Karışık çal" aria-pressed="false" id="fpShuffle" type="button"></button>
+    <button class="js-repeat" aria-label="Tekrar modunu değiştir" aria-pressed="false" id="fpRepeat" type="button"></button>
+    <button id="fpQueue" aria-label="Çalma sırasını aç" type="button"></button>
    </div>
   </div>
-  <aside class="fp-queue" aria-label="Sıradaki şarkılar">
-   <div class="fp-queue-head"><div><strong id="fpQueuePanelTitle">Sıradaki</strong><span id="fpQueueCount">0 şarkı</span></div><button type="button" class="lyrics-close-btn" id="lyricsCloseBtn" aria-label="Şarkı sözlerini kapat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-   <div class="fp-queue-switch" role="group" aria-label="Oynatıcı yan paneli">
-    <button type="button" data-fp-view="lyrics"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M8 7h8M6 11h12M8 15h8"/></svg> Şarkı Sözleri</button>
-    <button type="button" data-fp-view="queue"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h11"/></svg> Sıradaki Parçalar</button>
+  <aside class="fp-queue fp-companion-panel" aria-label="Çalma sırası ve şarkı sözleri">
+   <div class="fp-queue-switch" role="tablist" aria-label="Oynatıcı paneli">
+    <button type="button" role="tab" data-fp-view="queue" aria-selected="true" aria-controls="fpQueueList" id="fpQueueTab"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h11"/></svg><span>Çalma Sırası</span></button>
+    <button type="button" role="tab" data-fp-view="lyrics" aria-selected="false" aria-controls="fpLyricsPanel" id="fpLyricsTab"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M8 7h8M6 11h12M8 15h8"/></svg><span>Şarkı Sözleri</span></button>
    </div>
-   <div class="fp-queue-list" id="fpQueueList"></div>
-   <div class="fp-lyrics-panel" id="fpLyricsPanel" aria-live="polite"></div>
+   <div class="fp-queue-head"><div><strong id="fpQueuePanelTitle">Sıradaki</strong><span id="fpQueueCount">0 şarkı</span></div><button type="button" class="lyrics-close-btn" id="lyricsCloseBtn" aria-label="Şarkı sözlerini kapat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+   <div class="fp-queue-list" id="fpQueueList" role="tabpanel" aria-labelledby="fpQueueTab"></div>
+   <div class="fp-lyrics-panel" id="fpLyricsPanel" role="tabpanel" aria-labelledby="fpLyricsTab" aria-live="polite"></div>
   </aside>
  </div>
 </section>
@@ -1890,7 +2259,7 @@ const state = {
 };
 const audio = new Audio();
 audio.volume = .8;
-/* iOS: keep playback on the native media-element path for background audio. */
+
 const IS_IOS_AUDIO = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 audio.preload = "auto";
@@ -1917,8 +2286,8 @@ const ICONS={
  person:'<circle cx="12" cy="8" r="3.8"/><path d="M4.5 20c.8-3.8 3.9-6 7.5-6s6.7 2.2 7.5 6"/>',
  album:'<rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="12" cy="12" r="3.8"/>',
  note:'<path d="M9 17V6.5l10-2V15" stroke-width="1.7"/><path d="M9 9.6l10-2" stroke-width="2.4"/><ellipse cx="6.9" cy="17.4" rx="2.5" ry="1.9" transform="rotate(-22 6.9 17.4)" fill="currentColor" stroke="none"/><ellipse cx="16.9" cy="15.4" rx="2.5" ry="1.9" transform="rotate(-22 16.9 15.4)" fill="currentColor" stroke="none"/>',
- heart:'<path d="M12 20s-7.5-4.6-7.5-10A4.4 4.4 0 0 1 12 7.2 4.4 4.4 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/>',
- heartFill:'<path class="f" d="M12 20s-7.5-4.6-7.5-10A4.4 4.4 0 0 1 12 7.2 4.4 4.4 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/>',
+ heart:'<path d="m12 2.9 2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.46l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93L12 2.9z"/>',
+ heartFill:'<path class="f" d="m12 2.9 2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.46l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93L12 2.9z"/>',
  list:'<path d="M4 7h16M4 12h16M4 17h10"/>',
  plus:'<path d="M12 5v14M5 12h14"/>',
  sliders:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
@@ -1956,62 +2325,138 @@ function syncModes() {
  b.dataset.one=state.repeat==="one"?"1":"";
  });
 }
-let __musicDBPromise=null;
+
+let __db=null;
 function openDB() {
- if(__musicDBPromise)return __musicDBPromise;
- __musicDBPromise=new Promise((resolve,reject)=>{
-  if(!("indexedDB" in window)){reject(new Error("IndexedDB desteklenmiyor"));return;}
-  const req=indexedDB.open(DB_NAME,1);
-  req.onupgradeneeded=()=>{
-   const db=req.result;
-   if(!db.objectStoreNames.contains(STORE))db.createObjectStore(STORE,{keyPath:"id"});
-  };
-  req.onsuccess=()=>{
-   const db=req.result;
-   db.onversionchange=()=>{db.close();__musicDBPromise=null;};
-   resolve(db);
-  };
-  req.onerror=()=>{__musicDBPromise=null;reject(req.error||new Error("Veritabanı açılamadı"));};
-  req.onblocked=()=>console.warn("Müzik kitaplığı veritabanı başka bir sekme tarafından kilitlenmiş.");
+ if(__db) return __db;
+ __db=new Promise((res,rej)=>{
+  if(!("indexedDB" in window)){rej(new Error("IndexedDB desteklenmiyor"));return;}
+  const r=indexedDB.open(DB_NAME,1);
+  r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE,{keyPath:"id"});};
+  r.onsuccess=()=>{const db=r.result;db.onversionchange=()=>{db.close();__db=null;};db.onclose=()=>{__db=null;};res(db);};
+  r.onerror=()=>{__db=null;rej(r.error||new Error("Veritabanı açılamadı"));};
  });
- return __musicDBPromise;
+ return __db;
 }
 async function dbAction(mode,action,data) {
  const db=await openDB();
+ if(action==="put"&&data&&"cover" in data){data={...data};delete data.cover;}
  return new Promise((resolve,reject)=>{
-  let tx,request,result;
+  let out;
   try{
-   tx=db.transaction(STORE,mode);
-   const store=tx.objectStore(STORE);
-   if(action==="all")request=store.getAll();
-   else if(action==="put")request=store.put(data);
-   else if(action==="delete")request=store.delete(data);
-   else throw new Error("Bilinmeyen veritabanı işlemi: "+action);
-   if(request)request.onsuccess=()=>{result=request.result;};
-   if(request)request.onerror=()=>{try{tx.abort();}catch(_){};reject(request.error);};
-   tx.oncomplete=()=>resolve(result);
-   tx.onerror=()=>reject(tx.error||new Error("Veritabanı işlemi başarısız"));
-   tx.onabort=()=>reject(tx.error||new Error("Veritabanı işlemi iptal edildi"));
-  }catch(err){reject(err);}
+   const tx=db.transaction(STORE,mode),st=tx.objectStore(STORE);
+   const req=action==="all"?st.getAll():action==="get"?st.get(data):action==="put"?st.put(data):action==="delete"?st.delete(data):null;
+   if(!req)throw new Error("Bilinmeyen işlem: "+action);
+   req.onsuccess=()=>{out=req.result;};
+   tx.oncomplete=()=>resolve(out);
+   tx.onerror=tx.onabort=()=>reject(tx.error||req.error||new Error("Veritabanı işlemi başarısız"));
+  }catch(e){__db=null;reject(e);}
  });
 }
 
-/* iOS Safari may evict origin storage unless persistent storage is granted. */
-let __storageReady=null;
-async function ensureMusicStorage(){
- if(!__storageReady)__storageReady=(async()=>{
-  if(!navigator.storage)return {persisted:false,estimate:null};
-  let persisted=false,estimate=null;
+let __persist=null;
+function ensureMusicStorage() {
+ return __persist||(__persist=(async()=>{
   try{
-   persisted=await navigator.storage.persisted?.()||false;
-   if(!persisted&&navigator.storage.persist)persisted=await navigator.storage.persist();
-   estimate=await navigator.storage.estimate?.();
-  }catch(err){console.warn("Depolama kalıcılığı doğrulanamadı:",err);}
-  return {persisted,estimate};
- })();
- return __storageReady;
+   if(!navigator.storage)return {persisted:false,usage:0,quota:0};
+   let p=await navigator.storage.persisted?.();
+   if(!p&&navigator.storage.persist)p=await navigator.storage.persist();
+   const e=(await navigator.storage.estimate?.())||{};
+   return {persisted:!!p,usage:e.usage||0,quota:e.quota||0};
+  }catch(_){return {persisted:false,usage:0,quota:0};}
+ })());
 }
 ensureMusicStorage();
+window.__storageInfo=async function(){
+ const el=$("storageInfo");if(!el)return;
+ const st=await ensureMusicStorage(),fresh=(await navigator.storage?.estimate?.())||{};
+ const mb=Math.round((fresh.usage||st.usage)/1048576),home=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+ el.textContent=`${mb} MB kullanılıyor · `+((st.persisted||home)?"Kalıcı depolama açık":"Kalıcı değil: Safari'de Paylaş ▸ Ana Ekrana Ekle ile kaydı koru");
+};
+
+async function looksLikeAudioFile(file) {
+ if(!file||!Number.isFinite(file.size)||file.size<=0)return false;
+ if(String(file.type||"").startsWith("audio/")||/\.(mp3|m4a|mp4|wav|flac|ogg|oga|opus|aac|aif|aiff|caf|alac|3gp|mpeg|mpga)$/i.test(file.name||""))return true;
+ try{
+  const b=new Uint8Array(await file.slice(0,16).arrayBuffer()),a=(i,j)=>String.fromCharCode(...b.slice(i,j));
+  return a(0,3)==="ID3"||(b[0]===0xff&&(b[1]&0xe0)===0xe0)||a(4,8)==="ftyp"||(a(0,4)==="RIFF"&&a(8,12)==="WAVE")||a(0,4)==="fLaC"||a(0,4)==="OggS"||a(0,4)==="FORM"||a(0,4)==="caff";
+ }catch(_){return false;}
+}
+async function storedSize(id) {
+ const r=await dbAction("readonly","get",id);
+ return r?(r.audioData?r.audioData.byteLength:(r.audioBlob||r.blob)?.size):-1;
+}
+
+async function saveTrack(track,buf,coverBuf) {
+ const base={...track};["blob","audioBlob","fileBlob","coverBlob","cover"].forEach(k=>delete base[k]);
+ const attempts=[
+  {...base,audioBlob:track.audioBlob,coverBlob:track.coverBlob},
+  {...base,audioData:buf,coverData:coverBuf,coverType:track.coverBlob?.type}
+ ];
+ let last=null;
+ for(const rec of attempts){
+  try{
+   await dbAction("readwrite","put",rec);
+   if(await storedSize(track.id)===track.size)return;
+   last=new Error("Doğrulama başarısız");
+  }catch(e){last=e;}
+  try{await dbAction("readwrite","delete",track.id);}catch(_){}
+ }
+ throw last;
+}
+async function importFiles(files) {
+ const picked=Array.from(files||[]).filter(f=>f&&typeof f.size==="number");
+ if(!picked.length){notify("Dosya seçimi alınamadı. Dosyayı yeniden seç.");return;}
+ await ensureMusicStorage();
+ const list=[];let skipped=0;
+ for(const f of picked){if(await looksLikeAudioFile(f))list.push(f);else skipped++;}
+ if(!list.length){notify("Dosya türü tanınmadı. MP3, M4A, AAC, WAV, FLAC veya OGG seç.");return;}
+ let added=0,dup=0,failed=0,lastErr=null;
+ for(let i=0;i<list.length;i++){
+  const file=list[i];
+  impProgress(i,list.length,.2);
+  if(state.tracks.some(t=>t.name===file.name&&t.size===file.size)){dup++;continue;}
+  try{
+   const buf=await file.arrayBuffer();
+   impProgress(i,list.length,.5);
+   const type=file.type||"audio/mpeg",blob=new Blob([buf],{type}),meta=await readMetadata(file);
+   const coverBuf=meta.coverBlob?await meta.coverBlob.arrayBuffer():null;
+   const track={
+    id:uid(),name:file.name,size:file.size,title:meta.title,artist:meta.artist,album:meta.album,
+    duration:0,favorite:false,added:Date.now(),type,blob,audioBlob:blob,
+    coverBlob:meta.coverBlob||null,cover:meta.coverBlob?URL.createObjectURL(meta.coverBlob):null
+   };
+   impProgress(i,list.length,.75);
+   await saveTrack(track,buf,coverBuf);
+   state.tracks.push(track);added++;
+  }catch(e){failed++;lastErr=e;console.error("İçe aktarma hatası:",file.name,e);}
+ }
+ impDone();
+ const parts=[];
+ if(added)parts.push(added+" müzik eklendi");
+ if(dup)parts.push(dup+" zaten vardı");
+ if(skipped)parts.push(skipped+" desteklenmedi");
+ if(failed)parts.push(failed+" kaydedilemedi"+(lastErr?" ("+(lastErr.name||"hata")+")":""));
+ notify(parts.join(" · ")+".");
+ render();
+}
+async function loadLibrary() {
+ try{
+  const recs=await dbAction("readonly","all");
+  state.tracks=recs.map(t=>{
+   const {audioData,coverData,coverType,...rest}=t,type=t.type||"audio/mpeg";
+   const blob=audioData?new Blob([audioData],{type}):(t.audioBlob||t.blob||t.fileBlob||null);
+   const coverBlob=coverData?new Blob([coverData],{type:coverType||"image/jpeg"}):(t.coverBlob||null);
+   return {...rest,blob,audioBlob:blob,coverBlob,cover:coverBlob?URL.createObjectURL(coverBlob):null};
+  }).filter(t=>t.blob instanceof Blob);
+  if(recs.length&&!state.tracks.length)notify("Kayıtlar bulundu ancak ses dosyaları okunamadı. Yeniden içe aktarman gerekebilir.");
+ }catch(e){
+  console.error("Müzik kitaplığı yüklenemedi:",e);
+  state.tracks=[];
+  notify("Müzik kitaplığı açılamadı ("+(e&&e.name||"hata")+"). Safari site verilerini kontrol et.");
+ }
+ render();
+}
 
 function uid() {
  return crypto.randomUUID ? crypto.randomUUID() :
@@ -2046,6 +2491,7 @@ async function readMetadata(file) {
  cover:null,
  duration:0
  };
+ Object.assign(result,parseNameMeta(file.name));
  if(!file.name.toLowerCase().endsWith(".mp3")) return result;
  try {
  const buffer=await file.slice(0,Math.min(file.size,8*1024*1024)).arrayBuffer();
@@ -2102,82 +2548,7 @@ async function readMetadata(file) {
  } catch(e) {}
  return result;
 }
-async function looksLikeAudioFile(file){
- if(!file||!Number.isFinite(file.size)||file.size<=0)return false;
- const name=String(file.name||"").toLowerCase();
- const ext=/\.(mp3|m4a|mp4|wav|flac|ogg|oga|opus|aac|aif|aiff|caf|alac|3gp|mpeg|mpga)$/i.test(name);
- const mime=String(file.type||"").toLowerCase();
- if(mime.startsWith("audio/")||ext)return true;
- /* iOS Files/iCloud sometimes reports audio as application/octet-stream or an empty MIME. */
- try{
-  const b=new Uint8Array(await file.slice(0,16).arrayBuffer());
-  const ascii=(a,z)=>String.fromCharCode(...b.slice(a,z));
-  const id3=ascii(0,3)==="ID3";
-  const mp3Frame=b.length>1&&b[0]===0xff&&(b[1]&0xe0)===0xe0;
-  const mp4=b.length>=8&&ascii(4,8)==="ftyp";
-  const wav=ascii(0,4)==="RIFF"&&ascii(8,12)==="WAVE";
-  const flac=ascii(0,4)==="fLaC";
-  const ogg=ascii(0,4)==="OggS";
-  const aiff=ascii(0,4)==="FORM"&&["AIFF","AIFC"].includes(ascii(8,12));
-  const caf=ascii(0,4)==="caff";
-  const aac=b.length>1&&b[0]===0xff&&(b[1]&0xf6)===0xf0;
-  return id3||mp3Frame||mp4||wav||flac||ogg||aiff||caf||aac;
- }catch(_){return false;}
-}
-async function importFiles(files) {
- /* FileList is live in iOS Safari. Snapshot it before any await or input reset. */
- const selected=Array.from(files||[]).filter(f=>f&&typeof f.size==="number");
- if(!selected.length){notify("Dosya seçimi alınamadı. Dosyayı yeniden seç.");return;}
- await ensureMusicStorage();
- const list=[];
- for(const file of selected)if(await looksLikeAudioFile(file))list.push(file);
- if(!list.length){
-  if(selected.length)notify("Dosya türü tanınmadı. MP3, M4A, AAC, WAV, FLAC veya OGG dosyası seç.");
-  else notify("Henüz dosya seçilmedi.");
-  return;
- }
- let added=0,idx=0;
- impProgress(0,list.length,0);
- for(const file of list) {
- impProgress(idx++,list.length,.35);
- const duplicate=state.tracks.some(t=>
- t.name===file.name && t.size===file.size
- );
- if(duplicate) continue;
- const meta=await readMetadata(file);
- const track={
- id:uid(),name:file.name,size:file.size,
- title:meta.title,artist:meta.artist,album:meta.album,
- cover:meta.coverBlob?URL.createObjectURL(meta.coverBlob):null,coverBlob:meta.coverBlob,duration:0,favorite:false,
- added:Date.now(),type:file.type || "audio/mpeg",blob:file.slice(0,file.size,file.type || "audio/mpeg"),audioBlob:file.slice(0,file.size,file.type || "audio/mpeg")
- };
- try {
- await dbAction("readwrite","put",track);
- state.tracks.push(track);
- added++;
- } catch(e) {
- notify("Dosya kaydedilemedi. Depolama alanını kontrol et.");
- }
- }
- impDone();
- notify(added+" müzik eklendi.");
- render();
-}
-async function loadLibrary() {
- try{
-  const records=await dbAction("readonly","all");
-  state.tracks=records.map(t=>{
-   const audioBlob=t.audioBlob||t.blob||t.fileBlob||null;
-   return {...t,blob:audioBlob,audioBlob,cover:t.coverBlob?URL.createObjectURL(t.coverBlob):null};
-  }).filter(t=>t.blob instanceof Blob);
-  if(records.length&&!state.tracks.length)notify("Kayıtlar bulundu ancak ses dosyaları okunamadı. Dosyaları yeniden içe aktarman gerekebilir.");
- }catch(e){
-  console.error("Müzik kitaplığı yüklenemedi:",e);
-  state.tracks=[];
-  notify("Müzik kitaplığı açılamadı. Safari site verilerini kontrol et.");
- }
- render();
-}
+
 function snap() {return {page:state.page,detail:state.detail,scroll:$("main").scrollTop};}
 function navigate(page,detail=null) {
  if(document.body.classList.contains("lib-edit")) return;
@@ -2317,7 +2688,7 @@ function detailPage(type,value) {
  const first=tracks[0];
  if(!first) return emptyHTML("İçerik bulunamadı","");
  return `<div class="detail-head">
- <div class="detail-cover">${first.cover?`<img src="${first.cover}" alt="">`:noteArt()}</div>
+ <div class="detail-cover ${type==="artist"?"artist-detail-cover":""}">${type==="artist"?(artistImages[value]?`<img src="${artistImages[value]}" alt="${escapeHTML(value)}">`:noteArt()):(first.cover?`<img src="${first.cover}" alt="">`:noteArt())}</div>
  <div>
  <div class="detail-meta">${type==="artist"?"SANATÇI":"ALBÜM"}</div>
  <h1>${escapeHTML(value)}</h1>
@@ -2346,18 +2717,35 @@ function settingsPage() {
   <span class="acct-id"><strong>${escapeHTML(name)}</strong><small>Ad ve fotoğrafı düzenle</small></span>${ic("forward")}
  </button>
  <div class="acct-label">Görünüm</div>
- <div class="acct-group">
-  <div class="acct-row seg-row"><div class="seg theme-seg" id="themeSeg" role="radiogroup" aria-label="Görünüm" style="--i:${["light","dark","system"].indexOf(themePref)}"><span class="seg-thumb" aria-hidden="true"></span><button role="radio" data-theme="light" aria-checked="false"><span class="theme-seg-icon">${ic("sun")}</span><span>Açık</span></button><button role="radio" data-theme="dark" aria-checked="false"><span class="theme-seg-icon">${ic("moon")}</span><span>Koyu</span></button><button role="radio" data-theme="system" aria-checked="false"><span class="theme-seg-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span>Sistem</span></button></div></div>
+ <div class="acct-group mac-appearance-group">
+  <div class="acct-row seg-row mac-appearance-row">
+   <div class="seg theme-seg mac-theme-picker" id="themeSeg" role="radiogroup" aria-label="Görünüm" style="--i:${["light","dark","system"].indexOf(themePref)}">
+    <span class="seg-thumb" aria-hidden="true"></span>
+    <button class="mac-theme-option" type="button" role="radio" data-theme="light" aria-checked="false">
+     <span class="mac-theme-preview mac-preview-light" aria-hidden="true"><span class="mac-preview-titlebar"><i></i><i></i><i></i></span><span class="mac-preview-body"><span class="mac-preview-sidebar"><i></i><i></i><i></i><i></i></span><span class="mac-preview-content"><i class="wide"></i><i></i><i></i><i class="short"></i></span></span></span>
+     <span class="mac-theme-label"><span class="theme-seg-icon">${ic("sun")}</span><span class="mac-theme-name">Açık</span><small>Ferahlık ve netlik</small></span><span class="mac-theme-selected">${ic("check")}</span>
+    </button>
+    <button class="mac-theme-option" type="button" role="radio" data-theme="dark" aria-checked="false">
+     <span class="mac-theme-preview mac-preview-dark" aria-hidden="true"><span class="mac-preview-titlebar"><i></i><i></i><i></i></span><span class="mac-preview-body"><span class="mac-preview-sidebar"><i></i><i></i><i></i><i></i></span><span class="mac-preview-content"><i class="wide"></i><i></i><i></i><i class="short"></i></span></span></span>
+     <span class="mac-theme-label"><span class="theme-seg-icon">${ic("moon")}</span><span class="mac-theme-name">Koyu</span><small>Odaklı ve sakin</small></span><span class="mac-theme-selected">${ic("check")}</span>
+    </button>
+    <button class="mac-theme-option" type="button" role="radio" data-theme="system" aria-checked="false">
+     <span class="mac-theme-preview mac-preview-system" aria-hidden="true"><span class="mac-preview-titlebar"><i></i><i></i><i></i></span><span class="mac-preview-body"><span class="mac-preview-sidebar"><i></i><i></i><i></i><i></i></span><span class="mac-preview-content"><i class="wide"></i><i></i><i></i><i class="short"></i></span></span></span>
+     <span class="mac-theme-label"><span class="theme-seg-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span class="mac-theme-name">Otomatik</span><small>Sistem tercihini izle</small></span><span class="mac-theme-selected">${ic("check")}</span>
+    </button>
+   </div>
+  </div>
  </div>
  <div class="acct-label">Çalma</div>
  <div class="acct-group">
   <div class="acct-row"><span>Çapraz Geçiş<small>Şarkılar arasında yumuşak geçiş</small></span>${iosSwitch("cfSwitch",__cf.on,"Çapraz geçiş")}</div>
   <div class="acct-row cf-row ${__cf.on?"":"off"}"><span>Süre</span><input id="cfRange" type="range" min="1" max="10" step="1" value="${__cf.sec}" aria-label="Çapraz geçiş süresi"><output id="cfOut">${__cf.sec} sn</output></div>
  </div>
+ ${dlSettingsHTML()}
  <div class="acct-label">Müzik kitaplığı</div>
  <div class="acct-group">
   <button class="acct-row" id="goManage"><span class="acct-lead">${ic("edit")}<span>Şarkıları Yönet<small>${state.tracks.length} şarkı · yükle, düzenle, indir</small></span></span>${ic("forward")}</button>
-  <div class="acct-row"><span>Depolama<small>Müzikler bu cihazda, tarayıcıda saklanır</small></span></div>
+  <div class="acct-row"><span>Depolama<small id="storageInfo">Hesaplanıyor…</small></span></div>
  </div>
  <div class="acct-group">
   <button class="acct-row acct-danger" id="clearLibrary"><span>Kitaplığı Temizle</span></button>
@@ -2452,26 +2840,51 @@ function profilePage() {
 function fmtSize(b) {return (b/1048576).toFixed(1).replace(".",",")+" MB";}
 function extOf(t) {const m=/\.([a-z0-9]+)$/i.exec(t.name||"");return m?m[1].toUpperCase():"";}
 function manageRow(t) {
- const n=escapeHTML(t.title);
- return `<div class="manage-row">
+ const n=escapeHTML(t.title),mode=window.__manageMode||"",selected=(window.__manageSelected||new Set()).has(t.id);
+ const playing=state.current?.id===t.id;
+ return `<div class="manage-row ${mode?"mode-"+mode:""} ${selected?"selected":""} ${playing&&!mode?"active":""}" data-manage-track="${t.id}" role="button" tabindex="0"${mode==="select"?` aria-pressed="${selected}"`:""}>
  <div class="song-cover">${t.cover?`<img src="${t.cover}" alt="">`:noteArt()}</div>
  <div class="song-info">
  <div class="song-name">${n}</div>
  <div class="song-artist">${escapeHTML(artistOf(t))} · ${escapeHTML(albumOf(t))}</div>
  <div class="manage-meta">${[t.duration?timeFormat(t.duration):"",fmtSize(t.size||0),extOf(t)].filter(Boolean).join(" · ")}</div>
  </div>
- <button class="song-more" data-edit="${t.id}" title="Düzenle" aria-label="${n} şarkısını düzenle">${ic("edit")}</button>
- <button class="song-more" data-download="${t.id}" title="Bilgileriyle indir" aria-label="${n} şarkısını indir">${ic("download")}</button>
- <button class="song-more danger" data-delete="${t.id}" title="Sil" aria-label="${n} şarkısını sil">${ic("trash")}</button>
  </div>`;
 }
 function managePage() {
- const list=[...state.tracks].sort((a,b)=>b.added-a.added);
- const total=state.tracks.reduce((n,t)=>n+(t.size||0),0);
- return `<h1>Şarkıları Yönet</h1><div class="subtitle">${list.length} şarkı · ${fmtSize(total)}</div>
- <div class="detail-actions"><button class="import-btn" id="manageUpload">${ic("plus")}Şarkı yükle</button></div>
- ${list.length?`<div class="settings-group manage-list">${list.map(manageRow).join("")}</div>`:
+ const sort=window.__manageSort||"added";
+ const list=[...state.tracks].sort(sort==="name"?(a,b)=>trc(a.title,b.title):(a,b)=>b.added-a.added);
+ const total=state.tracks.reduce((n,t)=>n+(t.size||0),0),mode=window.__manageMode||"";
+ const selected=(window.__manageSelected||new Set()).size;
+ let actions='';
+ if(mode==="select") actions=`<div class="manage-actions"><span>${selected} seçildi</span><button class="secondary-btn danger" id="manageDeleteSelected" ${selected?"":"disabled"}>${ic("trash")}Sil</button><button class="import-btn" id="manageDownloadSelected" ${selected?"":"disabled"}>${ic("download")}İndir</button></div>`;
+ else if(mode==="edit") actions=`<div class="manage-actions"><span>Düzenleme modu</span></div>`;
+ else actions=`<div class="detail-actions"><button class="import-btn" id="manageUpload">${ic("plus")}Şarkı yükle</button></div>`;
+ return `<h1>Şarkıları Yönet</h1><div class="subtitle">${list.length} şarkı · ${fmtSize(total)}</div>${actions}
+ ${list.length?`<div class="settings-group manage-list ${mode?"manage-"+mode:""}" id="manageList">${list.map(manageRow).join("")}</div>`:
  emptyHTML("Henüz şarkı yok","Şarkı yükle düğmesiyle müzik dosyalarını ekle.")}`;
+}
+function setManageMode(mode){
+ window.__manageMode=mode||"";window.__manageSelected=new Set();
+ document.body.classList.toggle("manage-mode",!!mode);
+ render();
+}
+async function deleteSelectedTracks(){
+ const ids=[...(window.__manageSelected||new Set())];if(!ids.length)return;
+ if(!(await confirmSheet(`${ids.length} şarkı silinsin mi?`,"Seçilenleri Sil")))return;
+ const doomed=state.tracks.filter(t=>ids.includes(t.id));
+ try{for(const t of doomed)await dbAction("readwrite","delete",t.id);}catch(e){notify("Bazı şarkılar silinemedi.");return;}
+ if(doomed.some(t=>t.id===state.current?.id)){audio.pause();audio.removeAttribute("src");state.current=null;updatePlayer();}
+ doomed.forEach(t=>{if(t.cover&&t.coverBlob)URL.revokeObjectURL(t.cover);});
+ state.tracks=state.tracks.filter(t=>!ids.includes(t.id));state.queue=state.queue.filter(t=>!ids.includes(t.id));
+ state.queueIndex=state.queue.findIndex(t=>t.id===state.current?.id);
+ state.playlists.forEach(pl=>pl.tracks=pl.tracks.filter(id=>!ids.includes(id)));savePlaylists();
+ setManageMode("");renderQueue();notify(`${doomed.length} şarkı silindi.`);
+}
+async function downloadSelectedTracks(){
+ const ids=[...(window.__manageSelected||new Set())],list=state.tracks.filter(t=>ids.includes(t.id));if(!list.length)return;
+ for(let i=0;i<list.length;i++){await downloadTrack(list[i]);if(i<list.length-1)await new Promise(r=>setTimeout(r,250));}
+ notify(`${list.length} şarkı indirme kuyruğuna eklendi.`);
 }
 async function buildTaggedMp3(t) {
  const file=t.blob;
@@ -2513,16 +2926,28 @@ async function buildTaggedMp3(t) {
  return new Blob([header,...frames,file.slice(start)],{type:"audio/mpeg"});
 }
 async function downloadTrack(t) {
- const isMp3=/\.mp3$/i.test(t.name||"") || t.type==="audio/mpeg";
+ const fmt=window.__dlFmt||"orig",isMp3=/\.mp3$/i.test(t.name||"")||t.type==="audio/mpeg";
+ const clean=x=>x.replace(/[\\/:*?"<>|]+/g," ").trim();
+ const base=clean([t.artist&&t.artist!==DEFAULT_ARTIST?t.artist:"",t.title].filter(Boolean).join(" - "))||"sarki";
  let blob=t.blob,name=t.name||"sarki";
  try {
- if(isMp3) {
- blob=await buildTaggedMp3(t);
- const base=[t.artist&&t.artist!==DEFAULT_ARTIST?t.artist:"",t.title].filter(Boolean).join(" - ");
- name=(base.replace(/[\\/:*?"<>|]+/g," ").trim()||"sarki")+".mp3";
- notify("Başlık, sanatçı, albüm ve kapakla indiriliyor.");
- } else notify("Bu biçime etiket gömülemiyor; dosya olduğu gibi indirildi.");
- } catch(e) {notify("Dosya hazırlanamadı.");return;}
+  if(fmt==="orig"){
+   if(isMp3){blob=await buildTaggedMp3(t);name=base+".mp3";notify("Başlık, sanatçı, albüm ve kapakla indiriliyor.");}
+   else notify("Bu biçime etiket gömülemiyor; dosya olduğu gibi indirildi.");
+  } else {
+   const label={mp3:"MP3",aac:"AAC",flac:"FLAC",wav:"WAV"}[fmt];
+   notify(label+" hazırlanıyor…");
+   const pcm=await decodePCM(t.blob);
+   if(fmt==="wav")blob=encodeWav(pcm);
+   else if(fmt==="flac")blob=encodeFlac(pcm);
+   else if(fmt==="mp3"){blob=await encodeMp3(pcm);try{blob=await buildTaggedMp3({...t,blob,audioBlob:blob});}catch(_){}}
+   else blob=await encodeAac(pcm);
+   name=base+"."+fmt;
+  }
+ } catch(e) {
+  console.error(e);
+  notify(e&&e.message==="noaac"?"Bu tarayıcı AAC kodlamayı desteklemiyor. MP3, FLAC veya WAV seç.":"Dosya hazırlanamadı.");return;
+ }
  const a=document.createElement("a");
  a.href=URL.createObjectURL(blob);a.download=name;
  document.body.append(a);a.click();a.remove();
@@ -2599,6 +3024,7 @@ async function saveEdit() {
  notify("Şarkı güncellendi.");
 }
 function render() {
+ if(state.page!=="manage"&&window.__manageMode){window.__manageMode="";window.__manageSelected=new Set();document.body.classList.remove("manage-mode");}
  const p=$("page");
  switch(state.page) {
  case "home": p.innerHTML=homePage();break;
@@ -2607,7 +3033,7 @@ function render() {
  ${section("Albümler",gridOf(getUniqueAlbums(),"album"))}`;break;
  case "recent": p.innerHTML=listPage("Son Eklenenler",libView([...state.tracks].sort((a,b)=>b.added-a.added)));break;
  case "library": p.innerHTML=libraryPage();break;
- case "songs": p.innerHTML=listPage("Parçalar",libView(state.tracks));break;
+ case "songs": if(!window.__songsSortInitialized){window.__ls="added";window.__songsSortInitialized=true;} p.innerHTML=listPage("Parçalar",libView(state.tracks));break;
  case "favorites": p.innerHTML=favPage();break;
  case "artists": p.innerHTML=collectionPage("Sanatçılar",libItems(getUniqueArtists(),"artist"),"artist");break;
  case "albums": p.innerHTML=collectionPage("Albümler",libItems(getUniqueAlbums(),"album"),"album");break;
@@ -2640,8 +3066,9 @@ function render() {
   pg.classList.add(cls);
   if(cls==="page-in"||cls==="page-fade") pg.querySelectorAll(".card,.song,.section-head").forEach((e,i)=>e.style.setProperty("--i",Math.min(i,10)));}
  updateActiveNav();
+ $("backBtn").disabled=(!state.previousPages.length&&!window.__manageMode)||document.body.classList.contains("lib-edit");
  refreshProfileUI();
- $("backBtn").disabled=!state.previousPages.length;
+ $("backBtn").disabled=(!state.previousPages.length&&!window.__manageMode)||document.body.classList.contains("lib-edit");
  $("forwardBtn").disabled=!state.nextPages.length;
 }
 const LIB_PAGES=["library","songs","recent","artists","albums","favorites","playlists","detail","playlistDetail"];
@@ -2658,6 +3085,7 @@ function movePill(animate=true) {
 function updateActiveNav() {
  document.body.dataset.page=state.page;
  document.body.classList.toggle("sub",!TAB_ROOTS.includes(state.page)&&state.page!=="settings");
+ syncSubCapsule();
  syncBackLabel();
  const activeSidebarPage=state.page==="detail"
   ? (state.detail?.type==="artist"?"artists":"albums")
@@ -2749,12 +3177,23 @@ function bindPageEvents() {
   pl.tracks.push(available[index].id);savePlaylists();render();
   notify("Şarkı listeye eklendi.");
  });
- $("themeSeg")?.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>setThemePref(b.dataset.theme)));syncThemeSeg();window.__cfBind&&__cfBind();
+ $("themeSeg")?.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>setThemePref(b.dataset.theme)));syncThemeSeg();window.__cfBind&&__cfBind();window.__storageInfo&&__storageInfo();
  $("clearLibrary")?.addEventListener("click",clearLibrary);
  $("goManage")?.addEventListener("click",()=>navigate("manage"));
  $("goProfile")?.addEventListener("click",()=>navigate("profile"));
  $("doneAccount")?.addEventListener("click",()=>state.previousPages.length?goBack():navigate("home"));
  $("manageUpload")?.addEventListener("click",()=>$("fileInput").click());
+ $("manageExitMode")?.addEventListener("click",()=>setManageMode(""));
+ $("manageDeleteSelected")?.addEventListener("click",deleteSelectedTracks);
+ $("manageDownloadSelected")?.addEventListener("click",downloadSelectedTracks);
+ document.querySelectorAll("[data-manage-track]").forEach(row=>{
+  const act=()=>{const id=row.dataset.manageTrack,mode=window.__manageMode;
+   if(mode==="edit")openEdit(id);
+   else if(mode==="select"){window.__manageSelected=window.__manageSelected||new Set();window.__manageSelected.has(id)?window.__manageSelected.delete(id):window.__manageSelected.add(id);render();}
+   else{const tr=state.tracks.find(x=>x.id===id);if(tr)playTrack(tr);}};
+  row.addEventListener("click",e=>{if(e.target.closest("button"))return;act();});
+  row.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();act();}});
+ });
  document.querySelectorAll("[data-goto]").forEach(el=>el.addEventListener("click",()=>{const l=state.previousPages[state.previousPages.length-1];l&&l.page===el.dataset.goto?goBack():navigate(el.dataset.goto);}));
  document.querySelectorAll("[data-edit]").forEach(el=>el.addEventListener("click",()=>openEdit(el.dataset.edit)));
  document.querySelectorAll("[data-download]").forEach(el=>el.addEventListener("click",()=>{
@@ -2840,7 +3279,16 @@ function setFPQueueView(view){
  if(panel)panel.classList.toggle("view-lyrics",fpQueueView==="lyrics");
  const mobile=matchMedia("(max-width:760px)").matches;
  document.querySelector(".fp")?.classList.toggle("fp-sheet-open",mobile&&fpQueueView==="lyrics");
- document.querySelectorAll("[data-fp-view]").forEach(b=>b.classList.toggle("active",b.dataset.fpView===fpQueueView));
+ document.querySelectorAll("[data-fp-view]").forEach(b=>{
+  const selected=b.dataset.fpView===fpQueueView;
+  b.classList.toggle("active",selected);
+  if(b.hasAttribute("role")&&b.getAttribute("role")==="tab"){
+   b.setAttribute("aria-selected",String(selected));b.tabIndex=selected?0:-1;
+  }
+ });
+ const queuePanel=$("fpQueueList"),lyricsPanel=$("fpLyricsPanel");
+ if(queuePanel)queuePanel.setAttribute("aria-hidden",String(fpQueueView==="lyrics"));
+ if(lyricsPanel)lyricsPanel.setAttribute("aria-hidden",String(fpQueueView!=="lyrics"));
  const track=state.current;
  const title=$("fpQueuePanelTitle");
  const count=$("fpQueueCount");
@@ -2849,18 +3297,70 @@ function setFPQueueView(view){
  const lyrics=$("fpLyricsPanel");
  if(lyrics){lyrics.innerHTML=track?.lyrics?escapeHTML(track.lyrics):'<div class="lyrics-empty">Bu şarkı için henüz söz eklenmemiş.<br>Şarkı bilgilerini düzenleyerek sözleri ekleyebilirsin.</div>';}
 }
+/* Interactive bottom-sheet dismissal: the sheet follows the finger 1:1, dismisses on distance or flick. */
+function bindSheetDrag(el,o){
+ if(!el)return;
+ const mq=matchMedia("(max-width:760px)"),scroller=o.scroller||el;
+ let tracking=false,engaged=false,startY=0,dy=0,lastY=0,lastT=0,v=0,pY=0,pT=0;
+ const settle=()=>{el.style.removeProperty("transition");el.style.removeProperty("transform");};
+ el.addEventListener("touchstart",e=>{
+  tracking=false;engaged=false;
+  if(!mq.matches||e.touches.length!==1||(o.canStart&&!o.canStart()))return;
+  if(e.target.closest("input,textarea,select,[type=range]"))return;
+  startY=lastY=pY=e.touches[0].clientY;lastT=pT=performance.now();dy=0;v=0;tracking=true;
+ },{passive:true});
+ el.addEventListener("touchmove",e=>{
+  if(!tracking||e.touches.length!==1)return;
+  const y=e.touches[0].clientY;
+  if(!engaged){
+   const n0=performance.now();
+   if(scroller.scrollTop>0){startY=y;pY=y;pT=n0;return;}   /* content still scrolls first */
+   if(y-startY<8){pY=y;pT=n0;return;}                     /* ignore taps / upward scroll */
+   v=Math.max(0,(y-pY)/Math.max(1,n0-pT));                /* seed velocity from the move that engaged the drag */
+   engaged=true;startY=y;lastY=y;lastT=n0;
+   el.style.setProperty("transition","none","important");
+  }
+  e.preventDefault();
+  const now=performance.now();dy=Math.max(0,y-startY);
+  const dt=Math.max(1,now-lastT);v=.5*v+.5*((y-lastY)/dt);lastY=y;lastT=now;
+  el.style.setProperty("transform","translate3d(0,"+dy+"px,0)","important");
+  if(o.onDrag)o.onDrag(dy,Math.min(1,dy/Math.max(1,el.offsetHeight)));
+ },{passive:false});
+ const end=()=>{
+  if(!tracking)return;tracking=false;
+  if(!engaged)return;engaged=false;
+  const dismiss=dy>el.offsetHeight*.22||(dy>24&&v>.45);
+  if(dismiss){
+   el.style.removeProperty("transition");el.style.removeProperty("transform");
+   if(o.dismiss)o.dismiss(dy);
+  }else{
+   el.style.setProperty("transition",matchMedia("(prefers-reduced-motion: reduce)").matches?"none":"transform .38s var(--ios)","important");
+   el.style.setProperty("transform","translate3d(0,0,0)","important");
+   if(o.onCancel)o.onCancel();
+   setTimeout(()=>{if(!engaged){el.style.removeProperty("transition");el.style.removeProperty("transform");}},400);
+  }
+  dy=0;v=0;
+ };
+ el.addEventListener("touchend",end);el.addEventListener("touchcancel",end);
+}
 let lyricsCloseTimer=null;
+function resetLyricsSheetMotion(panel){
+ if(!panel)return;
+ panel.classList.remove("lyrics-closing");
+ panel.style.removeProperty("transform");
+ panel.style.removeProperty("transition");
+ panel.style.removeProperty("opacity");
+}
 function closeLyricsSheet(){
  const panel=document.querySelector(".fp-queue");
  if(!panel?.classList.contains("view-lyrics"))return;
  clearTimeout(lyricsCloseTimer);
  panel.classList.add("lyrics-closing");
- panel.style.transition="transform .42s var(--ios), opacity .36s ease";
- panel.style.transform="translateY(calc(100% + 28px))";
+ panel.style.transition="transform .42s var(--ios), opacity .42s var(--ios)";
+ panel.style.transform="translate3d(0,calc(100% + 28px),0)";
  panel.style.opacity="0";
  lyricsCloseTimer=setTimeout(()=>{
-  panel.classList.remove("lyrics-closing");
-  panel.style.transform="";panel.style.transition="";panel.style.opacity="";
+  resetLyricsSheetMotion(panel);
   setFPQueueView("queue");
  },470);
 }
@@ -2868,15 +3368,13 @@ function openLyricsSheet(){
  clearTimeout(lyricsCloseTimer);
  closeFPQueueMenu();
  const panel=document.querySelector(".fp-queue");
- if(panel)panel.classList.remove("lyrics-closing");
+ resetLyricsSheetMotion(panel);
  setFPQueueView("lyrics");
  const lyrics=$("fpLyricsPanel");if(lyrics)lyrics.scrollTop=0;
 }
 document.addEventListener("click",e=>{const b=e.target.closest("[data-fp-view]");if(!b)return;const mobile=matchMedia("(max-width:760px)").matches;if(mobile&&b.dataset.fpView==="lyrics"){if(fpQueueView==="lyrics")closeLyricsSheet();else openLyricsSheet();}else setFPQueueView(b.dataset.fpView);});
 document.getElementById("lyricsCloseBtn")?.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();closeLyricsSheet();});
-/* Dış boşluğa yapılan dokunuş yalnızca sözler kartını kapatır.
-   pointerdown yerine click kullanılır; böylece ilk dokunuş tam ekran oynatıcı
-   kapatma hareketi olarak yorumlanmaz. */
+
 document.addEventListener("click",e=>{
  if(!matchMedia("(max-width:760px)").matches||fpQueueView!=="lyrics")return;
  if(e.target.closest(".fp-queue.view-lyrics,.fp-mobile-tools,#fpMobileMore"))return;
@@ -2929,7 +3427,8 @@ function renderQueue() {
 }
 let fpQueueMenu=null;
 function closeFPQueueMenu(){
- if(fpQueueMenu){fpQueueMenu.remove();fpQueueMenu=null;}
+ const old=fpQueueMenu;fpQueueMenu=null;
+ if(old){old.classList.add("is-closing");setTimeout(()=>old.remove(),170);}
  $("fpMobileMore")?.setAttribute("aria-expanded","false");
 }
 function openFPQueueMenu(index,button){
@@ -2956,9 +3455,12 @@ function openFPQueueMenu(index,button){
  const r=button.getBoundingClientRect(),mw=menu.offsetWidth,mh=menu.offsetHeight;
  const vv=window.visualViewport;
  const viewTop=vv?vv.offsetTop:0,viewHeight=vv?vv.height:window.innerHeight;
- const left=Math.max(12,Math.min(window.innerWidth-mw-12,r.right-mw));
- const preferredTop=r.bottom-mh-8;
- const top=Math.max(viewTop+12,Math.min(viewTop+viewHeight-mh-12,preferredTop));
+ const left=Math.max(12,Math.min((vv?vv.offsetLeft:0)+(vv?vv.width:window.innerWidth)-mw-12,r.right-mw));
+ const mobileMenu=button?.id==="fpMobileMore"&&matchMedia("(max-width:760px)").matches;
+ const belowTop=r.bottom+8,aboveTop=r.top-mh-8;
+ // Mobile: align the first menu row over the trigger; subsequent actions stack below it.
+ const preferredTop=mobileMenu?r.top:aboveTop;
+ const top=Math.max(viewTop+8,Math.min(viewTop+viewHeight-mh-8,preferredTop));
  menu.style.left=left+"px";menu.style.top=top+"px";
  menu.addEventListener("pointerdown",e=>e.stopPropagation());
  menu.addEventListener("click",async e=>{
@@ -3146,7 +3648,7 @@ $("queueBtn").addEventListener("click",()=>$("queuePanel").classList.add("show")
 $("closeQueue").addEventListener("click",()=>closeAnimatedLayer($("queuePanel")));
 $("themeBtn").addEventListener("click",toggleTheme);
 $("addMusicBtn").addEventListener("click",()=>$("fileInput").click());
-$("backBtn").addEventListener("click",goBack);
+$("backBtn").addEventListener("click",()=>{if(window.__manageMode){setManageMode("");return;}goBack();});
 $("settingsBtn").addEventListener("click",()=>navigate("settings"));
 window.addEventListener("resize",()=>movePill(false));
 $("forwardBtn").addEventListener("click",goForward);
@@ -3269,7 +3771,7 @@ $("editModal").addEventListener("click",e=>{if(e.target===$("editModal")) closeE
 paint($("progress"));paint($("volume"));syncModes();
 loadProfile();refreshProfileUI();
 loadLibrary();
-/* Tam ekran albüm rengini destekleyen tarayıcı üst/status çubuğuna yansıt */
+
 let __fullThemeColor=null;
 function sampleCoverColor(src,done) {
  if(!src){done(document.body.classList.contains("dark")?"#111113":"#f5f5f7");return;}
@@ -3294,7 +3796,7 @@ function syncFullscreenBrowserColor(){
  if(!t||!$("fp")?.classList.contains("open"))return;
  sampleCoverColor(t.cover,color=>{if($("fp")?.classList.contains("open")&&state.current===t)setBrowserThemeColor(color);});
 }
-/* ===== Tam ekran oynatıcı ===== */
+
 (function(){
  const fp=$("fp"),mq=matchMedia("(max-width:760px)");
  [["fpFav","heart"],["fpPrev","prev"],["fpPlay","play"],["fpNext","next"],["fpVolLo","volume"],["fpVolHi","volume"],["fpShuffle","shuffle"],["fpRepeat","repeat"],["fpQueue","list"]].forEach(([i,n])=>$(i).innerHTML=ic(n));
@@ -3365,51 +3867,14 @@ function syncFullscreenBrowserColor(){
  paint($("fpVol"));paint($("fpProgress"));
  document.querySelector(".now-playing").addEventListener("click",e=>{if(e.target.closest("button"))return;open();});
  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&fp.classList.contains("open"))close();});
- let y0=null,dy=0;
- $("fpWrap").addEventListener("touchstart",e=>{if(fpQueueView==="lyrics"||e.target.closest("input,.fp-queue.view-lyrics"))return;y0=e.touches[0].clientY;dy=0;},{passive:true});
- $("fpWrap").addEventListener("touchmove",e=>{if(y0===null)return;dy=Math.max(0,e.touches[0].clientY-y0);fp.style.transition="none";fp.style.transform=`translateY(${dy}px)`;},{passive:true});
- $("fpWrap").addEventListener("touchend",()=>{if(y0===null)return;y0=null;fp.style.transition="";fp.style.transform="";if(dy>120)close();});
+ let y0=null,dy=0,fv=0,fy=0,ft=0;
+ $("fpWrap").addEventListener("touchstart",e=>{if(fpQueueView==="lyrics"||e.target.closest("input,.fp-queue.view-lyrics"))return;y0=fy=e.touches[0].clientY;dy=0;fv=0;ft=performance.now();},{passive:true});
+ $("fpWrap").addEventListener("touchmove",e=>{if(y0===null)return;const cy=e.touches[0].clientY,now=performance.now();fv=.8*fv+.2*((cy-fy)/Math.max(1,now-ft));fy=cy;ft=now;dy=Math.max(0,cy-y0);fp.style.transition="none";fp.style.transform=`translateY(${dy}px)`;},{passive:true});
+ $("fpWrap").addEventListener("touchend",()=>{if(y0===null)return;y0=null;fp.style.transition="";fp.style.transform="";if(dy>120||(dy>40&&fv>.6))close();});
  const lyricsSheet=document.querySelector(".fp-queue"),lyricsPanel=$("fpLyricsPanel");
- let lyricsY=null,lyricsDY=0,lyricsLastY=0,lyricsLastTime=0,lyricsVelocity=0;
- lyricsSheet?.addEventListener("touchstart",e=>{
-  if(!mq.matches||!lyricsSheet.classList.contains("view-lyrics")||e.touches.length!==1)return;
-  if(e.target.closest("button")||(lyricsPanel?.scrollTop||0)>0)return;
-  lyricsY=lyricsLastY=e.touches[0].clientY;lyricsDY=0;lyricsVelocity=0;lyricsLastTime=performance.now();
-  lyricsSheet.style.transition="none";e.stopPropagation();
- },{passive:true});
- lyricsSheet?.addEventListener("touchmove",e=>{
-  if(lyricsY===null||e.touches.length!==1)return;
-  const now=performance.now(),y=e.touches[0].clientY;
-  const next=Math.max(0,y-lyricsY);
-  if(next<=0)return;
-  e.preventDefault();e.stopPropagation();
-  const dt=Math.max(1,now-lyricsLastTime);lyricsVelocity=(y-lyricsLastY)/dt;
-  lyricsLastY=y;lyricsLastTime=now;lyricsDY=next;
-  lyricsSheet.style.transform=`translate3d(0,${next}px,0)`;
-  lyricsSheet.style.opacity=String(Math.max(.35,1-next/650));
- },{passive:false});
- const finishLyricsDrag=()=>{
-  if(lyricsY===null)return;
-  const shouldClose=lyricsDY>112||lyricsVelocity>.60;
-  lyricsY=null;
-  if(shouldClose){
-   closeLyricsSheet();
-  }else{
-   lyricsSheet.style.transition="transform .34s var(--ios), opacity .28s ease";
-   lyricsSheet.style.transform="translate3d(0,0,0)";
-   lyricsSheet.style.opacity="1";
-   setTimeout(()=>{
-    if(!lyricsSheet.classList.contains("lyrics-closing")){
-     lyricsSheet.style.transition="";lyricsSheet.style.transform="";lyricsSheet.style.opacity="";
-    }
-   },360);
-  }
-  lyricsDY=0;lyricsVelocity=0;
- };
- lyricsSheet?.addEventListener("touchend",finishLyricsDrag);
- lyricsSheet?.addEventListener("touchcancel",finishLyricsDrag);
+ bindSheetDrag(lyricsSheet,{scroller:lyricsPanel,canStart:()=>lyricsSheet.classList.contains("view-lyrics")&&!lyricsSheet.classList.contains("lyrics-closing"),dismiss:()=>closeLyricsSheet()});
 })();
-/* ===== Geri dönüş belleği: kenardan kaydırarak geri, sıra panelinden oynatıcıya dönüş ===== */
+
 (function(){
  const mq=matchMedia("(max-width:760px)");
  let sx=null,sy=0;
@@ -3426,7 +3891,7 @@ function syncFullscreenBrowserColor(){
  $("fpQueue").addEventListener("click",()=>{window.__fromFP=true;});
  $("closeQueue").addEventListener("click",()=>{if(window.__fromFP){window.__fromFP=false;setTimeout(()=>window.openFull&&openFull(),220);}});
 })();
-/* ===== Yükleme çubuğu / panoya kopyala / çapraz geçiş / Arşiv ===== */
+
 (function(){
  const bar=document.createElement("div");bar.className="import-bar";bar.id="importBar";
  bar.innerHTML='<b id="importLbl"></b><div class="import-track"><div class="import-fill" id="importFill"></div></div>';
@@ -3437,7 +3902,7 @@ function syncFullscreenBrowserColor(){
   $("importFill").style.width=Math.min(100,((done+(frac||0))/total)*100)+"%";
  };
  window.impDone=function(){$("importFill").style.width="100%";setTimeout(()=>document.body.classList.remove("importing"),550);};
- /* tam ekran: şarkı adına basılı tut → panoya kopyala */
+
  let timer=null,sx=0,sy=0;
  const copyText=async txt=>{
   try{await navigator.clipboard.writeText(txt);}
@@ -3456,12 +3921,12 @@ function syncFullscreenBrowserColor(){
   ["pointerup","pointercancel","pointerleave"].forEach(ev=>el.addEventListener(ev,()=>clearTimeout(timer)));
   el.addEventListener("contextmenu",e=>e.preventDefault());
  });
- /* Arşiv yönlendirme */
+
  $("page").addEventListener("click",e=>{const b=e.target.closest("[data-lib]");if(b)navigate(b.dataset.lib);});
- /* çapraz geçiş */
+
  const cf=window.__cf={on:!IS_IOS_AUDIO,sec:4};
  try{Object.assign(cf,JSON.parse(localStorage.getItem("music-crossfade")||"{}"));}catch(e){}
- /* iOS crossfade routes audio through AudioContext, which can silence background playback. */
+
  if(IS_IOS_AUDIO) cf.on=false;
  cf.sec=Math.min(10,Math.max(1,+cf.sec||4));
  let ctx=null,g1=null,busy=false,tried=null,curOld=null;
@@ -3507,7 +3972,7 @@ function syncFullscreenBrowserColor(){
   rg.addEventListener("input",()=>{cf.sec=+rg.value;$("cfOut").textContent=cf.sec+" sn";paint(rg);save();});
  };
 })();
-/* ===== Arşiv (düzenleme modu), En Çok Dinlenenler, liste görseli ===== */
+
 const LIBROWS={playlists:["list","Listeler"],albums:["album","Albümler"],songs:["noteSingle","Parçalar"],manage:["download","İndirilenler"],artists:["mic","Sanatçılar"]};
 function libCfg() {
  let c={};try{c=JSON.parse(localStorage.getItem("music-lib")||"{}");}catch(e){}
@@ -3542,17 +4007,8 @@ function libraryPage() {
 (function(){
  const pg=$("page");let picked=null;
  const setEdit=on=>{window.__libEnter=on;window.__libEdit=on;picked=null;document.body.classList.toggle("lib-edit",on);render();};
- const closeMenu=()=>document.getElementById("libMenu")?.remove();
  $("libEdit").addEventListener("click",()=>{window.__plCoverData=null;openModal();});
- $("libMore").addEventListener("click",e=>{
-  e.stopPropagation();if(document.getElementById("libMenu")){closeMenu();return;}
-  const r=$("libMore").getBoundingClientRect(),m=document.createElement("div");
-  m.className="ios-menu";m.id="libMenu";m.style.top=(r.bottom+8)+"px";m.style.right=Math.max(12,innerWidth-r.right)+"px";
-  m.innerHTML=`<button>Düzenle${ic("edit")}</button>`;
-  m.firstChild.addEventListener("click",()=>{closeMenu();setEdit(true);});
-  document.body.appendChild(m);
- });
- document.addEventListener("pointerdown",e=>{if(!e.target.closest("#libMenu,#libMore,#subFilter,#subSort"))closeMenu();});
+ $("libMore").addEventListener("click",e=>{e.preventDefault();e.stopPropagation();setEdit(!window.__libEdit);});
  $("libDone").addEventListener("click",()=>setEdit(false));
  pg.addEventListener("click",e=>{
   const pl=e.target.closest("[data-pl]");if(pl&&!window.__libEdit){navigate("playlistDetail",pl.dataset.pl);return;}
@@ -3577,7 +4033,7 @@ function libraryPage() {
    row.classList.remove("dragging");const c=libCfg();c.rows=[...list.children].map(r=>r.dataset.key);libSave(c);};
   h.addEventListener("pointermove",move);h.addEventListener("pointerup",up);h.addEventListener("pointercancel",up);
  });
- /* oynatma sayacı + 3 günde bir güncellenen ilk 10 */
+
  const PK="music-plays",TK="music-top10",ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d;}catch(e){return d;}};
  let counted=null;
  audio.addEventListener("timeupdate",()=>{
@@ -3592,7 +4048,7 @@ function libraryPage() {
    window.__topIds=Object.entries(pl).sort((a,b)=>b[1]-a[1]).slice(0,10).map(e=>e[0]);
   return window.__topIds.map(id=>state.tracks.find(t=>t.id===id)).filter(Boolean);
  };
- /* çalma listesi görseli (kare kırpma) */
+
  const squareCrop=file=>new Promise((res,rej)=>{
   const url=URL.createObjectURL(file),im=new Image();
   im.onload=()=>{const m=Math.min(im.width,im.height),c=document.createElement("canvas");c.width=c.height=512;
@@ -3609,7 +4065,7 @@ function homePage() {
  const top=window.topTen?topTen():[];
  return homePageBase()+(top.length?`<div class="section-head"><h2>En Çok Dinlenenler</h2></div><div class="top-sub">Her açılışta güncellenir</div><div>${top.map(songRow).join("")}</div>`:"");
 }
-/* ===== Arşiv alt sayfaları: filtre / sıralama ===== */
+
 window.__lf="all";window.__ls=null;
 const trc=(x,y)=>String(x).localeCompare(String(y),"tr");
 function libView(list) {
@@ -3629,44 +4085,71 @@ function libPlaylists() {
  const a=[...state.playlists];if(window.__ls==="name"||window.__ls==="artist")a.sort((x,y)=>trc(x.name,y.name));
  return a;
 }
+function closeIosMenu(run){
+ const m=document.getElementById("libMenu");if(!m){run?.();return;}
+ if(m.classList.contains("is-closing"))return;
+ m.classList.add("is-closing");m.addEventListener("animationend",()=>{m.remove();run?.();},{once:true});
+ setTimeout(()=>{if(m.isConnected){m.remove();run?.();}},220);
+}
 function iosMenu(anchor,items) {
- document.getElementById("libMenu")?.remove();
+ closeIosMenu();
  const r=anchor.getBoundingClientRect(),m=document.createElement("div");
  m.className="ios-menu";m.id="libMenu";m.setAttribute("role","menu");
- m.style.top=(r.bottom+8)+"px";m.style.right=Math.max(12,innerWidth-r.right)+"px";
  items.forEach(it=>{
   const b=document.createElement("button");b.setAttribute("role","menuitemradio");b.setAttribute("aria-checked",String(!!it.checked));
-  b.innerHTML=`<span>${it.label}</span>${it.checked?ic("check"):""}`;
-  b.addEventListener("click",()=>{m.remove();it.run();});m.appendChild(b);
+  b.innerHTML=`<span class="chk">${it.checked?ic("check"):""}</span><span>${it.label}</span>`;
+  b.addEventListener("click",()=>closeIosMenu(it.run));m.appendChild(b);
  });
  document.body.appendChild(m);
+ const mobile=matchMedia("(max-width:760px)").matches,mh=m.offsetHeight,vh=window.visualViewport?.height||innerHeight,vt=window.visualViewport?.offsetTop||0;
+ m.style.top=(mobile?Math.max(vt+8,Math.min(vt+vh-mh-8,r.top)):r.bottom+8)+"px";
+ m.style.right=Math.max(12,innerWidth-r.right)+"px";
+}
+function syncSubCapsule(){
+ const cap=$("subCapsule");if(!cap)return;
+ const page=state.page,show=["songs","albums","artists","playlists","favorites","recent","playlistDetail","manage"].includes(page);
+ cap.classList.toggle("is-page-visible",show);
+ const first=$("subFilter"),second=$("subSort");
+ if(first){first.classList.toggle("hidden",page==="albums");first.dataset.action=page==="playlists"?"create":page==="manage"?"manage-sort":"filter";first.innerHTML=ic(page==="playlists"?"listPlus":page==="manage"?"menu":"menu");first.setAttribute("aria-label",page==="playlists"?"Liste ekle":page==="manage"?"Sıralama":"Filtrele");}
+ if(second){second.classList.toggle("hidden",false);second.innerHTML=ic("more");second.setAttribute("aria-label",page==="manage"?"Seç veya düzenle":"Diğer seçenekler");}
 }
 (function(){
  const cap=document.createElement("div");cap.className="sub-capsule";cap.id="subCapsule";
- cap.innerHTML=`<button id="subFilter" aria-label="Filtrele">${ic("menu")}</button><button id="subSort" aria-label="Sırala">${ic("more")}</button>`;
+ cap.innerHTML=`<button id="subFilter" aria-label="Filtrele" type="button">${ic("menu")}</button><button id="subSort" aria-label="Diğer seçenekler" type="button">${ic("more")}</button>`;
  document.querySelector(".topbar").appendChild(cap);
+ syncSubCapsule();
  $("subFilter").addEventListener("click",e=>{
-  e.stopPropagation();const page=state.page;let items=[
-   {label:"Tüm Parçalar",checked:window.__lf==="all",run:()=>{window.__lf="all";render();}},
-   {label:"Favoriler",checked:window.__lf==="fav",run:()=>{window.__lf="fav";render();}}
-  ];
-  if(page==="playlists")items=[{label:"Yeni Çalma Listesi",run:()=>openModal()}];
-  else if(page==="albums"||page==="artists")items=[{label:"Tümünü Göster",run:()=>{window.__lf="all";render();}}];
-  else if(page==="favorites")items=[{label:"Favori Parçalar",checked:true,run:()=>render()}];
+  e.stopPropagation();const page=state.page;
+  if(page==="playlists"){window.__plCoverData=null;openModal();return;}
+  if(page==="manage"){
+   iosMenu($("subFilter"),[
+    {label:"Eklenme Tarihine Göre",checked:(window.__manageSort||"added")==="added",run:()=>{window.__manageSort="added";render();}},
+    {label:"Ada Göre",checked:window.__manageSort==="name",run:()=>{window.__manageSort="name";render();}}
+   ]);return;
+  }
+  const items=[{label:"Tüm Parçalar",checked:window.__lf==="all",run:()=>{window.__lf="all";render();}},{label:"Favoriler",checked:window.__lf==="fav",run:()=>{window.__lf="fav";render();}}];
+  if(page==="albums"||page==="artists")items.splice(0,items.length,{label:"Tümünü Göster",run:()=>{window.__lf="all";render();}});
+  else if(page==="favorites")items.splice(0,items.length,{label:"Favori Parçalar",checked:true,run:()=>render()});
   iosMenu($("subFilter"),items);
  });
  $("subSort").addEventListener("click",e=>{
-  e.stopPropagation();const page=state.page;let items=[
-   {label:"Ad",checked:window.__ls==="name",run:()=>{window.__ls="name";render();}},
-   {label:"Ekleme Tarihi",checked:window.__ls==="added",run:()=>{window.__ls="added";render();}},
-   {label:"Sanatçı",checked:window.__ls==="artist",run:()=>{window.__ls="artist";render();}}
-  ];
+  e.stopPropagation();const page=state.page;
+  if(page==="manage"){
+   const mode=window.__manageMode||"";
+   iosMenu($("subSort"),[
+    {label:"Seç",checked:mode==="select",run:()=>setManageMode(mode==="select"?"":"select")},
+    {label:"Düzenle",checked:mode==="edit",run:()=>setManageMode(mode==="edit"?"":"edit")},
+    ...(mode?[{label:"Moddan Çık",run:()=>setManageMode("")}]:[])
+   ]);return;
+  }
+  let items=[{label:"Ad",checked:window.__ls==="name",run:()=>{window.__ls="name";render();}},{label:"Ekleme Tarihi",checked:window.__ls==="added",run:()=>{window.__ls="added";render();}},{label:"Sanatçı",checked:window.__ls==="artist",run:()=>{window.__ls="artist";render();}}];
   if(page==="playlists"||page==="albums"||page==="artists")items=[{label:"Ada Göre",checked:window.__ls==="name",run:()=>{window.__ls="name";render();}},{label:"Varsayılan Sıra",checked:!window.__ls,run:()=>{window.__ls=null;render();}}];
   iosMenu($("subSort"),items);
  });
- document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("libMenu")?.remove();});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape")closeIosMenu();});
+ document.addEventListener("pointerdown",e=>{if(!e.target.closest("#libMenu,#subFilter,#subSort"))closeIosMenu();});
 })();
-/* ===== Sekme başına gezinme belleği ===== */
+
 state.tab=state.tab||"home";
 function switchTab(t) {
  if(document.body.classList.contains("lib-edit")) return;
@@ -3692,40 +4175,25 @@ var BACK_NAMES={home:"Ana Sayfa",browse:"Göz At",library:"Arşiv",search:"Aray�
 function syncBackLabel() {
  const pv=state.previousPages[state.previousPages.length-1];
  document.querySelectorAll(".mobile-nav button[data-page]").forEach(b=>{if(b.dataset.page===state.tab)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");});
- $("backBtn").innerHTML=ic("back")+`<span>${pv?(BACK_NAMES[pv.page]||"Geri"):"Geri"}</span>`;
+ const bb=$("backBtn"),doneMode=!!window.__manageMode;
+ bb.classList.toggle("is-done",doneMode);
+ if(doneMode){bb.innerHTML="<span>Bitti</span>";bb.setAttribute("aria-label","Bitti");bb.setAttribute("title","Bitti");bb.disabled=false;}
+ else{bb.innerHTML=ic("back")+`<span>${pv?(BACK_NAMES[pv.page]||"Geri"):"Geri"}</span>`;bb.setAttribute("aria-label","Geri");bb.setAttribute("title","Geri");}
 }
-/* ===== Sayfalar: aşağı kaydırarak kapat (HIG Sheets) ===== */
+
 (function(){
  const mq=matchMedia("(max-width:760px)");
- function drag(el,close){
-  let y0=null,dy=0,lastY=0,lastT=0,velocity=0;
-  el.addEventListener("touchstart",e=>{
-   if(!mq.matches||e.touches.length!==1)return;
-   const y=e.touches[0].clientY,rect=el.getBoundingClientRect();
-   if(y-rect.top>78||e.target.closest("input,textarea,select,button,.queue-track")){y0=null;return;}
-   y0=lastY=y;dy=0;velocity=0;lastT=performance.now();el.style.transition="none";
-  },{passive:true});
-  el.addEventListener("touchmove",e=>{
-   if(y0===null||e.touches.length!==1)return;
-   const now=performance.now(),y=e.touches[0].clientY,next=Math.max(0,y-y0);
-   if(next<=0)return;
-   const dt=Math.max(1,now-lastT);velocity=(y-lastY)/dt;lastY=y;lastT=now;dy=next;
-   e.preventDefault();el.style.transform=`translate3d(0,${next}px,0)`;
-   el.style.opacity=String(Math.max(.35,1-next/650));
-  },{passive:false});
-  const finish=()=>{
-   if(y0===null)return;y0=null;
-   if(dy>120||velocity>.62){el.style.transition="transform .28s cubic-bezier(.4,0,1,1),opacity .24s ease";el.style.transform="translate3d(0,105%,0)";el.style.opacity="0";setTimeout(()=>{el.style.transform="";el.style.opacity="";close();},270);}
-   else{el.style.transition="transform .38s cubic-bezier(.22,.68,0,1),opacity .28s ease";el.style.transform="translate3d(0,0,0)";el.style.opacity="1";setTimeout(()=>{el.style.transition="";el.style.transform="";el.style.opacity="";},400);}
-   dy=0;velocity=0;
-  };
-  el.addEventListener("touchend",finish);el.addEventListener("touchcancel",finish);
- }
- drag($("queuePanel"),()=>$("closeQueue").click());
- /* Modal gövdesi doğal dikey kaydırmayı korur; tüm yüzeye sürükle-kapat dinleyicisi bağlanmaz. */
+ const qPanel=$("queuePanel"),qScrim=()=>document.getElementById("queueScrim");
+ bindSheetDrag(qPanel,{
+  canStart:()=>qPanel.classList.contains("show")&&!qPanel.classList.contains("is-closing"),
+  onDrag:(dy,p)=>{const s=qScrim();if(s)s.style.setProperty("opacity",String(1-p),"important");},
+  onCancel:()=>{const s=qScrim();if(s){s.style.setProperty("transition",matchMedia("(prefers-reduced-motion: reduce)").matches?"none":"opacity .38s var(--ios)","important");setTimeout(()=>{s.style.removeProperty("opacity");s.style.removeProperty("transition");},400);}},
+  dismiss:()=>{const s=qScrim();if(s){s.style.removeProperty("opacity");}$("closeQueue").click();}
+ });
+
  const si=$("searchInput");si.type="search";si.setAttribute("enterkeyhint","search");si.setAttribute("autocapitalize","off");si.spellcheck=false;
 })();
-/* ===== Eylem sayfası, Medya Oturumu, durum geri yükleme, sıralama klavye alternatifi ===== */
+
 function confirmSheet(title,destructive) {
  return new Promise(res=>{
   const o=document.createElement("div");o.className="as-back";
@@ -3739,14 +4207,14 @@ function confirmSheet(title,destructive) {
  });
 }
 (function(){
- /* kaydırmadan sıralama: ok tuşları */
+
  $("page").addEventListener("keydown",e=>{
   const h=e.target.closest&&e.target.closest(".lib-handle");if(!h||!["ArrowUp","ArrowDown"].includes(e.key))return;
   e.preventDefault();const row=h.closest(".lib-row"),list=row.parentNode,up=e.key==="ArrowUp",t=up?row.previousElementSibling:row.nextElementSibling;
   if(!t)return;list.insertBefore(row,up?t:t.nextSibling);h.focus();
   const c=libCfg();c.rows=[...list.children].map(r=>r.dataset.key);libSave(c);
  });
- /* Medya Oturumu: kilit ekranı ve kulaklık kontrolleri */
+
  if("mediaSession" in navigator){
   const ms=navigator.mediaSession,upd=()=>{const t=state.current;if(!t||!window.MediaMetadata)return;
    ms.metadata=new MediaMetadata({title:t.title,artist:artistOf(t),album:albumOf(t),artwork:t.cover?[{src:t.cover,sizes:"512x512"}]:[]});};
@@ -3758,7 +4226,7 @@ function confirmSheet(title,destructive) {
   set("previoustrack",()=>$("previousBtn").click());set("nexttrack",()=>$("nextBtn").click());
   set("seekto",e=>{if(e.seekTime!=null)audio.currentTime=e.seekTime;});
  }
- /* kaldığın yerden devam: son sekme/sayfa */
+
  const SAFE=["songs","albums","artists","playlists","favorites","recent"];
  try{
   const l=JSON.parse(localStorage.getItem("music-last")||"null");
@@ -3772,7 +4240,7 @@ function confirmSheet(title,destructive) {
  addEventListener("pagehide",save);
  const mi=$("modalInput");mi.setAttribute("enterkeyhint","done");mi.maxLength=60;mi.autocomplete="off";
 })();
-/* ===== Favori Parçalar ve çalma listesi sayfaları ===== */
+
 function plHero(art,title,tracks,extra="") {
  const mins=Math.round(tracks.reduce((a,t)=>a+(t.duration||0),0)/60);
  return `<div class="pl-hero"><div class="pl-art">${art}</div><h1>${title}</h1>
@@ -3794,21 +4262,9 @@ $("page").addEventListener("click",e=>{
  playCollection(tracksForCurrentView(),a.hasAttribute("data-shuffle-all"));
 });
 
-/* iOS Safari fallback: block pinch and double-tap zoom gestures, not ordinary scroll. */
-(function(){
- const isMobile=()=>matchMedia("(max-width:760px)").matches;
- ["gesturestart","gesturechange","gestureend"].forEach(type=>document.addEventListener(type,e=>{if(isMobile())e.preventDefault();},{passive:false}));
- let lastTouchEnd=0;
- document.addEventListener("touchend",e=>{
-  if(!isMobile())return;
-  const now=Date.now();
-  if(now-lastTouchEnd<=280 && !e.target.closest("input,textarea,select,button,a,[role=button]"))e.preventDefault();
-  lastTouchEnd=now;
- },{passive:false});
- document.addEventListener("wheel",e=>{if(isMobile()&&(e.ctrlKey||e.metaKey))e.preventDefault();},{passive:false});
-})();
+/* Zoom lock removed: pinch zoom, Ctrl/Cmd+wheel zoom and text enlargement stay available (accessibility).
+   Double-tap zoom is handled with CSS touch-action:manipulation. */
 
-/* ===== Ana Sayfa: doğrudan oynatan kartlar + kapak mozaiği ===== */
 var __mos=null;
 function trackCard(t) {
  return `<div class="card" tabindex="0" role="button" data-song="${t.id}">${coverHTML(t)}
@@ -3825,14 +4281,13 @@ function heroMosaic() {
  const vars=__mos.pool.map((c,i)=>`--c${i}:url('${c}')`).join(";");
  return `<div class="hero-mosaic" aria-hidden="true" style="${vars}">${__mos.order.map(i=>`<i style="background:var(--c${i}) center/cover"></i>`).join("")}</div>`;
 }
-/* Yan çubuk, mini oynatıcının gerçek yüksekliğine göre üstte kalır */
+
 (function(){
  const pl=document.querySelector(".player");if(!pl||!window.ResizeObserver)return;
  const set=()=>document.documentElement.style.setProperty("--player-real",pl.offsetHeight+"px");
  new ResizeObserver(set).observe(pl);set();
 })();
 
-/* iOS keyboard layout: center the active field inside the actual visible viewport. */
 (function(){
  const vv=window.visualViewport;
  const selectors="#modalInput,#editTitleInput,#editArtistInput,#editAlbumInput,#editLyricsInput";
@@ -3881,284 +4336,128 @@ function heroMosaic() {
  syncViewport();
 })();
 </script>
-
-<style id="mobile-queue-polish-v2">
-@media(max-width:760px){
- /* Sıra kartı yalnızca aşağı kayarak kapanır, yatay hareket iptal edildi. */
- .queue-panel{z-index:12!important;transform:translateY(105%)!important;transition:transform .5s var(--ios),opacity .28s ease!important}
- .queue-panel.show{transform:translateY(0)!important}
- .queue-panel.is-closing{transform:translateY(105%)!important;opacity:0!important;pointer-events:none!important}
- /* Çalma sırasında kapak boyutu her iki eksende %10 küçülür. */
- .fp.playing .fp-art{transform:scale(.9)!important}
- /* Şarkı sözleri düğmesi daha küçük ve sade. */
- .fp-mobile-tools [data-fp-view="lyrics"]{min-height:34px!important;height:34px!important;padding:0 13px!important;font-size:12px!important;border-radius:999px!important}
- /* Sözler kartı aşağıdan yukarı gelir, aynı yoldan geri iner. */
- .fp .fp-queue.view-lyrics{animation:lyricsSheetRise .48s var(--ios) both!important;transition:transform .48s var(--ios),opacity .48s var(--ios)!important}
- .fp .fp-queue.view-lyrics.lyrics-closing{animation:none!important;transform:translateY(calc(100% + 28px))!important;opacity:0!important}
-}
-@keyframes lyricsSheetRise{from{transform:translateY(calc(100% + 28px));opacity:0}to{transform:translateY(0);opacity:1}}
-@media(prefers-reduced-motion:reduce){@keyframes lyricsSheetRise{from{opacity:0}to{opacity:1}}}
-#queueScrim{position:fixed;inset:0;z-index:11;background:rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:opacity .28s ease;-webkit-tap-highlight-color:transparent}
-#queueScrim.show{opacity:1;pointer-events:auto}
-@media(min-width:761px){#queueScrim{display:none!important}}
-</style>
-
-
 <script id="mobile-queue-scrim-v2">
 (()=>{
  const panel=document.getElementById('queuePanel');if(!panel)return;
  const mobile=()=>matchMedia('(max-width:760px)').matches;
  const scrim=document.createElement('div');scrim.id='queueScrim';scrim.setAttribute('aria-hidden','true');
  document.body.appendChild(scrim);
- const sync=()=>{const open=mobile()&&panel.classList.contains('show');scrim.classList.toggle('show',open);document.body.classList.toggle('mobile-queue-open',open);};
+ const sync=()=>{const open=mobile()&&panel.classList.contains('show')&&!panel.classList.contains('is-closing');scrim.classList.toggle('show',open);document.body.classList.toggle('mobile-queue-open',open);};
  new MutationObserver(sync).observe(panel,{attributes:true,attributeFilter:['class']});
  window.addEventListener('resize',sync,{passive:true});
  scrim.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();if(panel.classList.contains('show'))closeAnimatedLayer(panel);});
  sync();
 })();
 </script>
-
-
-<style id="mobile-layer-modal-repair-v3">
-@media(max-width:760px){
- /* Sıra çekmecesi tam ekran oynatıcının üzerinde katmanlanır. */
- #queueScrim{z-index:89!important}
- .queue-panel{z-index:90!important;isolation:isolate}
- .queue-panel.show{z-index:90!important}
- .queue-panel.is-closing{transform:translateY(105%)!important;opacity:0!important;pointer-events:none!important}
- /* Şarkı düzenleme penceresi kendi içinde doğal ve bağımsız kayar. */
- #editModal{align-items:flex-start!important;overflow:hidden!important}
- #editModal .modal{
-  display:block!important;max-height:calc(var(--app-visual-height,100dvh) - 20px - env(safe-area-inset-top))!important;
-  height:auto!important;overflow-x:hidden!important;overflow-y:auto!important;
-  -webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;
-  touch-action:pan-y!important;transform:translateZ(0);
-  padding-bottom:calc(28px + env(safe-area-inset-bottom))!important;
- }
- /* Liste adı alanı odaklanınca yerinden oynatılmaz; klavye açıldığında pencere üstten sabit kalır. */
- #modal.modal-backdrop{align-items:flex-start!important;justify-content:center!important;
-  padding:calc(10px + env(safe-area-inset-top)) 12px 12px!important;
-  height:var(--app-visual-height,100dvh)!important;overflow:hidden!important;
- }
- #modal .modal{
-  display:block!important;position:relative!important;flex:none!important;
-  width:min(100%,520px)!important;
-  max-height:calc(var(--app-visual-height,100dvh) - 22px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
-  height:auto!important;overflow-x:hidden!important;overflow-y:auto!important;
-  -webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;
-  touch-action:pan-y!important;transform:none!important;
- }
-
-
- 
-}
-</style
-
-
-</body>
 <script>
-/* Mobil görünümde yakınlaştırmayı engelle; tarayıcı yine de ölçeği değiştirirse başlangıç ölçeğine döndür. */
-(function(){
- const mobile=()=>window.matchMedia("(max-width:760px)").matches;
- const meta=document.querySelector('meta[name="viewport"]');
- if(meta)meta.setAttribute("content","width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover");
- let resetTimer=0;
- const restore=()=>{
-  if(!mobile())return;
-  clearTimeout(resetTimer);
-  resetTimer=setTimeout(()=>{
-   const m=document.querySelector('meta[name="viewport"]');
-   if(m)m.setAttribute("content","width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover");
-   if(window.visualViewport&&Math.abs(window.visualViewport.scale-1)>.01){
-    const x=window.scrollX,y=window.scrollY;
-    document.documentElement.style.setProperty("--zoom-restore","1");
-    window.scrollTo(x,y);
-   }
-  },80);
- };
- document.addEventListener("gesturestart",e=>{if(mobile())e.preventDefault();},{passive:false});
- document.addEventListener("gesturechange",e=>{if(mobile())e.preventDefault();},{passive:false});
- document.addEventListener("gestureend",restore,{passive:true});
- let lastTouchEnd=0;
- document.addEventListener("touchend",e=>{
-  if(!mobile())return;
-  const now=Date.now();
-  if(now-lastTouchEnd<300&&e.target.closest("body"))e.preventDefault();
-  lastTouchEnd=now;
- },{passive:false});
- document.addEventListener("touchmove",e=>{if(mobile()&&e.touches.length>1)e.preventDefault();},{passive:false});
- window.visualViewport?.addEventListener("resize",()=>{if(mobile()&&window.visualViewport.scale>1.01)restore();},{passive:true});
+
+
+var DL_FORMATS=[["orig","Yüklendiği Uzantı","Dosya olduğu gibi; MP3'te etiket ve kapakla"],["mp3","MP3","Dönüştürülür, 192 kbps"],["aac","AAC","Dönüştürülür; tarayıcı destekliyorsa"],["flac","FLAC","Kayıpsız"],["wav","WAV","Kayıpsız, sıkıştırılmamış"]];
+window.__dlFmt="orig";
+try{const v=localStorage.getItem("music-dl-format");if(DL_FORMATS.some(f=>f[0]===v))window.__dlFmt=v;}catch(e){}
+function dlSettingsHTML() {
+ return `<div class="acct-label">İndirme biçimi</div><div class="acct-group" id="dlGroup" role="radiogroup" aria-label="İndirme biçimi">${DL_FORMATS.map(f=>
+  `<button class="acct-row" role="radio" data-dl="${f[0]}" aria-checked="${window.__dlFmt===f[0]}"><span>${f[1]}<small>${f[2]}</small></span><span class="dl-chk">${window.__dlFmt===f[0]?ic("check"):""}</span></button>`).join("")}</div>`;
+}
+document.addEventListener("click",e=>{
+ const b=e.target.closest("[data-dl]");if(!b)return;
+ window.__dlFmt=b.dataset.dl;try{localStorage.setItem("music-dl-format",window.__dlFmt);}catch(_){}
+ document.querySelectorAll("#dlGroup [data-dl]").forEach(x=>{const on=x.dataset.dl===window.__dlFmt;x.setAttribute("aria-checked",String(on));x.querySelector(".dl-chk").innerHTML=on?ic("check"):"";});
+});
+async function decodePCM(blob) {
+ const C=window.AudioContext||window.webkitAudioContext,ctx=new C();
+ try{return await ctx.decodeAudioData(await blob.arrayBuffer());}finally{ctx.close&&ctx.close();}
+}
+function pcm16(ab) {
+ const ch=ab.numberOfChannels,n=ab.length,d=[...Array(ch).keys()].map(c=>ab.getChannelData(c)),out=new Int16Array(n*ch);
+ for(let i=0,o=0;i<n;i++)for(let c=0;c<ch;c++){const x=Math.max(-1,Math.min(1,d[c][i]));out[o++]=x<0?x*32768:x*32767;}
+ return out;
+}
+function encodeWav(ab) {
+ const ch=ab.numberOfChannels,sr=ab.sampleRate,pcm=pcm16(ab),bytes=pcm.length*2,buf=new ArrayBuffer(44+bytes),v=new DataView(buf);
+ const w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i));};
+ w(0,"RIFF");v.setUint32(4,36+bytes,true);w(8,"WAVEfmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,ch,true);
+ v.setUint32(24,sr,true);v.setUint32(28,sr*ch*2,true);v.setUint16(32,ch*2,true);v.setUint16(34,16,true);w(36,"data");v.setUint32(40,bytes,true);
+ new Int16Array(buf,44).set(pcm);
+ return new Blob([buf],{type:"audio/wav"});
+}
+function encodeFlac(ab) {
+ const ch=Math.min(ab.numberOfChannels,8),sr=ab.sampleRate,N=ab.length,pcm=pcm16(ab),BS=4096,parts=[];
+ const crc8=a=>{let c=0;for(const b of a){c^=b;for(let i=0;i<8;i++)c=c&128?((c<<1)^7)&255:(c<<1)&255;}return c;};
+ const crc16=a=>{let c=0;for(const b of a){c^=b<<8;for(let i=0;i<8;i++)c=c&32768?((c<<1)^32773)&65535:(c<<1)&65535;}return c;};
+ const si=new Uint8Array(34),sv=new DataView(si.buffer);
+ sv.setUint16(0,BS);sv.setUint16(2,BS);
+ sv.setUint32(10,(sr<<12)|((ch-1)<<9)|(15<<4)|((Math.floor(N/4294967296))&15));sv.setUint32(14,N>>>0);
+ parts.push(new Uint8Array([0x66,0x4c,0x61,0x43,0x80,0,0,34]),si);
+ for(let s=0,f=0;s<N;s+=BS,f++){
+  const n=Math.min(BS,N-s),h=[0xff,0xf8,0x70,((ch-1)<<4)];
+  if(f<128)h.push(f);else if(f<2048)h.push(0xc0|(f>>6),0x80|(f&63));else h.push(0xe0|(f>>12),0x80|((f>>6)&63),0x80|(f&63));
+  h.push((n-1)>>8,(n-1)&255);h.push(crc8(h));
+  const body=new Uint8Array(ch*(1+n*2)),bv=new DataView(body.buffer);let o=0;
+  for(let c=0;c<ch;c++){body[o++]=2;for(let i=0;i<n;i++){bv.setInt16(o,pcm[(s+i)*ab.numberOfChannels+c],false);o+=2;}}
+  const fr=new Uint8Array(h.length+body.length+2);fr.set(h);fr.set(body,h.length);
+  const cc=crc16(fr.subarray(0,fr.length-2));fr[fr.length-2]=cc>>8;fr[fr.length-1]=cc&255;parts.push(fr);
+ }
+ return new Blob(parts,{type:"audio/flac"});
+}
+function loadScriptOnce(src) {
+ return new Promise((res,rej)=>{if(document.querySelector(`script[src="${src}"]`))return res();const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=()=>rej(new Error("script"));document.head.appendChild(s);});
+}
+async function encodeMp3(ab) {
+ await loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js");
+ const ch=Math.min(2,ab.numberOfChannels),enc=new lamejs.Mp3Encoder(ch,ab.sampleRate,192),L=new Int16Array(ab.length),R=new Int16Array(ab.length);
+ const l=ab.getChannelData(0),r=ab.getChannelData(ch>1?1:0);
+ for(let i=0;i<ab.length;i++){const a=Math.max(-1,Math.min(1,l[i])),b=Math.max(-1,Math.min(1,r[i]));L[i]=a<0?a*32768:a*32767;R[i]=b<0?b*32768:b*32767;}
+ const out=[];for(let i=0;i<L.length;i+=1152){const c=ch>1?enc.encodeBuffer(L.subarray(i,i+1152),R.subarray(i,i+1152)):enc.encodeBuffer(L.subarray(i,i+1152));if(c.length)out.push(new Uint8Array(c));}
+ const e=enc.flush();if(e.length)out.push(new Uint8Array(e));
+ return new Blob(out,{type:"audio/mpeg"});
+}
+async function encodeAac(ab) {
+ if(!window.AudioEncoder||!window.AudioData)throw new Error("noaac");
+ const ch=Math.min(2,ab.numberOfChannels),sr=ab.sampleRate,cfg={codec:"mp4a.40.2",sampleRate:sr,numberOfChannels:ch,bitrate:192000,aac:{format:"adts"}};
+ const sup=await AudioEncoder.isConfigSupported(cfg);if(!sup.supported)throw new Error("noaac");
+ const chunks=[];let err=null;
+ const enc=new AudioEncoder({output:c=>{const b=new Uint8Array(c.byteLength);c.copyTo(b);chunks.push(b);},error:e=>{err=e;}});
+ enc.configure(cfg);
+ for(let i=0;i<ab.length;i+=4096){
+  const n=Math.min(4096,ab.length-i),d=new Float32Array(n*ch);
+  for(let c=0;c<ch;c++)d.set(ab.getChannelData(c).subarray(i,i+n),c*n);
+  enc.encode(new AudioData({format:"f32-planar",sampleRate:sr,numberOfFrames:n,numberOfChannels:ch,timestamp:Math.round(i/sr*1e6),data:d}));
+ }
+ await enc.flush();enc.close();if(err)throw err;
+ return new Blob(chunks,{type:"audio/aac"});
+}
+function parseNameMeta(name) {
+ return {title:String(name).replace(/\.[^.]+$/,"").replace(/_+/g," ").replace(/\s*[\(\[]\s*\d{2,3}\s*k(bps)?\s*[\)\]]/ig,"").replace(/\s+/g," ").trim()};
+}
+</script>
+<script id="ios-dialog-focus">
+/* Focus management for modal sheets: move focus in, keep Tab inside, restore on close. */
+(()=>{
+ const sheets=[...document.querySelectorAll('.modal-backdrop')];
+ let last=null;
+ document.addEventListener('focusin',e=>{if(!e.target.closest('.modal-backdrop')&&e.target!==document.body)last=e.target;},true);
+ const focusable=el=>[...el.querySelectorAll('button,[href],input:not([type=hidden]):not([type=file]),select,textarea,[tabindex]:not([tabindex="-1"])')].filter(n=>!n.disabled&&n.offsetParent!==null);
+ sheets.forEach(bd=>{
+  const dlg=bd.querySelector('.modal');if(!dlg)return;
+  dlg.setAttribute('tabindex','-1');
+  let wasShown=false;
+  new MutationObserver(()=>{
+   const shown=bd.classList.contains('show');
+   if(shown&&!wasShown){requestAnimationFrame(()=>{if(!dlg.contains(document.activeElement))dlg.focus({preventScroll:true});});}
+   if(!shown&&wasShown&&last&&document.contains(last)){try{last.focus({preventScroll:true});}catch(_){}}
+   wasShown=shown;
+  }).observe(bd,{attributes:true,attributeFilter:['class']});
+  bd.addEventListener('keydown',e=>{
+   if(e.key!=='Tab')return;
+   const f=focusable(dlg);if(!f.length)return;
+   const a=f[0],z=f[f.length-1];
+   if(e.shiftKey&&(document.activeElement===a||document.activeElement===dlg)){e.preventDefault();z.focus();}
+   else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();}
+  });
+ });
 })();
 </script>
-
+</body>
 </html>
 
-
-
-<style id="ios-keyboard-and-sheet-polish">
-@media(max-width:760px){
- .modal-backdrop{height:var(--app-visual-height,100dvh)!important}
- .modal-backdrop .modal{
-  max-height:calc(var(--app-visual-height,100dvh) - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
-  scroll-behavior:smooth;
-  overscroll-behavior:contain;
- }
- .modal input:not([type=file]),.modal textarea{font-size:16px!important;scroll-margin-block:40vh}
- .fp .fp-queue.view-lyrics{
-  transform:translate3d(0,0,0);
-  transform-origin:bottom center;
-  transition:transform .48s cubic-bezier(.22,.68,0,1),opacity .38s ease!important;
-  will-change:transform,opacity;
-  touch-action:pan-y;
- }
- .fp .fp-queue.view-lyrics.lyrics-closing{
-  transform:translate3d(0,calc(100% + 28px),0)!important;
-  opacity:0!important;
- }
- .queue-panel{
-  touch-action:pan-y;
-  will-change:transform;
-  transition:transform .48s cubic-bezier(.22,.68,0,1),opacity .28s ease,visibility 0s .48s!important;
- }
- .queue-panel.show{transition:transform .48s cubic-bezier(.22,.68,0,1),opacity .28s ease,visibility 0s!important}
- .queue-panel.is-closing{opacity:0;pointer-events:none}
-}
-@media(prefers-reduced-motion:reduce){
- .modal-backdrop .modal,.fp .fp-queue.view-lyrics,.queue-panel{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}
-}
-</style>
-
-
-<style id="ios-stability-repair-v4">
-@media(max-width:760px){
- /* Keyboard: keep the dialog inside Safari's real visible viewport, without a fake focus screen. */
- .modal-backdrop.show{
-  position:fixed!important;
-  top:var(--app-visual-top,0px)!important;
-  left:0!important;right:0!important;
-  height:var(--app-visual-height,100dvh)!important;
-  min-height:0!important;
-  max-height:var(--app-visual-height,100dvh)!important;
-  box-sizing:border-box!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  padding:12px 12px max(12px,env(safe-area-inset-bottom))!important;
-  overflow:hidden!important;
- }
- .modal-backdrop.show>.modal{
-  width:min(100%,520px)!important;
-  max-height:calc(var(--app-visual-height,100dvh) - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
-  min-height:0!important;
-  margin:auto!important;
-  overflow-x:hidden!important;
-  overflow-y:auto!important;
-  -webkit-overflow-scrolling:touch!important;
-  overscroll-behavior:contain!important;
-  scroll-behavior:smooth;
- }
- .modal-backdrop.show .modal input:not([type=file]),
- .modal-backdrop.show .modal textarea,
- .modal-backdrop.show .modal select{
-  font-size:16px!important;
-  scroll-margin-block:45vh!important;
- }
- /* Queue is a real iOS bottom sheet, not a narrow right-side drawer. */
- #queuePanel.queue-panel{
-  position:fixed!important;
-  z-index:120!important;
-  left:8px!important;right:8px!important;
-  top:auto!important;
-  bottom:max(10px,env(safe-area-inset-bottom))!important;
-  width:auto!important;
-  max-width:none!important;
-  height:min(72dvh,620px)!important;
-  max-height:calc(var(--app-visual-height,100dvh) - 28px - env(safe-area-inset-top))!important;
-  box-sizing:border-box!important;
-  padding:18px 18px calc(16px + env(safe-area-inset-bottom))!important;
-  border:1px solid rgba(255,255,255,.13)!important;
-  border-radius:26px!important;
-  background:rgba(35,35,39,.96)!important;
-  -webkit-backdrop-filter:blur(28px) saturate(160%)!important;
-  backdrop-filter:blur(28px) saturate(160%)!important;
-  box-shadow:0 18px 55px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.10)!important;
-  overflow-y:auto!important;
-  overscroll-behavior:contain!important;
-  transform:translate3d(0,calc(100% + 24px),0)!important;
-  opacity:0!important;
-  visibility:hidden!important;
-  transition:transform .48s cubic-bezier(.22,.68,0,1),opacity .28s ease,visibility 0s linear .48s!important;
-  will-change:transform,opacity;
- }
- #queuePanel.queue-panel::before{
-  content:"";display:block;width:38px;height:5px;border-radius:99px;
-  background:rgba(255,255,255,.34);margin:0 auto 16px;
- }
- #queuePanel.queue-panel.show{
-  transform:translate3d(0,0,0)!important;
-  opacity:1!important;visibility:visible!important;
-  transition:transform .48s cubic-bezier(.22,.68,0,1),opacity .28s ease,visibility 0s!important;
- }
- #queuePanel.queue-panel.is-closing{
-  transform:translate3d(0,calc(100% + 24px),0)!important;
-  opacity:0!important;visibility:hidden!important;pointer-events:none!important;
- }
- #queuePanel .queue-head{position:sticky;top:0;z-index:2;padding:2px 0 12px;background:rgba(35,35,39,.88);backdrop-filter:blur(16px)}
- #queuePanel .queue-track{min-height:58px;border-radius:12px;padding:9px 8px}
- #queueScrim{z-index:119!important;background:rgba(0,0,0,.36)!important;backdrop-filter:blur(2px)}
- /* Player sheets use the same spring curve and avoid conflicting inline transforms. */
- .fp .fp-queue.view-lyrics{
-  transition:transform .48s cubic-bezier(.22,.68,0,1),opacity .28s ease!important;
-  will-change:transform,opacity;
-  touch-action:pan-y;
- }
- .fp .fp-queue.view-lyrics.lyrics-closing{
-  transform:translate3d(0,calc(100% + 28px),0)!important;
-  opacity:0!important;
- }
- .fp .fp-queue.view-lyrics #fpLyricsPanel{
-  overscroll-behavior-y:contain!important;
-  -webkit-overflow-scrolling:touch!important;
-  touch-action:pan-y!important;
- }
- .player,.mobile-nav{transform:translateZ(0);backface-visibility:hidden}
-}
-@media(prefers-reduced-motion:reduce){
- #queuePanel.queue-panel,.fp .fp-queue.view-lyrics,.modal-backdrop.show>.modal{
-  transition-duration:.01ms!important;animation-duration:.01ms!important;
- }
-}
-</style>
-
-
-<style id="ios-performance-and-motion-v5">
-:root{--ios:cubic-bezier(.22,.68,0,1);--ios-exit:cubic-bezier(.4,0,1,1)}
-@media(max-width:760px){
- html{scroll-behavior:auto!important}
- body{overscroll-behavior-y:none}
- .fp,.fp-queue,.queue-panel,.modal-backdrop,.modal,.player,.mobile-nav{
-  -webkit-backface-visibility:hidden;backface-visibility:hidden;
- }
- .fp{transition:transform .42s var(--ios),visibility 0s .42s!important}
- .fp.open{transition:transform .42s var(--ios),visibility 0s!important}
- .fp-queue.view-lyrics,#queuePanel.queue-panel{
-  -webkit-backdrop-filter:blur(16px) saturate(145%)!important;
-  backdrop-filter:blur(16px) saturate(145%)!important;
-  box-shadow:0 12px 34px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.09)!important;
-  transition:transform .42s var(--ios),opacity .24s ease,visibility 0s!important;
- }
- .fp-queue.view-lyrics{transform:translate3d(0,0,0);contain:layout paint}
- .fp-queue.view-lyrics.lyrics-closing{transform:translate3d(0,calc(100% + 28px),0)!important;opacity:0!important}
- #queuePanel.queue-panel{transition:transform .42s var(--ios),opacity .24s ease,visibility 0s .42s!important}
- #queuePanel.queue-panel.show{transition:transform .42s var(--ios),opacity .24s ease,visibility 0s!important}
- .fp-art,.fp-bg,.fp-queue.view-lyrics,.queue-panel,.modal{transform:translateZ(0);will-change:transform}
- .fp-bg{filter:blur(38px) saturate(1.25) brightness(.72)!important}
- .fp-queue.view-lyrics #fpLyricsPanel,#queuePanel{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
- .song,.card,.queue-track{contain:layout paint}
- .song img,.card img,.queue-track img{content-visibility:auto}
- button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-}
-@media(prefers-reduced-motion:reduce){
- *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-}
-</style>
