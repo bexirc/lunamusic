@@ -2331,8 +2331,8 @@ function openDB() {
  if(__db) return __db;
  __db=new Promise((res,rej)=>{
   if(!("indexedDB" in window)){rej(new Error("IndexedDB desteklenmiyor"));return;}
-  const r=indexedDB.open(DB_NAME,1);
-  r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE,{keyPath:"id"});};
+  const r=indexedDB.open(DB_NAME,2);
+  r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE,{keyPath:"id"});if(!r.result.objectStoreNames.contains("kv"))r.result.createObjectStore("kv");};
   r.onsuccess=()=>{const db=r.result;db.onversionchange=()=>{db.close();__db=null;};db.onclose=()=>{__db=null;};res(db);};
   r.onerror=()=>{__db=null;rej(r.error||new Error("Veritabanı açılamadı"));};
  });
@@ -2367,6 +2367,68 @@ function ensureMusicStorage() {
  })());
 }
 ensureMusicStorage();
+/* ---- Kalıcı ayar deposu (IndexedDB "kv"): çalma listeleri, profil, tema, oturum ---- */
+const __lsSet=Storage.prototype.setItem;
+let __kvMap={};
+async function kvSet(k,v){
+ try{const db=await openDB();const tx=db.transaction("kv","readwrite");tx.objectStore("kv").put(v,k);}catch(_){}
+}
+Storage.prototype.setItem=function(k,v){
+ try{__lsSet.call(this,k,v);}
+ finally{if(this===window.localStorage&&/^music-/.test(k)){__kvMap[k]=String(v);kvSet(k,String(v));}}
+};
+async function kvRestore(){
+ try{
+  const db=await openDB();
+  const map=await new Promise((res,rej)=>{
+   const out={},tx=db.transaction("kv","readonly"),st=tx.objectStore("kv"),rq=st.openCursor();
+   rq.onsuccess=()=>{const c=rq.result;if(c){out[c.key]=c.value;c.continue();}};
+   tx.oncomplete=()=>res(out);tx.onerror=tx.onabort=()=>rej(tx.error);
+  });
+  __kvMap=map;
+  const J=k=>{try{return map[k]==null?undefined:JSON.parse(map[k]);}catch(_){return undefined;}};
+  Object.keys(map).forEach(k=>{try{__lsSet.call(localStorage,k,map[k]);}catch(_){}});
+  const ai=J("music-artist-images");if(ai&&typeof ai==="object")artistImages=ai;
+  const pl=J("music-playlists");if(Array.isArray(pl))state.playlists=pl;
+  const pr=J("music-profile");if(pr&&typeof pr==="object")state.profile={first:pr.first||"",last:pr.last||"",photo:pr.photo||null};
+  if(["light","dark","system"].includes(map["music-theme"])){themePref=map["music-theme"];applyTheme(resolveDark());}
+  refreshProfileUI();
+ }catch(e){console.error("Ayarlar geri yüklenemedi",e);}
+}
+/* Oturum: ses, karıştır/tekrar, sıra, son şarkı ve konum */
+let __sesT=0;
+function saveSession(force){
+ const now=Date.now();if(!force&&now-__sesT<1500)return;__sesT=now;
+ try{localStorage.setItem("music-session",JSON.stringify({
+  vol:audio.volume,shuffle:!!state.shuffle,repeat:state.repeat,
+  queue:state.queue.map(t=>t.id),cur:state.current?state.current.id:null,
+  time:audio.currentTime||0
+ }));}catch(_){}
+}
+function restoreSession(){
+ let s;try{s=JSON.parse(localStorage.getItem("music-session")||"null");}catch(_){}
+ if(!s)return;
+ try{
+  if(typeof s.vol==="number"){audio.volume=s.vol;$("volume").value=s.vol;paint($("volume"));}
+  state.shuffle=!!s.shuffle;state.repeat=s.repeat===true?true:s.repeat==="one"?"one":false;syncModes();
+  const by=id=>state.tracks.find(t=>t.id===id);
+  const q=(s.queue||[]).map(by).filter(Boolean);
+  const cur=s.cur&&by(s.cur);
+  if(q.length)state.queue=q;
+  if(cur){
+   if(!q.length)state.queue=[...state.tracks];
+   state.queueIndex=state.queue.findIndex(t=>t.id===cur.id);
+   state.current=cur;
+   const url=URL.createObjectURL(cur.audioBlob||cur.blob);
+   audio.dataset.objectUrl=url;audio.src=url;
+   const t0=Number(s.time)||0;
+   if(t0>0)audio.addEventListener("loadedmetadata",()=>{try{audio.currentTime=t0;}catch(_){}},{once:true});
+   audio.load();updatePlayer();renderQueue();
+  }
+ }catch(e){console.error("Oturum geri yüklenemedi",e);}
+}
+window.addEventListener("pagehide",()=>saveSession(true));
+document.addEventListener("visibilitychange",()=>{if(document.hidden)saveSession(true);});
 window.__storageInfo=async function(){
  const el=$("storageInfo");if(!el)return;
  const st=await ensureMusicStorage(),fresh=(await navigator.storage?.estimate?.())||{};
@@ -3770,7 +3832,10 @@ $("editSave").addEventListener("click",saveEdit);
 $("editModal").addEventListener("click",e=>{if(e.target===$("editModal")) closeEdit();});
 paint($("progress"));paint($("volume"));syncModes();
 loadProfile();refreshProfileUI();
-loadLibrary();
+kvRestore().then(loadLibrary).then(restoreSession);
+audio.addEventListener("timeupdate",()=>saveSession(false));
+audio.addEventListener("play",()=>saveSession(true));
+$("volume").addEventListener("change",()=>saveSession(true));
 
 let __fullThemeColor=null;
 function sampleCoverColor(src,done) {
